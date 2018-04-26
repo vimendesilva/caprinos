@@ -46,6 +46,9 @@ class Cobertura(models.Model):
     id_cabra = models.ForeignKey(Cabra, verbose_name="Cabra", on_delete=models.SET_NULL, null=True)
     id_bode = models.ForeignKey(Bode, verbose_name="Bode", on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+        return self.id
+
     class Meta:
         verbose_name = 'Cobertura'
 

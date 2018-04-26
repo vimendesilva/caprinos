@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from . import forms
+from .models import Cabra, Bode
 # Create your views here.
 
 def CreateCabra(request):
@@ -8,7 +9,7 @@ def CreateCabra(request):
         form = forms.CreateCabras(request.POST)
         if(form.is_valid()):
             form.save()
-            return redirect('/animais/nova_cabra')
+            return redirect('/animais/mostra_cabras')
 
     else:
         form = forms.CreateCabras()
@@ -22,7 +23,7 @@ def CreateBode(request):
         form = forms.CreateBodes(request.POST)
         if(form.is_valid()):
             form.save()
-            return redirect('/animais/novo_bode')
+            return redirect('/animais/mostra_bodes')
 
     else:
         form = forms.CreateBodes()
@@ -42,3 +43,15 @@ def CreateCobertura(request):
         form = forms.CreateCoberturas()
 
     return render(request, 'createCobertura.html', {'cobertura_form': form})
+
+
+def MostraCabras(request):
+
+    cabras = Cabra.objects.all()
+    return render(request, 'mostraCabras.html', {'cabras': cabras})
+
+
+def MostraBodes(request):
+
+    bodes = Bode.objects.all()
+    return render(request, 'mostraBodes.html', {'bodes': bodes})

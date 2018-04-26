@@ -33,33 +33,33 @@
     -->
             <div class="sidebar-wrapper">
                 <div class="logo">
-                    <a href="#" class="simple-text">
+                    <a href="{% url 'caprino.core:home' %}" class="simple-text">
                         Caprinos  IFSULDEMINAS
                     </a>
                 </div>
                 <ul class="nav">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'caprino.core:home' %}">
                             <i class="nc-icon nc-chart-pie-35"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Nova_Cabra' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Cabras' %}">
                             <i class="nc-icon nc-bullet-list-67"></i>
-                            <p>Cadastro de Animais</p>
+                            <p>Cabras</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Novo_Bode' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Bodes' %}">
                             <i class="nc-icon nc-notes"></i>
-                            <p>Cadastro de Bodes</p>
+                            <p>Bodes</p>
                         </a>
                     </li>
                     <li>
                         <a class="nav-link" href="{% url 'caprino.animais:Nova_Cobertura' %}">
                             <i class="nc-icon nc-paper-2"></i>
-                            <p>Cadastro de Coberturas</p>
+                            <p>Coberturas</p>
                         </a>
                     </li>
                     <li>
