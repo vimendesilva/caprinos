@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from . import forms
 from .models import Cabra, Bode
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def CreateCabra(request):
 
     if(request.method == 'POST'):
@@ -16,7 +18,7 @@ def CreateCabra(request):
 
     return render(request, 'createCabra.html', {'cabra_form': form})
 
-
+@login_required
 def CreateBode(request):
 
     if(request.method == 'POST'):
@@ -30,7 +32,7 @@ def CreateBode(request):
     
     return render(request, 'createBode.html', {'bode_form': form})
 
-
+@login_required
 def CreateCobertura(request):
 
     if(request.method == 'POST'):
@@ -44,14 +46,16 @@ def CreateCobertura(request):
 
     return render(request, 'createCobertura.html', {'cobertura_form': form})
 
-
-def MostraCabras(request):
+@login_required
+def MostraAnimais(request):
 
     cabras = Cabra.objects.all()
-    return render(request, 'mostraCabras.html', {'cabras': cabras})
-
-
-def MostraBodes(request):
-
     bodes = Bode.objects.all()
-    return render(request, 'mostraBodes.html', {'bodes': bodes})
+    return render(request, 'mostraCabras.html', {'cabras': cabras, 'bodes': bodes})
+
+
+def DeleteCabra(request, pk):
+
+    cabra = get_object_or_404(Cabra, pk=pk)
+    cabra.delete()
+    return redirect('/animais/mostra_animais')
