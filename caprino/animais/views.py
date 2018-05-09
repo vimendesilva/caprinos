@@ -46,16 +46,46 @@ def CreateCobertura(request):
 
     return render(request, 'createCobertura.html', {'cobertura_form': form})
 
+
 @login_required
-def MostraAnimais(request):
+def CreateProducoes(request):
+
+    if(request.method == 'POST'):
+        form = forms.CreateProducao(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect('/animais/nova_producao')
+
+    else:
+        form = forms.CreateProducao()
+
+    return render(request, 'createProducao.html', {'producao_form': form})
+
+@login_required
+def MostraCabras(request):
 
     cabras = Cabra.objects.all()
+    return render(request, 'mostraCabras.html', {'cabras': cabras})
+
+
+@login_required
+def MostraBodes(request):
+
     bodes = Bode.objects.all()
-    return render(request, 'mostraCabras.html', {'cabras': cabras, 'bodes': bodes})
+    return render(request, 'mostraBodes.html', {'bodes': bodes})
 
 
+@login_required
 def DeleteCabra(request, pk):
 
     cabra = get_object_or_404(Cabra, pk=pk)
     cabra.delete()
-    return redirect('/animais/mostra_animais')
+    return redirect('/animais/mostra_cabras')
+
+
+@login_required
+def DeleteBode(request, pk):
+
+    bode = get_object_or_404(Bode, pk=pk)
+    bode.delete()
+    return redirect('/animais/mostra_bodes')

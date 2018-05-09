@@ -5,7 +5,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class=" container-fluid  ">
-        <a class="navbar-brand" href="#pablo">Animais </a>
+        <a class="navbar-brand" href="#pablo">Bodes </a>
         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="dropdown">
-                        <span class="d-lg-none">Animais</span>
+                        <span class="d-lg-none">Bodes</span>
                     </a>
                 </li>
             </ul>
@@ -35,36 +35,37 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+            
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Cabras Cadastradas</h4>
-                        {% comment %} <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                        <h4 class="card-title">Bodes Cadastrados</h4>
+                        {% comment %}
+                        <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
                     </div>
                     <div class="card-body table-full-width table-responsive">
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Número</th>
-                                    <th>Raça</th>
+                                    <th>Nome</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for cabra in cabras %}
+                                {% for bode in bodes %}
                                 <tr>
-                                    <td>{{ cabra.numero_cabra }}</td>
-                                    <td>{{ cabra.raca_cabra }}</td>
-                                    <td><a href="{% url 'caprino.animais:Delete_Cabra' cabra.id %}">Deletar</a></td>
+                                    <td>{{ bode.nome_bode }}</td>
+                                    <td>
+                                        <a href="{% url 'caprino.animais:Delete_Bode' bode.id %}">Deletar</a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Nova_Cabra' %}" role="button">Nova Cabra</a>
-                        
+                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Novo_Bode' %}" role="button">Novo Bode</a>
+
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>

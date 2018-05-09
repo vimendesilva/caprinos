@@ -36,3 +36,15 @@ class CreateCoberturas(forms.ModelForm):
     class Meta():
         model = models.Cobertura
         fields = '__all__'
+
+
+class CreateProducao(forms.ModelForm):
+
+    data_producao = forms.DateField(label='Data', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Produção', 'type': 'date'}))
+    peso_producao = forms.CharField(label='Peso', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Peso Produção'}))
+    id_cabra = forms.ModelChoiceField(label='Cabra', queryset=models.Cabra.objects.all(), empty_label='Selecione uma opção', to_field_name='nome_cabra', widget=forms.Select(attrs={'class': 'form-control'}))
+   
+
+    class Meta():
+        model = models.Producao
+        fields = '__all__'

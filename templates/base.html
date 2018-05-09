@@ -45,9 +45,15 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Animais' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Cabras' %}">
                             <i class="nc-icon nc-notes"></i>
-                            <p>Animais</p>
+                            <p>Cabras</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Bodes' %}">
+                            <i class="nc-icon nc-bullet-list-67"></i>
+                            <p>Bodes</p>
                         </a>
                     </li>
                     <li>
@@ -56,13 +62,13 @@
                             <p>Coberturas</p>
                         </a>
                     </li>
-                    {% comment %} <li>
-                        <a class="nav-link" href="{% url 'caprino.core:home' %}">
-                            <i class="nc-icon nc-atom"></i>
-                            <p>Icons</p>
+                    <li>
+                        <a class="nav-link" href="{% url 'caprino.animais:Nova_Producao' %}">
+                            <i class="nc-icon nc-layers-3"></i>
+                            <p>Produção</p>
                         </a>
                     </li>
-                    <li>
+                    {% comment %} <li>
                         <a class="nav-link" href="{% url 'caprino.core:home' %}">
                             <i class="nc-icon nc-pin-3"></i>
                             <p>Maps</p>
