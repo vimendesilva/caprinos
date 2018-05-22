@@ -5,7 +5,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class=" container-fluid  ">
-        <a class="navbar-brand" href="#pablo">Bodes </a>
+        <a class="navbar-brand" href="#pablo"> Cadastro de Produção </a>
         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="dropdown">
-                        <span class="d-lg-none">Bodes</span>
+                        <span class="d-lg-none">Cadastro de Produção</span>
                     </a>
                 </li>
             </ul>
@@ -35,37 +35,21 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            
             <div class="col-md-12">
-                <div class="card strpied-tabled-with-hover">
-                    <div class="card-header ">
-                        <h4 class="card-title">Bodes Cadastrados</h4>
-                        {% comment %}
-                        <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Cadastro de Produção</h4>
                     </div>
-                    <div class="card-body table-full-width table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for bode in bodes %}
-                                <tr>
-                                    <td>{{ bode.nome_bode }}</td>
-                                    <td>
-                                        <a href="{% url 'caprino.animais:Delete_Bode' bode.id %}">Deletar</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Novo_Bode' %}" role="button">Novo Bode</a>
-
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %} {{ producao_form.as_p }}
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
+                            <div class="clearfix"></div>
+                        </form>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

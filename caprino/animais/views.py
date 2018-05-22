@@ -1,45 +1,34 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from . import forms
-from .models import Cabra, Bode
+from .models import Animal, Cobertura, Producao
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required
-def CreateCabra(request):
+def CreateAnimal(request):
 
     if(request.method == 'POST'):
-        form = forms.CreateCabras(request.POST)
+        form = forms.CreateAnimais(request.POST)
         if(form.is_valid()):
             form.save()
-            return redirect('/animais/mostra_cabras')
+            return redirect('/animais/mostra_animal')
 
     else:
-        form = forms.CreateCabras()
+        form = forms.CreateAnimais()
 
-    return render(request, 'createCabra.html', {'cabra_form': form})
+    return render(request, 'createAnimais.html', {'animais_form': form})
 
-@login_required
-def CreateBode(request):
-
-    if(request.method == 'POST'):
-        form = forms.CreateBodes(request.POST)
-        if(form.is_valid()):
-            form.save()
-            return redirect('/animais/mostra_bodes')
-
-    else:
-        form = forms.CreateBodes()
-    
-    return render(request, 'createBode.html', {'bode_form': form})
 
 @login_required
 def CreateCobertura(request):
 
     if(request.method == 'POST'):
+
         form = forms.CreateCoberturas(request.POST)
         if(form.is_valid()):
             form.save()
-            return redirect('/animais/nova_cobertura')
+
+            return redirect('/animais/mostra_coberturas')
 
     else:
         form = forms.CreateCoberturas()
@@ -54,7 +43,7 @@ def CreateProducoes(request):
         form = forms.CreateProducao(request.POST)
         if(form.is_valid()):
             form.save()
-            return redirect('/animais/nova_producao')
+            return redirect('/animais/mostra_producao')
 
     else:
         form = forms.CreateProducao()
@@ -62,30 +51,95 @@ def CreateProducoes(request):
     return render(request, 'createProducao.html', {'producao_form': form})
 
 @login_required
-def MostraCabras(request):
+def MostraAnimal(request):
 
-    cabras = Cabra.objects.all()
-    return render(request, 'mostraCabras.html', {'cabras': cabras})
-
-
-@login_required
-def MostraBodes(request):
-
-    bodes = Bode.objects.all()
-    return render(request, 'mostraBodes.html', {'bodes': bodes})
+    animais = Animal.objects.all()
+    return render(request, 'mostraAnimais.html', {'animais': animais})
 
 
 @login_required
-def DeleteCabra(request, pk):
+def MostraCoberturas(request):
 
-    cabra = get_object_or_404(Cabra, pk=pk)
+    coberturas = Cobertura.objects.all()
+    return render(request, 'mostraCoberturas.html', {'coberturas': coberturas})
+
+
+@login_required
+def MostraProducao(request):
+
+    producao = Producao.objects.all()
+    return render(request, 'mostraProducao.html', {'producao': producao})
+
+
+@login_required
+def DeleteAnimal(request, pk):
+
+    cabra = get_object_or_404(Animal, pk=pk)
     cabra.delete()
-    return redirect('/animais/mostra_cabras')
+    return redirect('/animais/mostra_animal')
 
 
 @login_required
-def DeleteBode(request, pk):
+def DeleteCobertura(request, pk):
 
-    bode = get_object_or_404(Bode, pk=pk)
-    bode.delete()
-    return redirect('/animais/mostra_bodes')
+    cobertura = get_object_or_404(Cobertura, pk=pk)
+    cobertura.delete()
+    return redirect('/animais/mostra_coberturas')
+
+
+@login_required
+def DeleteProducao(request, pk):
+
+    producao = get_object_or_404(Producao, pk=pk)
+    producao.delete()
+    return redirect('/animais/mostra_producao')
+
+@login_required
+def UpdateAnimal(request, pk):
+
+    cabra = get_object_or_404(Animal, pk=pk)
+    
+    if(request.method == 'POST'):
+        form = forms.CreateAnimais(request.POST, instance=cabra)
+        if(form.is_valid()):
+            form.save()
+            return redirect('/animais/mostra_animal')
+
+    else:
+        form = forms.CreateAnimais(instance=cabra)
+
+    return render(request, 'updateAnimais.html', {'animais_form': form})
+
+
+@login_required
+def UpdateCobertura(request, pk):
+
+    cobertura = get_object_or_404(Cobertura, pk=pk)
+
+    if(request.method == 'POST'):
+        form = forms.CreateCoberturas(request.POST, instance=cobertura)
+        if(form.is_valid()):
+            form.save()
+            return redirect('/animais/mostra_coberturas')
+
+    else:
+        form = forms.CreateCoberturas(instance=cobertura)
+
+    return render(request, 'updateCobertura.html', {'cobertura_form': form})
+
+
+@login_required
+def UpdateProducao(request, pk):
+
+    producao = get_object_or_404(Producao, pk=pk)
+
+    if(request.method == 'POST'):
+        form = forms.CreateProducao(request.POST, instance=producao)
+        if(form.is_valid()):
+            form.save()
+            return redirect('/animais/mostra_producao')
+
+    else:
+        form = forms.CreateProducao(instance=producao)
+
+    return render(request, 'updateProducao.html', {'producao_form': form})

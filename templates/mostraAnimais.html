@@ -38,7 +38,7 @@
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Cabras Cadastradas</h4>
+                        <h4 class="card-title">Animais Cadastrados</h4>
                         {% comment %} <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
                     </div>
                     <div class="card-body table-full-width table-responsive">
@@ -50,16 +50,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for cabra in cabras %}
+                                {% for animal in animais %}
                                 <tr>
-                                    <td>{{ cabra.numero_cabra }}</td>
-                                    <td>{{ cabra.raca_cabra }}</td>
-                                    <td><a href="{% url 'caprino.animais:Delete_Cabra' cabra.id %}">Deletar</a></td>
+                                    <td>{{ animal.numero_animal }}</td>
+                                    <td>{{ animal.raca_animal }}</td>
+                                    <td><a href="{% url 'caprino.animais:Apaga_Animal' animal.id %}">Deletar</a></td>
+                                    <td><a href="{% url 'caprino.animais:Atualiza_Animal' animal.id %}">Atualizar</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Nova_Cabra' %}" role="button">Nova Cabra</a>
+                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Novo_Animal' %}" role="button">Nova Cabra</a>
                         
                     </div>
                 </div>

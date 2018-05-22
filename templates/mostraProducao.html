@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+<!-- usando base.html como base -->
+{% block conteudo %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+    <div class=" container-fluid  ">
+        <a class="navbar-brand" href="#pablo">Produção </a>
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <span class="d-lg-none">Produção</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caprino.contas:Sair' %}">
+                        <span class="no-icon">SAIR</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">Produção Cadastrada</h4>
+                        {% comment %}
+                        <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Peso</th>
+                                    <th>Cabra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in producao %}
+                                <tr>
+                                    <td>{{ p.data_producao }}</td>
+                                    <td>{{ p.peso_producao }}</td>
+                                    <td>{{ p.id_cabra_id }}</td>
+                                    <td><a href="{% url 'caprino.animais:Delete_Producao' p.id %}">Deletar</a></td>
+                                    <td><a href="{% url 'caprino.animais:Atualiza_Producao' p.id %}">Atualizar</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Nova_Producao' %}" role="button">Nova Producao</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

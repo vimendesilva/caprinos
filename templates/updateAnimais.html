@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+<!-- usando base.html como base -->
+{% block conteudo %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+    <div class=" container-fluid  ">
+        <a class="navbar-brand" href="#pablo"> Animais </a>
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <span class="d-lg-none"> Animais</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caprino.contas:Sair' %}">
+                        <span class="no-icon">SAIR</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Atualizar Animal</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label>RGB</label>
+                                        {{ animais_form.rgb_animal }}
+                                        <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-3 px-1">
+                                    <div class="form-group">
+                                        <label>Nome</label>
+                                        {{ animais_form.nome_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pl-1">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Número</label>
+                                        {{ animais_form.numero_animal }}
+                                        <!-- <input type="email" class="form-control" placeholder="Email"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Nascimento</label>
+                                        {{ animais_form.nascimento_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Company" value="Mike"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label>Raça</label>
+                                        {{ animais_form.raca_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Last Name" value="Andrew"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Sangue</label>
+                                        {{ animais_form.sangue_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Brincos</label>
+                                        {{ animais_form.brincos_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="City" value="Mike"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Chifres</label>
+                                        {{ animais_form.chifres_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Country" value="Andrew"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pl-1">
+                                    <div class="form-group">
+                                        <label>Vida</label>
+                                        {{ animais_form.vida_animal }}
+                                        <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pl-1">
+                                    <div class="form-group">
+                                        <label>Sexo</label>
+                                        {{ animais_form.sexo_animal }}
+                                        <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Observação</label>
+                                        {{ animais_form.observacao_animal }}
+                                        <!-- <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pl-1">
+                                    <div class="form-group">
+                                        <label>Fazenda</label>
+                                        {{ animais_form.id_fazenda }}
+                                        <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

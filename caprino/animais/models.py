@@ -11,50 +11,55 @@ class Fazenda(models.Model):
         verbose_name = 'Fazenda'
 
 
-class Cabra(models.Model):
-    rgd_cabra = models.CharField(verbose_name='RGD', max_length=50, blank=True)
-    nome_cabra = models.CharField(verbose_name='Nome', max_length=50, blank=True)
-    numero_cabra = models.IntegerField(verbose_name='Numero')
-    nascimento_cabra = models.DateField(verbose_name='Nascimento', blank=True, null=True, default=None)
-    raca_cabra = models.CharField(verbose_name='Raça', max_length=50)
-    sangue_cabra = models.CharField(verbose_name='Sangue', max_length=50, blank=True)
-    brincos_cabra = models.CharField(verbose_name='Brincos', max_length=50)
-    chifres_cabra = models.BooleanField(verbose_name='Chifres', blank=True)
-    observacao_cabra = models.TextField(verbose_name='Observação', blank=True)
+class Animal(models.Model):
+
+    rgb_animal = models.CharField(verbose_name='RGD', max_length=50, blank=True)
+    nome_animal = models.CharField(verbose_name='Nome', max_length=50, blank=True)
+    numero_animal = models.IntegerField(verbose_name='Numero')
+    sexo_animal = models.CharField(verbose_name='Sexo', blank=True, max_length=50)
+    nascimento_animal = models.DateField(verbose_name='Nascimento', blank=True, null=True, default=None)
+    raca_animal = models.CharField(verbose_name='Raça', max_length=50)    
+    sangue_animal = models.CharField(verbose_name='Sangue', max_length=50, blank=True)
+    brincos_animal = models.CharField(verbose_name='Brincos', max_length=50)
+    chifres_animal = models.BooleanField(verbose_name='Chifres', blank=True)
+    vida_animal = models.BooleanField(verbose_name='Vida', blank=True)
+    observacao_animal = models.TextField(verbose_name='Observação', blank=True)
     id_fazenda = models.ForeignKey(Fazenda, verbose_name="Fazenda", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return str(self.numero_cabra)
+        return str(self.numero_animal)
 
     class Meta:
-        verbose_name = 'Cabra'
-
-
-class Bode(models.Model):
-    nome_bode = models.CharField(verbose_name='Nome', max_length=50, blank=True)
-    id_fazenda = models.ForeignKey(Fazenda, verbose_name="Fazenda", on_delete=models.SET_NULL, null=True)
-
-    def __str__(self):
-        return self.nome_bode
-
-    class Meta:
-        verbose_name = 'Bode'
+        verbose_name = 'Animal'
 
 
 class Cobertura(models.Model):
-    data_cobertura = models.DateField(verbose_name='Data', blank=True, null=True, default=None)
-    id_cabra = models.ForeignKey(Cabra, verbose_name="Cabra", on_delete=models.SET_NULL, null=True)
-    id_bode = models.ForeignKey(Bode, verbose_name="Bode", on_delete=models.SET_NULL, null=True)
+    inicio_cobertura = models.DateField(verbose_name='Início', blank=True, null=True, default=None)
+    fim_cobertura = models.DateField(verbose_name='Fim', blank=True, null=True, default=None)
+    id_bode = models.ForeignKey(Animal, verbose_name="Bode", related_name="Bode", on_delete=models.SET_NULL, null=True)
 
 
     class Meta:
         verbose_name = 'Cobertura'
 
 
+class StatusCobertura(models.Model):
+    status_cobertura = models.CharField(
+        verbose_name='Início', blank=True, null=True, default=None, max_length=50)
+    id_cabra = models.ForeignKey(
+        Animal, verbose_name="Cabra", related_name="Cabra", on_delete=models.SET_NULL, null=True)
+    id_cobertura = models.ForeignKey(Cobertura, verbose_name="Cobertura",
+                                related_name="Cobertura", on_delete=models.SET_NULL, null=True)
+
+
+    class Meta:
+        verbose_name = 'StatusCobertura'
+
+
 class Producao(models.Model):
     data_producao = models.DateTimeField(verbose_name='Data')
     peso_producao = models.DecimalField(verbose_name='Peso', max_digits=5, decimal_places=4)
-    id_cabra = models.ForeignKey(Cabra, verbose_name="Cabra", on_delete=models.SET_NULL, null=True)
+    id_cabra = models.ForeignKey(Animal, verbose_name="Cabra", on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = 'Producao'
@@ -67,22 +72,6 @@ class Parto(models.Model):
 
     class Meta:
         verbose_name = 'Parto'
-
-
-class Filhote(models.Model):
-    numero_filhote = models.IntegerField(verbose_name='Numero')
-    peso_filhote = models.DecimalField(verbose_name='Peso', max_digits=5, decimal_places=4)
-    sexo_filhote = models.CharField(verbose_name='Sexo', max_length=50, blank=True)
-    reposicao_filhote = models.BooleanField(verbose_name='Reposição', blank=True)
-    id_parto = models.ForeignKey(Parto, verbose_name="Parto", on_delete=models.SET_NULL, null=True)
-
-
-    def __str__(self):
-        return self.numero_filhote
-
-
-    class Meta:
-        verbose_name = 'Filhote'
 
 
 class Filiacao(models.Model):

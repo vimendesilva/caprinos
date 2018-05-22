@@ -45,25 +45,25 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Cabras' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Animal' %}">
                             <i class="nc-icon nc-notes"></i>
-                            <p>Cabras</p>
+                            <p>Animais</p>
                         </a>
                     </li>
-                    <li>
+                    {% comment %} <li>
                         <a class="nav-link" href="{% url 'caprino.animais:Mostra_Bodes' %}">
                             <i class="nc-icon nc-bullet-list-67"></i>
                             <p>Bodes</p>
                         </a>
-                    </li>
+                    </li> {% endcomment %}
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Nova_Cobertura' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Coberturas' %}">
                             <i class="nc-icon nc-paper-2"></i>
                             <p>Coberturas</p>
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Nova_Producao' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Producao' %}">
                             <i class="nc-icon nc-layers-3"></i>
                             <p>Produção</p>
                         </a>
@@ -120,5 +120,5 @@
 <!-- Light Bootstrap Dashboard DEMO methods, don't include it in your project! -->
 <script src="{% static 'js/demo.js' %}"></script>
 
-{% block script %}{% endblock %}
+{% block scripts %}{% endblock %}
 </html>
