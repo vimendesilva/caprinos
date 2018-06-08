@@ -21,8 +21,10 @@ class Animal(models.Model):
     raca_animal = models.CharField(verbose_name='Raça', max_length=50)    
     sangue_animal = models.CharField(verbose_name='Sangue', max_length=50, blank=True)
     brincos_animal = models.CharField(verbose_name='Brincos', max_length=50)
-    chifres_animal = models.BooleanField(verbose_name='Chifres', blank=True)
-    vida_animal = models.BooleanField(verbose_name='Vida', blank=True)
+    chifres_animal = models.CharField(
+        verbose_name='Chifres', blank=True, max_length=50)
+    vida_animal = models.CharField(
+        verbose_name='Vida', blank=True, max_length=50)
     observacao_animal = models.TextField(verbose_name='Observação', blank=True)
     id_fazenda = models.ForeignKey(Fazenda, verbose_name="Fazenda", on_delete=models.SET_NULL, null=True)
 
@@ -57,8 +59,9 @@ class StatusCobertura(models.Model):
 
 
 class Producao(models.Model):
-    data_producao = models.DateTimeField(verbose_name='Data')
-    peso_producao = models.DecimalField(verbose_name='Peso', max_digits=5, decimal_places=4)
+    data_producao = models.DateField(verbose_name='Data')
+    manha_producao = models.DecimalField(verbose_name='Peso Manhã', max_digits=5, decimal_places=4)
+    tarde_producao = models.DecimalField(verbose_name='Peso Tarde', max_digits=5, decimal_places=4)
     id_cabra = models.ForeignKey(Animal, verbose_name="Cabra", on_delete=models.SET_NULL, null=True)
 
     class Meta:

@@ -5,7 +5,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class=" container-fluid  ">
-        <a class="navbar-brand" href="#pablo">Coberturas </a>
+        <a class="navbar-brand" href="#pablo">Cabras </a>
         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="dropdown">
-                        <span class="d-lg-none">Coberturas</span>
+                        <span class="d-lg-none">Cabras</span>
                     </a>
                 </li>
             </ul>
@@ -35,11 +35,10 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Coberturas Cadastrados</h4>
+                        <h4 class="card-title">Cabras</h4>
                         {% comment %}
                         <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
                     </div>
@@ -47,30 +46,27 @@
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Início</th>
-                                    <th>Fim</th>
-                                    {% comment %} <th>Cabra</th> {% endcomment %}
-                                    <th>Bode</th>
+                                    <th>Brincos</th>
+                                    {% comment %} <th>Raça</th> {% endcomment %}
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for cobertura in coberturas %}
+                                {% for animal in animais %}
                                 <tr>
-                                    <td>{{ cobertura.inicio_cobertura }}</td>
-                                    <td>{{ cobertura.fim_cobertura }}</td>
-                                    <td>{{ cobertura.id_bode_id }}</td>
-                                    {% comment %} <td>{{ cobertura.id_cabra_id }}</td> {% endcomment %}
-                                    <td><a href="{% url 'caprino.animais:Delete_Cobertura' cobertura.id %}" title="Apagar"><i class="fa fa-trash fa-lg text-danger"></i></a></td>
-                                    <td><a href="{% url 'caprino.animais:Atualiza_Cobertura' cobertura.id %}" title="Atualizar"><i class="fa fa-pencil fa-lg text-success"></i></a></td>
+                                    <td>{{ animal.brincos_animal }}</td>
+                                    <td><a href="{% url 'caprino.animais:Mostra_Producao' animal.id %}" title="Cadastrar novo"><i class="fa fa-pencil fa-lg text-success"></i></a></td>
+                                    {% comment %} <td>{{ animal.raca_animal }}</td> {% endcomment %}
+
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Nova_Cobertura' %}" role="button">Nova Cobertura</a>
+                        {% comment %} <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Novo_Animal' %}" role="button">Novo Animal</a> {% endcomment %}
 
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

@@ -41,8 +41,37 @@
                         <h4 class="card-title">Cadastro de Produção</h4>
                     </div>
                     <div class="card-body">
+                        {% comment %} <form method="POST" action="{% url 'caprino.animais:Atualiza_Producao' producao_form.id cabra.id %}"> {% endcomment %}
                         <form method="POST">
-                            {% csrf_token %} {{ producao_form.as_p }}
+                            {% csrf_token %}
+                                <div class="row">
+                                    {{ producao_form.errors }}
+                                <div class="col-md-4 pr-1">
+                                    <div class="form-group">
+                                        <label>Data</label>
+                                        {{ producao_form.data_producao }}
+                                        <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4 px-1">
+                                    <div class="form-group">
+                                        <label>Peso Manhã</label>
+                                        {{ producao_form.manha_producao }}
+                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
+                                    </div>
+                                </div>
+                        
+                                <div class="col-md-4 pr-1">
+                                    <div class="form-group">
+                                        <label>Peso tarde</label>
+                                        {{ producao_form.tarde_producao }}
+                                        <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {% comment %} {{ producao_form.id_cabra }} {% endcomment %}
+                            
+                            <input type="hidden" name="id_cabra" value="{{cabra.id}}">
                             <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
                             <div class="clearfix"></div>
                         </form>

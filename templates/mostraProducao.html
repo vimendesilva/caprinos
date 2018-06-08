@@ -48,23 +48,24 @@
                             <thead>
                                 <tr>
                                     <th>Data</th>
-                                    <th>Peso</th>
-                                    <th>Cabra</th>
+                                    <th>Produção Manhã</th>
+                                    <th>Produção tarde</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for p in producao %}
                                 <tr>
                                     <td>{{ p.data_producao }}</td>
-                                    <td>{{ p.peso_producao }}</td>
-                                    <td>{{ p.id_cabra_id }}</td>
-                                    <td><a href="{% url 'caprino.animais:Delete_Producao' p.id %}">Deletar</a></td>
-                                    <td><a href="{% url 'caprino.animais:Atualiza_Producao' p.id %}">Atualizar</a></td>
+                                    <td>{{ p.manha_producao }}</td>
+                                    <td>{{ p.tarde_producao }}</td>
+                                    {% comment %} <td>{{ cabra }}</td> {% endcomment %}
+                                    <td><a href="{% url 'caprino.animais:Delete_Producao' p.id %}" title="Apagar"><i class="fa fa-trash fa-lg text-danger"></i></a></td>
+                                    <td><a href="{% url 'caprino.animais:Atualiza_Producao' p.id %}" title="Atualizar"><i class="fa fa-pencil fa-lg text-success"></i></a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Nova_Producao' %}" role="button">Nova Producao</a>
+                        <a style="float:right;" class="btn btn-success" href="{% url 'caprino.animais:Nova_Producao' cabra %}" role="button">Nova Producao</a>
 
                     </div>
                 </div>

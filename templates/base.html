@@ -25,7 +25,7 @@
 
 <body>
     <div class="wrapper">
-        <div class="sidebar" data-image="{% static 'img/sidebar-3.jpg' %}" data-color="black">
+        <div class="sidebar" data-image="{% static 'img/Foto 1.jpg' %}" data-color="black">
             <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
@@ -40,8 +40,8 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'caprino.core:home' %}">
-                            <i class="nc-icon nc-chart-pie-35"></i>
-                            <p>Dashboard</p>
+                            <i class="nc-icon nc-bank"></i>
+                            <p>Principal</p>
                         </a>
                     </li>
                     <li>
@@ -50,12 +50,6 @@
                             <p>Animais</p>
                         </a>
                     </li>
-                    {% comment %} <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Bodes' %}">
-                            <i class="nc-icon nc-bullet-list-67"></i>
-                            <p>Bodes</p>
-                        </a>
-                    </li> {% endcomment %}
                     <li>
                         <a class="nav-link" href="{% url 'caprino.animais:Mostra_Coberturas' %}">
                             <i class="nc-icon nc-paper-2"></i>
@@ -63,23 +57,17 @@
                         </a>
                     </li>
                     <li>
-                        <a class="nav-link" href="{% url 'caprino.animais:Mostra_Producao' %}">
+                        <a class="nav-link" href="{% url 'caprino.animais:Lista_Cabras' %}">
                             <i class="nc-icon nc-layers-3"></i>
                             <p>Produção</p>
                         </a>
                     </li>
-                    {% comment %} <li>
-                        <a class="nav-link" href="{% url 'caprino.core:home' %}">
-                            <i class="nc-icon nc-pin-3"></i>
-                            <p>Maps</p>
+                    <li>
+                        <a class="nav-link" href="{% url 'caprino.animais:Relatorios' %}">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>Relatórios</p>
                         </a>
                     </li>
-                    <li>
-                        <a class="nav-link" href="{% url 'caprino.core:home' %}">
-                            <i class="nc-icon nc-bell-55"></i>
-                            <p>Notifications</p>
-                        </a>
-                    </li> {% endcomment %}
                 </ul>
             </div>
         </div>

@@ -37,18 +37,28 @@ def CreateCobertura(request):
 
 
 @login_required
-def CreateProducoes(request):
+def CreateProducoes(request, pk):
 
     if(request.method == 'POST'):
+
         form = forms.CreateProducao(request.POST)
         if(form.is_valid()):
             form.save()
-            return redirect('/animais/mostra_producao')
+            return redirect('/animais/lista_cabras')
 
     else:
         form = forms.CreateProducao()
+        cabra = Animal.objects.get(pk=pk)
 
-    return render(request, 'createProducao.html', {'producao_form': form})
+    return render(request, 'createProducao.html', {'producao_form': form, 'cabra': cabra})
+
+
+@login_required
+def ListaCabras(request):
+
+    animais = Animal.objects.all()
+    return render(request, 'listaCabras.html', {'animais': animais})
+
 
 @login_required
 def MostraAnimal(request):
@@ -65,10 +75,10 @@ def MostraCoberturas(request):
 
 
 @login_required
-def MostraProducao(request):
+def MostraProducao(request, pk):
 
-    producao = Producao.objects.all()
-    return render(request, 'mostraProducao.html', {'producao': producao})
+    producao = Producao.objects.all().filter(id_cabra_id=pk)
+    return render(request, 'mostraProducao.html', {'producao': producao, 'cabra': pk})
 
 
 @login_required
@@ -89,16 +99,15 @@ def DeleteCobertura(request, pk):
 
 @login_required
 def DeleteProducao(request, pk):
-
     producao = get_object_or_404(Producao, pk=pk)
     producao.delete()
-    return redirect('/animais/mostra_producao')
+    return redirect('/animais/lista_cabras')
 
 @login_required
 def UpdateAnimal(request, pk):
 
     cabra = get_object_or_404(Animal, pk=pk)
-    
+    print(cabra.chifres_animal)
     if(request.method == 'POST'):
         form = forms.CreateAnimais(request.POST, instance=cabra)
         if(form.is_valid()):
@@ -132,14 +141,22 @@ def UpdateCobertura(request, pk):
 def UpdateProducao(request, pk):
 
     producao = get_object_or_404(Producao, pk=pk)
-
+    print(producao.id_cabra)
     if(request.method == 'POST'):
         form = forms.CreateProducao(request.POST, instance=producao)
         if(form.is_valid()):
+            print('oi querido')
             form.save()
-            return redirect('/animais/mostra_producao')
+            return redirect('/animais/lista_cabras')
 
     else:
         form = forms.CreateProducao(instance=producao)
 
     return render(request, 'updateProducao.html', {'producao_form': form})
+
+
+@login_required
+def Relatorios(request):
+
+    producao = Producao.objects.all().filter(id_cabra_id=2)
+    return render(request, 'relatorios.html', {'producao': producao})

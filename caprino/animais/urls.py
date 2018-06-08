@@ -14,9 +14,14 @@ urlpatterns = [
     path('delete_cobertura/<int:pk>/', views.DeleteCobertura, name='Delete_Cobertura'),
     path('atualiza_cobertura/<int:pk>', views.UpdateCobertura, name='Atualiza_Cobertura'),
 
-    path('nova_producao/', views.CreateProducoes, name='Nova_Producao'),
-    path('mostra_producao/', views.MostraProducao, name='Mostra_Producao'),
-    path('delete_producao/<int:pk>/', views.DeleteProducao, name='Delete_Producao'),
+    path('lista_cabras/', views.ListaCabras, name='Lista_Cabras'),
+    path('nova_producao/<int:pk>', views.CreateProducoes, name='Nova_Producao'),
+    path('mostra_producao/<int:pk>', views.MostraProducao, name='Mostra_Producao'),
+    path('delete_producao/<int:pk>', views.DeleteProducao, name='Delete_Producao'),
     path('atualiza_producao/<int:pk>', views.UpdateProducao, name='Atualiza_Producao'),
+
+    path('relatorios/', views.Relatorios, name='Relatorios'),
+
+
 
 ]
