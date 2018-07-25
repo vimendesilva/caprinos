@@ -87,6 +87,43 @@
             </div>
 
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Brinco</th>
+                                    <th>Diagnóstico</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                     {% for cabra in cabras %}
+                                    <tr>
+                                        <td>{{ cabra.id_cabra }}</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <a href="" title="Positivo">
+                                                        <i class="fa fa-thumbs-up fa-lg text-success"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="" title="Negativo">
+                                                        <i class="fa fa-thumbs-down fa-lg text-danger"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

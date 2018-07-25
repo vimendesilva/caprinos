@@ -29,7 +29,7 @@ class Animal(models.Model):
     id_fazenda = models.ForeignKey(Fazenda, verbose_name="Fazenda", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return str(self.numero_animal)
+        return str(self.brincos_animal)
 
     class Meta:
         verbose_name = 'Animal'

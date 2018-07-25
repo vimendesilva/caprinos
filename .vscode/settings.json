@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/vitoria-mendes/Documentos/venv/bin/python"
+    "python.pythonPath": "/home/vitoria-mendes/Documentos/venv/bin/python",
+    "python.linting.enabled": false
 }

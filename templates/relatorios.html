@@ -68,6 +68,16 @@
                     </div>
                 </div>
             </div>
+             {% for p in producao %}
+            <tr>
+                <td>oi</td>
+                <td>{{ p.data_producao }}</td>
+                <td>{{ p.manha_producao }}</td>
+                <td>{{ p.tarde_producao }}</td>
+                {% comment %}
+                <td>{{ cabra }}</td> {% endcomment %}
+            </tr>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -75,20 +85,28 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
+    //var grafico = JSON.parse({{ dados|safe }});
     var chart = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
         // The data for our dataset
         data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: [1,2,3],
             datasets: [{
                 label: "My First dataset",
                 backgroundColor: 'rgb(255,165,0)',
                 borderColor: 'rgb(255,140,0)',
-                data: [0, 10, 5, 2, 20, 30, 45],
+                data: [0, 12, 5, 2, 20, 30, 45],
             }]
         },
+
+        //data: {
+          //  labels: grafico.data,
+            //datasets: [{
+              //  data: grafico.manha
+        //    }]
+        //},
 
         // Configuration options go here
         options: {}

@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from . import forms
-from .models import Animal, Cobertura, Producao
+from .models import Animal, Cobertura, Producao, StatusCobertura
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+
+import datetime
+import json
 
 @login_required
 def CreateAnimal(request):
@@ -124,6 +126,9 @@ def UpdateAnimal(request, pk):
 def UpdateCobertura(request, pk):
 
     cobertura = get_object_or_404(Cobertura, pk=pk)
+    cabras = StatusCobertura.objects.filter(id_cobertura=pk)
+
+    print(cabras)
 
     if(request.method == 'POST'):
         form = forms.CreateCoberturas(request.POST, instance=cobertura)
@@ -134,7 +139,7 @@ def UpdateCobertura(request, pk):
     else:
         form = forms.CreateCoberturas(instance=cobertura)
 
-    return render(request, 'updateCobertura.html', {'cobertura_form': form})
+    return render(request, 'updateCobertura.html', {'cobertura_form': form, 'cabras': cabras})
 
 
 @login_required
@@ -156,7 +161,33 @@ def UpdateProducao(request, pk):
 
 
 @login_required
-def Relatorios(request):
+def Relatorios(request, pk):
 
-    producao = Producao.objects.all().filter(id_cabra_id=2)
-    return render(request, 'relatorios.html', {'producao': producao})
+    producao = Producao.objects.filter(id_cabra=pk)
+    data = [obj.data_producao.day for obj in producao]
+    manha = [float(obj.manha_producao) for obj in producao]
+
+    dados = {
+        'data': json.dumps(data),
+        'manha': json.dumps(manha),
+    }
+    print(dados)
+    return render(request, 'relatorios.html', dados)
+
+    # CODIGO DO JONATHAN
+    # queryset = Produto.objects.all()
+    # nomes = [obj.nome for obj in producao]
+    # precos = [float(obj.preco) for obj in producao]
+
+    # SEPARA DIA DA DATA COMPLETA
+    # data = producao[0].data_producao
+    # print(data.day)
+
+    # CODIGO DO JONATHAN
+    # data = {
+    #     'nomes': json.dumps(nomes),
+    #     'precos': json.dumps(precos),
+    # }
+
+    # CODIGO DO JONATHAN
+    # data = JSON.parse({{ producao|safe }});
