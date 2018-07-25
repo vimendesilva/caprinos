@@ -167,11 +167,15 @@ def Relatorios(request, pk):
     data = [obj.data_producao.day for obj in producao]
     manha = [float(obj.manha_producao) for obj in producao]
 
-    dados = {
-        'data': json.dumps(data),
-        'manha': json.dumps(manha),
+    grafico = {
+        'data_prod': data,
+        'manha_prod': manha,
     }
-    print(dados)
+
+    dados = {
+        'grafico': json.dumps(grafico)
+    }
+
     return render(request, 'relatorios.html', dados)
 
     # CODIGO DO JONATHAN
