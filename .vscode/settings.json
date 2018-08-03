@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/home/vitoria-mendes/Documentos/venv/bin/python",
+    "python.pythonPath": "~/.virtualenvs/caprinos/bin/python3",
     "python.linting.enabled": false
 }

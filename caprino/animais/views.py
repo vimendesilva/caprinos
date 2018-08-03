@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from . import forms
 from .models import Animal, Cobertura, Producao, StatusCobertura
 from django.contrib.auth.decorators import login_required
@@ -59,6 +60,17 @@ def CreateProducoes(request, pk):
 def ListaCabras(request):
 
     animais = Animal.objects.all()
+    paginator = Paginator(animais, 2)
+
+    page = request.GET.get('page')
+
+    try:
+        animais = paginator.page(page)
+    except PageNotAnInteger:
+        animais = paginator.page(1)
+    except EmptyPage:
+        animais = paginator.page(paginator.num_pages)
+
     return render(request, 'listaCabras.html', {'animais': animais})
 
 
@@ -66,6 +78,18 @@ def ListaCabras(request):
 def MostraAnimal(request):
 
     animais = Animal.objects.all()
+    paginator = Paginator(animais, 2)
+
+    page = request.GET.get('page')
+
+    try:
+        animais = paginator.page(page)
+    except PageNotAnInteger:
+        animais = paginator.page(1)
+    except EmptyPage:
+        animais = paginator.page(paginator.num_pages)
+
+
     return render(request, 'mostraAnimais.html', {'animais': animais})
 
 
@@ -73,6 +97,17 @@ def MostraAnimal(request):
 def MostraCoberturas(request):
 
     coberturas = Cobertura.objects.all()
+    paginator = Paginator(coberturas, 2)
+
+    page = request.GET.get('page')
+
+    try:
+        coberturas = paginator.page(page)
+    except PageNotAnInteger:
+        coberturas = paginator.page(1)
+    except EmptyPage:
+        coberturas = paginator.page(paginator.num_pages)
+
     return render(request, 'mostraCoberturas.html', {'coberturas': coberturas})
 
 
@@ -80,6 +115,17 @@ def MostraCoberturas(request):
 def MostraProducao(request, pk):
 
     producao = Producao.objects.all().filter(id_cabra_id=pk)
+    paginator = Paginator(producao, 2)
+
+    page = request.GET.get('page')
+
+    try:
+        producao = paginator.page(page)
+    except PageNotAnInteger:
+        producao = paginator.page(1)
+    except EmptyPage:
+        producao = paginator.page(paginator.num_pages)
+
     return render(request, 'mostraProducao.html', {'producao': producao, 'cabra': pk})
 
 
@@ -161,20 +207,28 @@ def UpdateProducao(request, pk):
 
 
 @login_required
-def Relatorios(request, pk):
+def Relatorios(request):
 
-    producao = Producao.objects.filter(id_cabra=pk)
-    data = [obj.data_producao.day for obj in producao]
-    manha = [float(obj.manha_producao) for obj in producao]
+    # producao = Producao.objects.filter(id_cabra=pk)
+    producao = Producao.objects.all()
+    dia = [obj.data_producao.day for obj in producao]
+    mes = [obj.data_producao.month for obj in producao]
+    manha = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
+    print(mes)
 
+    lista = list(set(dia)) #tira valor repetido
+    
     grafico = {
-        'data_prod': data,
+        'data_prod': lista,
         'manha_prod': manha,
     }
 
     dados = {
         'grafico': json.dumps(grafico)
     }
+
+    ano = [obj.data_producao.year for obj in producao]    
+    print(ano)
 
     return render(request, 'relatorios.html', dados)
 
@@ -195,3 +249,10 @@ def Relatorios(request, pk):
 
     # CODIGO DO JONATHAN
     # data = JSON.parse({{ producao|safe }});
+
+@login_required
+def SetStatusCobertura(request):
+
+    StatusCobertura.objects.filter(id_cobertura=24).update(status_cobertura=1)
+
+    return redirect('/animais/mostra_coberturas')

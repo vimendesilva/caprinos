@@ -20,8 +20,9 @@ urlpatterns = [
     path('delete_producao/<int:pk>', views.DeleteProducao, name='Delete_Producao'),
     path('atualiza_producao/<int:pk>', views.UpdateProducao, name='Atualiza_Producao'),
 
-    path('relatorios/<int:pk>', views.Relatorios, name='Relatorios'),
+    path('relatorios/', views.Relatorios, name='Relatorios'),
 
+    path('status/', views.SetStatusCobertura, name='StatusCobertura'),
 
 
 ]

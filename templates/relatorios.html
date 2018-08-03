@@ -37,8 +37,8 @@
             <div class="col-md-6">
                 <div class="card ">
                     <div class="card-header ">
-                        <h4 class="card-title">Email Statistics</h4>
-                        <p class="card-category">Last Campaign Performance</p>
+                        <h4 class="card-title">Relatório Produção Leiteira</h4>
+                        <p class="card-category">Dias e pesos do leite</p>
                     </div>
                     <div class="card-body ">
                         <canvas id="myChart"></canvas>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            {% comment %} <div class="col-md-6">
                 <div class="card ">
                     <div class="card-header ">
                         <h4 class="card-title">Email Statistics</h4>
@@ -67,17 +67,7 @@
                                             </div> -->
                     </div>
                 </div>
-            </div>
-            {% for p in producao %}
-            <tr>
-                <td>oi</td>
-                <td>{{ p.data_producao }}</td>
-                <td>{{ p.manha_producao }}</td>
-                <td>{{ p.tarde_producao }}</td>
-                {% comment %}
-                <td>{{ cabra }}</td> {% endcomment %}
-            </tr>
-            {% endfor %}
+            </div> {% endcomment %}
         </div>
     </div>
 </div>

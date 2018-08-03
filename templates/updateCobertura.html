@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-md-4 px-1">
                                     <div class="form-group">
-                                        <label>Peso</label>
+                                        <label>Fim</label>
                                         {{ cobertura_form.fim_cobertura }}
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
@@ -102,15 +102,22 @@
                                      {% for cabra in cabras %}
                                     <tr>
                                         <td>{{ cabra.id_cabra }}</td>
+                                        {% if cabra.status_cobertura == '1' %}
+                                            <td>Sim</td>
+                                        {% elif cabra.status_cobertura == '0' %}
+                                            <td>Não</td>
+                                        {% else %}
+                                            <td>Sem registro</td>
+                                        {% endif %}
                                         <td>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <a href="" title="Positivo">
+                                                    <a href="{% url 'caprino.animais:StatusCobertura'%}" title="Positivo">
                                                         <i class="fa fa-thumbs-up fa-lg text-success"></i>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a href="" title="Negativo">
+                                                    <a href="{% url 'caprino.animais:StatusCobertura'%}" title="Negativo">
                                                         <i class="fa fa-thumbs-down fa-lg text-danger"></i>
                                                     </a>
                                                 </div>
