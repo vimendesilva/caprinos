@@ -36,6 +36,23 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Cadastro de Produção</h4>
@@ -44,16 +61,42 @@
                         {% comment %} <form method="POST" action="{% url 'caprino.animais:Atualiza_Producao' producao_form.id cabra.id %}"> {% endcomment %}
                         <form method="POST">
                             {% csrf_token %}
-                                <div class="row">
+                            <div class="row">
                                     {{ producao_form.errors }}
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Data</label>
-                                        {{ producao_form.data_producao }}
+                                        <!-- {{ producao_form.data_producao }} -->
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
+                                        {% if producao_form.data_producao.value.day < 10 and producao_form.data_producao.value.month < 10 %}
+                                            <input name="data_producao" type="date" class="form-control" placeholder="Company" value="{{ producao_form.data_producao.value.year }}-0{{ producao_form.data_producao.value.month }}-0{{ producao_form.data_producao.value.day }}">
+                                        {% elif producao_form.data_producao.value.day < 10 and producao_form.data_producao.value.month >= 10 %}
+                                            <input name="data_producao" type="date" class="form-control" placeholder="Company" value="{{ producao_form.data_producao.value.year }}-{{ producao_form.data_producao.value.month }}-0{{ producao_form.data_producao.value.day }}">
+                                        {% elif producao_form.data_producao.value.day >= 10 and producao_form.data_producao.value.month < 10 %}
+                                            <input name="data_producao" type="date" class="form-control" placeholder="Company" value="{{ producao_form.data_producao.value.year }}-0{{ producao_form.data_producao.value.month }}-{{ producao_form.data_producao.value.day }}">
+                                        {% else %}
+                                            <input name="data_producao" type="date" class="form-control" placeholder="Company" value="{{ producao_form.data_producao.value.year }}-{{ producao_form.data_producao.value.month }}-{{ producao_form.data_producao.value.day }}">
+                                        {% endif %}
                                     </div>
                                 </div>
-                                <div class="col-md-4 px-1">
+                                <div class="col-md-4 pr-1">
+                                    <div class="form-group">
+                                        <label>Descarte</label>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                {% if producao_form.descarte_producao.value == '1' %}
+                                                    <input class="form-check-input" type="checkbox" name="descarte_producao" value="1" checked="checked">
+                                                {% else %}
+                                                    <input class="form-check-input" type="checkbox" name="descarte_producao" value="1">
+                                                {% endif %}
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Peso Manhã</label>
                                         {{ producao_form.manha_producao }}
@@ -71,7 +114,7 @@
                             </div>
                             {% comment %} {{ producao_form.id_cabra }} {% endcomment %}
                             
-                            <input type="hidden" name="id_cabra" value="{{cabra.id}}">
+                            <input type="hidden" name="id_cabra" value="{{ cabra.id }}">
                             <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
                             <div class="clearfix"></div>
                         </form>

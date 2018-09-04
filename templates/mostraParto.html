@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+<!-- usando base.html como base -->
+{% block conteudo %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+    <div class=" container-fluid  ">
+        <a class="navbar-brand" href="#pablo">Partos </a>
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <span class="d-lg-none">Partos</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caprino.contas:Sair' %}">
+                        <span class="no-icon">SAIR</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">Partos Cadastrados</h4>
+                        {% comment %}
+                        <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tipo de Parto</th>
+                                    <th>Cabra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in parto %}
+                                <tr>
+                                    <td>{{ p.data_parto }}</td>
+                                    <td>{{ p.tipo_parto }}</td>
+                                    <td>{{ p.id_cabra_id }}</td>
+                                    {% comment %} <td>{{ cabra }}</td> {% endcomment %}
+                                    <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Atualiza_Parto' id_parto=p.id id_cob=id_cobertura %}" title="Editar">Editar</a></td>
+                                    <td><a class="btn btn-danger btn-fill btn-wd" href="{% url 'caprino.animais:Delete_Parto' p.id %}" title="Apagar">Apagar</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        {% if parto.has_other_pages %}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if parto.has_previous %}
+                                    <li class="page-link"><a href="?page={{ parto.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                    <li class="page-link disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in parto.paginator.page_range %}
+                                    {% if parto.number == i %}
+                                        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if parto.has_next %}
+                                    <li class="page-link"><a href="?page={{ parto.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                    <li class="page-link disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+
+                        <a style="float:right;" class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.animais:Novo_Parto' id_cobertura %}" role="button">Novo Parto</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

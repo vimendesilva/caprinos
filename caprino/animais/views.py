@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from . import forms
-from .models import Animal, Cobertura, Producao, StatusCobertura
+from .models import Animal, Cobertura, Producao, StatusCobertura, Medicacao, Parto
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.http import Http404, HttpResponse
 
 import datetime
 import json
@@ -11,9 +13,10 @@ import json
 def CreateAnimal(request):
 
     if(request.method == 'POST'):
-        form = forms.CreateAnimais(request.POST)
+        form = forms.CreateAnimais(request.POST, request.FILES)
         if(form.is_valid()):
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados cadastrados com sucesso!')
             return redirect('/animais/mostra_animal')
 
     else:
@@ -30,7 +33,7 @@ def CreateCobertura(request):
         form = forms.CreateCoberturas(request.POST)
         if(form.is_valid()):
             form.save()
-
+            messages.add_message(request, messages.SUCCESS, 'Dados cadastrados com sucesso!')
             return redirect('/animais/mostra_coberturas')
 
     else:
@@ -43,10 +46,10 @@ def CreateCobertura(request):
 def CreateProducoes(request, pk):
 
     if(request.method == 'POST'):
-
         form = forms.CreateProducao(request.POST)
         if(form.is_valid()):
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados cadastrados com sucesso!')
             return redirect('/animais/lista_cabras')
 
     else:
@@ -55,12 +58,42 @@ def CreateProducoes(request, pk):
 
     return render(request, 'createProducao.html', {'producao_form': form, 'cabra': cabra})
 
+@login_required
+def CreateMedicacao(request):
+
+    if(request.method == 'POST'):
+        form = forms.CreateMedicacao(request.POST)
+        if(form.is_valid()):
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados cadastrados com sucesso!')
+            return redirect('/animais/mostra_medicacoes')
+
+    else:
+        form = forms.CreateMedicacao()
+
+    return render(request, 'createMedicacao.html', {'medicacao_form': form})
+
+@login_required
+def CreateParto(request, pk):
+
+    if(request.method == 'POST'):
+        form = forms.CreateParto(request.POST)
+        if(form.is_valid()):
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados cadastrados com sucesso!')
+            return redirect('/animais/coberturas_partos')
+
+    else:
+        form = forms.CreateParto()
+
+    return render(request, 'createParto.html', {'parto_form': form, 'id_cob': pk})
+
 
 @login_required
 def ListaCabras(request):
 
     animais = Animal.objects.all()
-    paginator = Paginator(animais, 2)
+    paginator = Paginator(animais, 5)
 
     page = request.GET.get('page')
 
@@ -78,7 +111,7 @@ def ListaCabras(request):
 def MostraAnimal(request):
 
     animais = Animal.objects.all()
-    paginator = Paginator(animais, 2)
+    paginator = Paginator(animais, 5)
 
     page = request.GET.get('page')
 
@@ -96,8 +129,8 @@ def MostraAnimal(request):
 @login_required
 def MostraCoberturas(request):
 
-    coberturas = Cobertura.objects.all()
-    paginator = Paginator(coberturas, 2)
+    coberturas = Cobertura.objects.all().order_by('-id')
+    paginator = Paginator(coberturas, 5)
 
     page = request.GET.get('page')
 
@@ -114,8 +147,8 @@ def MostraCoberturas(request):
 @login_required
 def MostraProducao(request, pk):
 
-    producao = Producao.objects.all().filter(id_cabra_id=pk)
-    paginator = Paginator(producao, 2)
+    producao = Producao.objects.all().filter(id_cabra_id=pk).order_by('-data_producao')
+    paginator = Paginator(producao, 30)
 
     page = request.GET.get('page')
 
@@ -128,12 +161,47 @@ def MostraProducao(request, pk):
 
     return render(request, 'mostraProducao.html', {'producao': producao, 'cabra': pk})
 
+@login_required
+def MostraMedicacoes(request):
+
+    medicacoes = Medicacao.objects.all().order_by('-id')
+    paginator = Paginator(medicacoes, 5)
+
+    page = request.GET.get('page')
+
+    try:
+        medicacoes = paginator.page(page)
+    except PageNotAnInteger:
+        medicacoes = paginator.page(1)
+    except EmptyPage:
+        medicacoes = paginator.page(paginator.num_pages)
+
+    return render(request, 'mostraMedicacoes.html', {'medicacoes': medicacoes})
+
+@login_required
+def MostraParto(request, pk):
+
+    parto = Parto.objects.all().filter(id_cobertura_id=pk).order_by('-id')
+    paginator = Paginator(parto, 30)
+
+    page = request.GET.get('page')
+
+    try:
+        parto = paginator.page(page)
+    except PageNotAnInteger:
+        parto = paginator.page(1)
+    except EmptyPage:
+        parto = paginator.page(paginator.num_pages)
+
+    return render(request, 'mostraParto.html', {'parto': parto, 'id_cobertura': pk})
+
 
 @login_required
 def DeleteAnimal(request, pk):
 
     cabra = get_object_or_404(Animal, pk=pk)
     cabra.delete()
+    messages.add_message(request, messages.SUCCESS, 'Dados apagados com sucesso!')
     return redirect('/animais/mostra_animal')
 
 
@@ -142,6 +210,7 @@ def DeleteCobertura(request, pk):
 
     cobertura = get_object_or_404(Cobertura, pk=pk)
     cobertura.delete()
+    messages.add_message(request, messages.SUCCESS, 'Dados apagados com sucesso!')
     return redirect('/animais/mostra_coberturas')
 
 
@@ -149,17 +218,33 @@ def DeleteCobertura(request, pk):
 def DeleteProducao(request, pk):
     producao = get_object_or_404(Producao, pk=pk)
     producao.delete()
+    messages.add_message(request, messages.SUCCESS, 'Dados apagados com sucesso!')
     return redirect('/animais/lista_cabras')
+
+@login_required
+def DeleteMedicacao(request, pk):
+    medicacao = get_object_or_404(Medicacao, pk=pk)
+    medicacao.delete()
+    messages.add_message(request, messages.SUCCESS, 'Dados apagados com sucesso!')
+    return redirect('/animais/mostra_medicacoes')
+    
+@login_required
+def DeleteParto(request, pk):
+    parto = get_object_or_404(Parto, pk=pk)
+    parto.delete()
+    messages.add_message(request, messages.SUCCESS, 'Dados apagados com sucesso!')
+    return redirect('/animais/coberturas_partos')
 
 @login_required
 def UpdateAnimal(request, pk):
 
     cabra = get_object_or_404(Animal, pk=pk)
-    print(cabra.chifres_animal)
+
     if(request.method == 'POST'):
-        form = forms.CreateAnimais(request.POST, instance=cabra)
+        form = forms.CreateAnimais(request.POST, request.FILES, instance=cabra)
         if(form.is_valid()):
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados alterados com sucesso!')
             return redirect('/animais/mostra_animal')
 
     else:
@@ -174,85 +259,243 @@ def UpdateCobertura(request, pk):
     cobertura = get_object_or_404(Cobertura, pk=pk)
     cabras = StatusCobertura.objects.filter(id_cobertura=pk)
 
-    print(cabras)
-
     if(request.method == 'POST'):
         form = forms.CreateCoberturas(request.POST, instance=cobertura)
         if(form.is_valid()):
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados alterados com sucesso!')
             return redirect('/animais/mostra_coberturas')
 
     else:
         form = forms.CreateCoberturas(instance=cobertura)
 
-    return render(request, 'updateCobertura.html', {'cobertura_form': form, 'cabras': cabras})
+    return render(request, 'updateCobertura.html', {'cobertura_form': form, 'cabras': cabras, 'cob': pk})
 
 
 @login_required
-def UpdateProducao(request, pk):
+def UpdateProducao(request, id_prod, id_cabra):
 
-    producao = get_object_or_404(Producao, pk=pk)
-    print(producao.id_cabra)
+    producao = get_object_or_404(Producao, pk=id_prod)
     if(request.method == 'POST'):
         form = forms.CreateProducao(request.POST, instance=producao)
         if(form.is_valid()):
-            print('oi querido')
             form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados alterados com sucesso!')
             return redirect('/animais/lista_cabras')
 
     else:
         form = forms.CreateProducao(instance=producao)
+        cabra = Animal.objects.get(pk=id_cabra)
 
-    return render(request, 'updateProducao.html', {'producao_form': form})
+    return render(request, 'updateProducao.html', {'producao_form': form, 'cabra': cabra})
+
+@login_required
+def UpdateMedicacao(request, pk):
+
+    medicacao = get_object_or_404(Medicacao, pk=pk)
+
+    if(request.method == 'POST'):
+        form = forms.CreateMedicacao(request.POST, instance=medicacao)
+        if(form.is_valid()):
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados alterados com sucesso!')
+            return redirect('/animais/mostra_medicacoes')
+
+    else:
+        form = forms.CreateMedicacao(instance=medicacao)
+
+    return render(request, 'updateMedicacao.html', {'medicacao_form': form})
+
+@login_required
+def UpdateParto(request, id_parto, id_cob):
+
+    parto = get_object_or_404(Parto, pk=id_parto)
+    if(request.method == 'POST'):
+        form = forms.CreateParto(request.POST, instance=parto)
+        if(form.is_valid()):
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Dados alterados com sucesso!')
+            return redirect('/animais/coberturas_partos')
+
+    else:
+        form = forms.CreateParto(instance=parto)
+        cobertura = Cobertura.objects.get(pk=id_cob)
+
+    return render(request, 'updateParto.html', {'parto_form': form, 'id_cob': cobertura})
+
+@login_required
+def CoberturasPartos(request):
+
+    coberturas = Cobertura.objects.all().order_by('-id')
+    paginator = Paginator(coberturas, 5)
+
+    page = request.GET.get('page')
+
+    try:
+        coberturas = paginator.page(page)
+    except PageNotAnInteger:
+        coberturas = paginator.page(1)
+    except EmptyPage:
+        coberturas = paginator.page(paginator.num_pages)
+
+    return render(request, 'coberturas_partos.html', {'coberturas': coberturas})
 
 
 @login_required
-def Relatorios(request):
+def RelatoriosProducao(request):
 
-    # producao = Producao.objects.filter(id_cabra=pk)
-    producao = Producao.objects.all()
-    dia = [obj.data_producao.day for obj in producao]
-    mes = [obj.data_producao.month for obj in producao]
-    manha = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
-    print(mes)
+    if(request.method == 'POST'):
+        cabra = request.POST.get('cabra')
+        inicio = request.POST.get('inicio')
+        fim = request.POST.get('fim')
 
-    lista = list(set(dia)) #tira valor repetido
+        if(cabra != '0'):
+            producao = Producao.objects.filter(id_cabra_id=cabra).filter(data_producao__range=(inicio, fim))
+        else:
+            producao = Producao.objects.filter(data_producao__range=(inicio, fim))
+        
+
+        dia = [obj.data_producao.day for obj in producao]
+        prod = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
+
+        soma = sum(prod)
+                
+        grafico = {
+            'data_prod': dia,
+            'manha_prod': prod,
+        }
+
+        dados = {
+            'grafico': json.dumps(grafico),
+            'soma': soma,
+            'producao': producao
+        }
+
+        return render(request, 'relatorios.html', dados)
+
+    else:
+        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+
+        return render(request, 'relatorios_producao.html', {'cabras': cabras})
+
+
+@login_required
+def RelatoriosMedicacao(request):
+
+    if(request.method == 'POST'):
+        animal = request.POST.get('animal')
+        inicio = request.POST.get('inicio')
+        fim = request.POST.get('fim')
+
+        if(animal != '0'):
+            medicacoes = Medicacao.objects.filter(id_animal_id=animal).filter(data_medicacao__range=(inicio, fim))
+        else:
+            medicacoes = Medicacao.objects.filter(data_medicacao__range=(inicio, fim))
+
+        return render(request, 'medicacao.html', {'medicacoes': medicacoes})
+
+    else:
+
+        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+
+        return render(request, 'relatorios_medicacao.html', {'cabras': cabras})
     
-    grafico = {
-        'data_prod': lista,
-        'manha_prod': manha,
-    }
+@login_required
+def RelatoriosCobertura(request):
 
-    dados = {
-        'grafico': json.dumps(grafico)
-    }
+    if(request.method == 'POST'):
+        animal = request.POST.get('animal')
+        inicio = request.POST.get('inicio')
+        fim = request.POST.get('fim')
 
-    ano = [obj.data_producao.year for obj in producao]    
-    print(ano)
+        if(animal != '0'):
+            coberturas = Cobertura.objects.raw('select * from animais_cobertura '+
+                                            'inner join animais_statuscobertura on animais_cobertura.id = animais_statuscobertura.id_cobertura_id '+
+                                            'where animais_statuscobertura.id_cabra_id = '+animal+
+                                            ' and (animais_cobertura.inicio_cobertura >= "'+inicio+ '" and animais_cobertura.fim_cobertura <= "'+fim+ '");')
+            
+        else:
+            coberturas = Cobertura.objects.raw('select * from animais_cobertura '+
+                                            'inner join animais_statuscobertura on animais_cobertura.id = animais_statuscobertura.id_cobertura_id '+
+                                            'where animais_cobertura.inicio_cobertura >= "'+inicio+ '" and animais_cobertura.fim_cobertura <= "'+fim+ '";')
 
-    return render(request, 'relatorios.html', dados)
+        return render(request, 'cobertura.html', {'coberturas': coberturas})
 
-    # CODIGO DO JONATHAN
-    # queryset = Produto.objects.all()
-    # nomes = [obj.nome for obj in producao]
-    # precos = [float(obj.preco) for obj in producao]
+    else:
 
-    # SEPARA DIA DA DATA COMPLETA
-    # data = producao[0].data_producao
-    # print(data.day)
+        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
 
-    # CODIGO DO JONATHAN
-    # data = {
-    #     'nomes': json.dumps(nomes),
-    #     'precos': json.dumps(precos),
-    # }
-
-    # CODIGO DO JONATHAN
-    # data = JSON.parse({{ producao|safe }});
+        return render(request, 'relatorios_cobertura.html', {'cabras': cabras})
 
 @login_required
-def SetStatusCobertura(request):
+def RelatoriosParto(request):
 
-    StatusCobertura.objects.filter(id_cobertura=24).update(status_cobertura=1)
+    if(request.method == 'POST'):
+        animal = request.POST.get('cabra')
+        inicio = request.POST.get('inicio')
+        fim = request.POST.get('fim')
 
-    return redirect('/animais/mostra_coberturas')
+        if(animal != '0'):
+            partos = Parto.objects.filter(id_cabra_id=animal).filter(data_parto__range=(inicio, fim))
+        else:
+            partos = Parto.objects.filter(data_parto__range=(inicio, fim))
+
+        print(partos)
+        return render(request, 'parto.html', {'partos': partos})
+
+    else:
+
+        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+
+        return render(request, 'relatorios_parto.html', {'cabras': cabras})
+
+
+@login_required
+def RelatoriosDescarte(request):
+
+    if(request.method == 'POST'):
+        cabra = request.POST.get('cabra')
+        inicio = request.POST.get('inicio')
+        fim = request.POST.get('fim')
+
+        if(cabra != '0'):
+            producao = Producao.objects.filter(id_cabra_id=cabra).filter(data_producao__range=(inicio, fim)).filter(descarte_producao='1')
+        else:
+            producao = Producao.objects.filter(data_producao__range=(inicio, fim)).filter(descarte_producao='1')
+        
+
+        dia = [obj.data_producao.day for obj in producao]
+        prod = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
+
+        soma = sum(prod)
+                
+        grafico = {
+            'data_prod': dia,
+            'manha_prod': prod,
+        }
+
+        dados = {
+            'grafico': json.dumps(grafico),
+            'soma': soma,
+            'producao': producao
+        }
+
+        return render(request, 'descarte.html', dados)
+
+    else:
+        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+
+        return render(request, 'relatorios_descarte.html', {'cabras': cabras})
+
+
+@login_required
+def Categorias(request):
+
+    return render(request, 'categorias.html')
+
+@login_required
+def SetStatusCobertura(request, id_cab, valor, id_cob):
+
+    StatusCobertura.objects.filter(id_cobertura=id_cob).filter(id_cabra=id_cab).update(status_cobertura=valor)
+
+    return redirect('/animais/atualiza_cobertura/{}'.format(id_cob))

@@ -36,6 +36,23 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Cadastro de Produção</h4>
@@ -46,14 +63,30 @@
                             <div class="row">
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Data</label>
+                                        <label>Data</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Selecione a data da pesagem do leite"></i>
                                         {{ producao_form.data_producao }}
+                                        <input type="hidden" name="id_cabra" value="{{ cabra.id }}">
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
-                                <div class="col-md-4 px-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Peso Manhã</label>
+                                        <label>Descarte</label>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" name="descarte_producao" value="1">
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pr-1">
+                                    <div class="form-group">
+                                        <label>Peso Manhã</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Digite a pesagem do leite separada por '.' Exemplo: 1.2"></i>
                                         {{ producao_form.manha_producao }}
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
@@ -61,15 +94,15 @@
 
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Peso tarde</label>
+                                        <label>Peso tarde</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Digite a pesagem do leite separada por '.' Exemplo: 1.2"></i>
                                         {{ producao_form.tarde_producao }}
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
                             </div>
                              {% comment %} {{ producao_form.id_cabra }} {% endcomment %}
-                             
-                            <input type="hidden" name="id_cabra" value="{{cabra.id}}">
+                            
                             <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
                             <div class="clearfix"></div>
                         </form>

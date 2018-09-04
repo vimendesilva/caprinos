@@ -4,8 +4,6 @@ from . import models
 class CreateAnimais(forms.ModelForm):
     SEXO = (('f', 'Feminino'), ('m', 'Masculino'))
 
-    CHIFRE = (('s', 'Sim'), ('n', 'Não'))
-
     VIDA = (('s', 'Sim'), ('n', 'Não'))
 
     RACAS = (
@@ -22,18 +20,19 @@ class CreateAnimais(forms.ModelForm):
         ('15/16', '15/16 Sangue'),
         ('31/32', '31/32 Sangue'),
     )
-    rgb_animal = forms.CharField(label='RGB', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'RGB do Animal'}))
-    nome_animal = forms.CharField(label='Nome', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do Animal'}))
-    numero_animal = forms.IntegerField(required=True, label='Numero', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número do Animal'}))
+    rgb_animal = forms.CharField(required=False, label='RGB', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'RGB do Animal'}))
+    nome_animal = forms.CharField(required=False, label='Nome', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do Animal'}))
+    numero_animal = forms.IntegerField(required=False, label='Numero', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número do Animal'}))
     sexo_animal = forms.ChoiceField(required=True, label='Sexo', widget=forms.Select(attrs={'class': 'form-control'}), choices=SEXO)
-    nascimento_animal = forms.DateField(label='Nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Nascimento do Animal', 'type': 'date'}))
+    nascimento_animal = forms.DateField(required=True, label='Nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Nascimento do Animal', 'type': 'date'}))
     raca_animal = forms.ChoiceField(required=True, label='Raça', widget=forms.Select(attrs={'class': 'form-control'}), choices=RACAS)
-    sangue_animal = forms.ChoiceField(label='Sangue', widget=forms.Select(attrs={'class': 'form-control'}), choices=SANGUE)
-    brincos_animal = forms.CharField(label='Brincos', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Brincos'}))
-    chifres_animal = forms.ChoiceField(label='Chifres', widget=forms.Select(attrs={'class': 'form-control'}), choices=CHIFRE)
-    vida_animal = forms.ChoiceField(label='Vida', widget=forms.Select(attrs={'class': 'form-control'}), choices=VIDA)
-    observacao_animal = forms.CharField(label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
-    id_fazenda = forms.ModelChoiceField(label='Fazenda', queryset=models.Fazenda.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class':'form-control'}))
+    sangue_animal = forms.ChoiceField(required=True, label='Sangue', widget=forms.Select(attrs={'class': 'form-control'}), choices=SANGUE)
+    brincos_animal = forms.CharField(required=True, label='Brincos', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Brincos'}))
+    vida_animal = forms.ChoiceField(required=True, label='Vida', widget=forms.Select(attrs={'class': 'form-control'}), choices=VIDA)
+    mae_animal = forms.ModelChoiceField(required=False, label='Mãe', queryset=models.Animal.objects.all().filter(sexo_animal='f').filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+    pai_animal = forms.ModelChoiceField(required=False, label='Pai', queryset=models.Animal.objects.all().filter(sexo_animal='m').filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+    observacao_animal = forms.CharField(required=False, label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
+    foto_animal = forms.ImageField(required=False, label='Foto do animal')
 
     class Meta():
         model = models.Animal 
@@ -42,11 +41,11 @@ class CreateAnimais(forms.ModelForm):
 
 class CreateCoberturas(forms.ModelForm):
 
-    inicio_cobertura = forms.DateField(label='Inicio', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Início de Cobertura', 'type': 'date'}))
-    fim_cobertura = forms.DateField(label='Fim', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fim de Cobertura', 'type': 'date'}))
-    id_cabra = forms.ModelMultipleChoiceField(label='Cabra', required=False, queryset=models.Animal.objects.all(
-    ).filter(sexo_animal='f'), to_field_name='id', widget=forms.SelectMultiple(attrs={'class': 'js-example-basic-multiple form-control'}))
-    id_bode = forms.ModelChoiceField(label='Bode', queryset=models.Animal.objects.all().filter(sexo_animal='m'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+    inicio_cobertura = forms.DateField(required=True, label='Inicio', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Início de Cobertura', 'type': 'date'}))
+    fim_cobertura = forms.DateField(required=True, label='Fim', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fim de Cobertura', 'type': 'date'}))
+    id_cabra = forms.ModelMultipleChoiceField(required=True, label='Cabra', queryset=models.Animal.objects.all(
+    ).filter(sexo_animal='f').filter(vida_animal='s'), to_field_name='id', widget=forms.SelectMultiple(attrs={'class': 'js-example-basic-multiple form-control'}))
+    id_bode = forms.ModelChoiceField(required=True, label='Bode', queryset=models.Animal.objects.all().filter(sexo_animal='m').filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta():
         model = models.Cobertura
@@ -69,17 +68,60 @@ class CreateCoberturas(forms.ModelForm):
             status_cobertura.save()
         
 
-
 class CreateProducao(forms.ModelForm):
 
-    data_producao = forms.DateField(label='Data', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Produção', 'type': 'date'}))
-    manha_producao = forms.CharField(label='Peso Manhã', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Peso Manhã'}))
-    tarde_producao = forms.CharField(label='Peso Tarde', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Peso Tarde'}))
-      
+    data_producao = forms.DateField(required=True, label='Data', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Produção', 'type': 'date'}))
+    manha_producao = forms.CharField(required=True, label='Peso Manhã', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Peso Manhã'}))
+    tarde_producao = forms.CharField(required=True, label='Peso Tarde', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Peso Tarde'}))
+          
 
     class Meta():
         model = models.Producao
-        fields = ['data_producao', 'manha_producao', 'tarde_producao']
+        fields = ['data_producao', 'manha_producao', 'tarde_producao', 'id_cabra', 'descarte_producao']
 
-        
 
+class CreateMedicacao(forms.ModelForm):
+
+    TIPO = (
+        ('1', 'Antibiótico'),
+        ('2', 'Vacina'),
+        ('3', 'Anti-inflamatório'),
+        ('4', 'Vermífugo'),
+        ('5', 'Outros'),
+    )
+
+    id_animal = forms.ModelChoiceField(required=True, label='Animal', queryset=models.Animal.objects.all().filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+    medicacao = forms.ChoiceField(required=True, label='Medicação', widget=forms.Select(attrs={'class': 'form-control'}), choices=TIPO)
+    data_medicacao = forms.DateField(required=True, label='Data de Aplicação', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Aplicação', 'type': 'date'}))
+    observacao_medicacao = forms.CharField(required=False, label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
+    inicio_carencia = forms.DateField(required=False, label='Início Carência', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Início Carência', 'type': 'date'}))
+    fim_carencia = forms.DateField(required=False, label='Fim Carência', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fim Carência', 'type': 'date'}))
+
+    class Meta():
+        model = models.Medicacao  
+        fields = '__all__'  
+
+class CreateParto(forms.ModelForm):
+
+    TIPO = (
+        ('1', 'Simples'),
+        ('2', 'Duplo'),
+        ('3', 'Triplo'),
+        ('4', 'Quadruplo'),
+    )
+
+    data_parto = forms.DateField(required=True, label='Data de Parto', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Parto', 'type': 'date'}))
+    tipo_parto = forms.ChoiceField(required=True, label='Tipo de Parto', widget=forms.Select(attrs={'class': 'form-control'}), choices=TIPO)
+    vivos_parto = forms.IntegerField(required=False, label='Vivos', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Vivos'}))
+    observacao_parto = forms.CharField(required=False, label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
+    id_cabra = forms.ModelChoiceField(required=True, label='Animal', queryset=models.Animal.objects.all().filter(vida_animal='s').filter(sexo_animal='f'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta():
+        model = models.Parto  
+        fields = '__all__' 
+
+class Relatorio(forms.ModelForm):
+    id_cabra = forms.ModelChoiceField(required=True, label='Animal', queryset=models.Animal.objects.all().filter(vida_animal='s').filter(sexo_animal='f'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta():
+        fields = '__all__'

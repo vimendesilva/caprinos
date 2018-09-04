@@ -35,11 +35,27 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-
+            <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-md-12">
                 <div class="card strpied-tabled-with-hover">
                     <div class="card-header ">
-                        <h4 class="card-title">Produção Cadastrada</h4>
+                        <h4 class="card-title">Produções Cadastradas</h4>
                         {% comment %}
                         <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
                     </div>
@@ -59,7 +75,7 @@
                                     <td>{{ p.manha_producao }}</td>
                                     <td>{{ p.tarde_producao }}</td>
                                     {% comment %} <td>{{ cabra }}</td> {% endcomment %}
-                                    <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Atualiza_Producao' p.id %}" title="Editar">Editar</a></td>
+                                    <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Atualiza_Producao' id_prod=p.id id_cabra=cabra %}" title="Editar">Editar</a></td>
                                     <td><a class="btn btn-danger btn-fill btn-wd" href="{% url 'caprino.animais:Delete_Producao' p.id %}" title="Apagar">Apagar</a></td>
                                 </tr>
                                 {% endfor %}

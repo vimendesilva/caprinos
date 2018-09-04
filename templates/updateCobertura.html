@@ -40,6 +40,23 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Atualizar Cobertura</h4>
@@ -51,15 +68,33 @@
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
                                         <label>Início</label>
-                                        {{ cobertura_form.inicio_cobertura }}
+                                        <!-- {{ cobertura_form.inicio_cobertura }} -->
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
+                                        {% if cobertura_form.inicio_cobertura.value.day < 10 and cobertura_form.inicio_cobertura.value.month < 10 %}
+                                            <input name="inicio_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.inicio_cobertura.value.year }}-0{{ cobertura_form.inicio_cobertura.value.month }}-0{{ cobertura_form.inicio_cobertura.value.day }}">
+                                        {% elif cobertura_form.inicio_cobertura.value.day < 10 and cobertura_form.inicio_cobertura.value.month >= 10 %}
+                                            <input name="inicio_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.inicio_cobertura.value.year }}-{{ cobertura_form.inicio_cobertura.value.month }}-0{{ cobertura_form.inicio_cobertura.value.day }}">
+                                        {% elif cobertura_form.inicio_cobertura.value.day >= 10 and cobertura_form.inicio_cobertura.value.month < 10 %}
+                                            <input name="inicio_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.inicio_cobertura.value.year }}-0{{ cobertura_form.inicio_cobertura.value.month }}-{{ cobertura_form.inicio_cobertura.value.day }}">
+                                        {% else %}
+                                            <input name="inicio_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.inicio_cobertura.value.year }}-{{ cobertura_form.inicio_cobertura.value.month }}-{{ cobertura_form.inicio_cobertura.value.day }}">
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-4 px-1">
                                     <div class="form-group">
                                         <label>Fim</label>
-                                        {{ cobertura_form.fim_cobertura }}
+                                        <!-- {{ cobertura_form.fim_cobertura }} -->
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
+                                        {% if cobertura_form.fim_cobertura.value.day < 10 and cobertura_form.fim_cobertura.value.month < 10 %}
+                                            <input name="fim_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.fim_cobertura.value.year }}-0{{ cobertura_form.fim_cobertura.value.month }}-0{{ cobertura_form.fim_cobertura.value.day }}">
+                                        {% elif cobertura_form.fim_cobertura.value.day < 10 and cobertura_form.fim_cobertura.value.month >= 10 %}
+                                            <input name="fim_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.fim_cobertura.value.year }}-{{ cobertura_form.fim_cobertura.value.month }}-0{{ cobertura_form.fim_cobertura.value.day }}">
+                                        {% elif cobertura_form.fim_cobertura.value.day >= 10 and cobertura_form.fim_cobertura.value.month < 10 %}
+                                            <input name="fim_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.fim_cobertura.value.year }}-0{{ cobertura_form.fim_cobertura.value.month }}-{{ cobertura_form.fim_cobertura.value.day }}">
+                                        {% else %}
+                                            <input name="fim_cobertura" type="date" class="form-control" placeholder="Company" value="{{ cobertura_form.fim_cobertura.value.year }}-{{ cobertura_form.fim_cobertura.value.month }}-{{ cobertura_form.fim_cobertura.value.day }}">
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-4 px-1">
@@ -103,21 +138,21 @@
                                     <tr>
                                         <td>{{ cabra.id_cabra }}</td>
                                         {% if cabra.status_cobertura == '1' %}
-                                            <td>Sim</td>
+                                            <td>Positivo</td>
                                         {% elif cabra.status_cobertura == '0' %}
-                                            <td>Não</td>
+                                            <td>Negativo</td>
                                         {% else %}
                                             <td>Sem registro</td>
                                         {% endif %}
                                         <td>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <a href="{% url 'caprino.animais:StatusCobertura'%}" title="Positivo">
+                                                    <a href="{% url 'caprino.animais:StatusCobertura' id_cab=cabra.id_cabra_id valor=1 id_cob=cob%}" title="Positivo">
                                                         <i class="fa fa-thumbs-up fa-lg text-success"></i>
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a href="{% url 'caprino.animais:StatusCobertura'%}" title="Negativo">
+                                                    <a href="{% url 'caprino.animais:StatusCobertura' id_cab=cabra.id_cabra_id valor=0 id_cob=cob%}" title="Negativo">
                                                         <i class="fa fa-thumbs-down fa-lg text-danger"></i>
                                                     </a>
                                                 </div>
@@ -127,6 +162,7 @@
                                     {% endfor %}
                             </tbody>
                         </table>
+                        
                     </div>
                 </div>
             </div>

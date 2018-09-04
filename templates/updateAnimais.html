@@ -36,107 +36,149 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Atualizar Animal</h4>
                     </div>
                     <div class="card-body">
-                        <form method="POST">
+                        <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
+                            {% if animais_form.foto_animal.value %} <!--adicionar opção de inserir foto-->
+                            <img src="{{ MEDIA_URL }}{{ animais_form.foto_animal.value }}">
+                            {% else %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Foto do animal</label>
+                                        {{ animais_form.foto_animal }}
+                                        <!-- <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea> -->
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
                             <div class="row">
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
                                         <label>RGB</label>
-                                        {{ animais_form.rgb_animal }}
+                                         {{ animais_form.rgb_animal }}
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
                                 <div class="col-md-3 px-1">
                                     <div class="form-group">
                                         <label>Nome</label>
-                                        {{ animais_form.nome_animal }}
+                                         {{ animais_form.nome_animal }}
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Número</label>
-                                        {{ animais_form.numero_animal }}
+                                        <label>Número</label>
+                                         {{ animais_form.numero_animal }}
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 pr-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Nascimento</label>
-                                        {{ animais_form.nascimento_animal }}
-                                        <!-- <input type="text" class="form-control" placeholder="Company" value="Mike"> -->
-                                    </div>
-                                </div>
-                                <div class="col-md-6 pl-1">
-                                    <div class="form-group">
-                                        <label>Raça</label>
-                                        {{ animais_form.raca_animal }}
-                                        <!-- <input type="text" class="form-control" placeholder="Last Name" value="Andrew"> -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Sangue</label>
-                                        {{ animais_form.sangue_animal }}
-                                        <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"> -->
-                                    </div>
-                                </div>
-                                <div class="col-md-6 pr-1">
-                                    <div class="form-group">
-                                        <label>Brincos</label>
-                                        {{ animais_form.brincos_animal }}
-                                        <!-- <input type="text" class="form-control" placeholder="City" value="Mike"> -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Chifres</label>
-                                        {{ animais_form.chifres_animal }}
-                                        <!-- <input type="text" class="form-control" placeholder="Country" value="Andrew"> -->
+                                        <label>Nascimento</label><span style="color: red">*</span>
+                                        <!-- {{ animais_form.nascimento_animal }} -->
+                                        <!--fazer mostrar um 0 (zero) se o dia ou mes for menor do que 10-->
+                                        {% if animais_form.nascimento_animal.value.day < 10 and animais_form.nascimento_animal.value.month < 10 %}
+                                            <input name="nascimento_animal" type="date" class="form-control" placeholder="Company" value="{{ animais_form.nascimento_animal.value.year }}-0{{ animais_form.nascimento_animal.value.month }}-0{{ animais_form.nascimento_animal.value.day }}">
+                                        {% elif animais_form.nascimento_animal.value.day < 10 and animais_form.nascimento_animal.value.month >= 10 %}
+                                            <input name="nascimento_animal" type="date" class="form-control" placeholder="Company" value="{{ animais_form.nascimento_animal.value.year }}-{{ animais_form.nascimento_animal.value.month }}-0{{ animais_form.nascimento_animal.value.day }}">
+                                        {% elif animais_form.nascimento_animal.value.day >= 10 and animais_form.nascimento_animal.value.month < 10 %}
+                                            <input name="nascimento_animal" type="date" class="form-control" placeholder="Company" value="{{ animais_form.nascimento_animal.value.year }}-0{{ animais_form.nascimento_animal.value.month }}-{{ animais_form.nascimento_animal.value.day }}">
+                                        {% else %}
+                                            <input name="nascimento_animal" type="date" class="form-control" placeholder="Company" value="{{ animais_form.nascimento_animal.value.year }}-{{ animais_form.nascimento_animal.value.month }}-{{ animais_form.nascimento_animal.value.day }}">
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label>Vida</label>
+                                        <label>Raça</label><span style="color: red">*</span>
+                                        {{ animais_form.raca_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Last Name" value="Andrew"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Sangue</label><span style="color: red">*</span>
+                                        {{ animais_form.sangue_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pr-1">
+                                    <div class="form-group">
+                                        <label>Brincos</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Informe a identificação presente no Brinco do animal"></i>
+                                        {{ animais_form.brincos_animal }}
+                                        <!-- <input type="text" class="form-control" placeholder="City" value="Mike"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Vida</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Informe se o animal está Vivo ou Morto"></i>
                                         {{ animais_form.vida_animal }}
                                         <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label>Sexo</label>
+                                        <label>Sexo</label><span style="color: red">*</span>
                                         {{ animais_form.sexo_animal }}
                                         <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Mãe</label>
+                                        {{ animais_form.mae_animal }}
+                                        <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Pai</label>
+                                        {{ animais_form.pai_animal }}
+                                        <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Observação</label>
                                         {{ animais_form.observacao_animal }}
                                         <!-- <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea> -->
                                     </div>
                                 </div>
-                                <div class="col-md-4 pl-1">
-                                    <div class="form-group">
-                                        <label>Fazenda</label>
-                                        {{ animais_form.id_fazenda }}
-                                        <!-- <input type="number" class="form-control" placeholder="ZIP Code"> -->
-                                    </div>
-                                </div>
                             </div>
+                            <!-- {{ animais_form.foto_animal }} -->
                             <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
                             <div class="clearfix"></div>
                         </form>

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+<!-- usando base.html como base -->
+{% block conteudo %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+    <div class=" container-fluid  ">
+        <a class="navbar-brand" href="#pablo"> Relatórios </a>
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <span class="d-lg-none">Relatórios</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caprino.contas:Sair' %}">
+                        <span class="no-icon">SAIR</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card ">
+                    <div class="card-header ">
+                        <h4 class="card-title">Relatório Descarte Produção Leiteira</h4>
+                        <!-- <p class="card-category">Dias e pesos do leite</p> -->
+                    </div>
+                    <div class="card-body ">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="card-footer ">
+                        <hr>
+                        <div style="float: right;">
+                            <i class="fa fa-clock-o"></i> Produção Total: {{ soma }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="card strpied-tabled-with-hover">
+                        <div class="card-header ">
+                            <h4 class="card-title">Descartes</h4>
+                            {% comment %}
+                            <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                        </div>
+                        <div class="card-body table-full-width table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>  
+                                    <tr>
+                                        <th>Cabra</th>
+                                        <th>Data Produção</th>
+                                        {% comment %} <th>Cabra</th> {% endcomment %}
+                                        <th>Manhã Produção</th>
+                                        <th>Tarde Produção</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in producao %}
+                                    <tr>
+                                        <td>{{ p.id_cabra_id }}</td>
+                                        <td>{{ p.data_producao }}</td>
+                                        <td>{{ p.manha_producao }}</td> 
+                                        <td>{{ p.tarde_producao }}</td> 
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var grafico = JSON.parse('{{ grafico|safe }}');
+
+    var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+        // The data for our dataset
+        data: {
+            labels: grafico.data_prod,
+            datasets: [{
+                label: "Curva Produção",
+                backgroundColor: 'rgb(255,165,0)',
+                borderColor: 'rgb(255,140,0)',
+                data: grafico.manha_prod,
+            }]
+        },
+        // Configuration options go here
+        options: {
+				responsive: true,
+				
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Dias do mês'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Produção (em kg)'
+						}
+					}]
+				}
+			}
+    });
+
+    
+</script> {% endblock %}

@@ -33,86 +33,12 @@
 <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card ">
-                        <div class="card-header ">
-                            <h4 class="card-title">Email Statistics</h4>
-                            <p class="card-category">Last Campaign Performance</p>
-                        </div>
-                        <div class="card-body ">
-                            <canvas id="myChart"></canvas>
-                        </div>
-                        <div class="card-footer ">
-                            <!-- <hr>
-                            <div class="stats">
-                                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
-                            </div> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card ">
-                        <div class="card-header ">
-                            <h4 class="card-title">Email Statistics</h4>
-                            <p class="card-category">Last Campaign Performance</p>
-                        </div>
-                        <div class="card-body ">
-                            <canvas id="myChart1"></canvas>
-                        </div>
-                        <div class="card-footer ">
-                            <!-- <hr>
-                                            <div class="stats">
-                                                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
-                                            </div> -->
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
 
-        // The data for our dataset
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: "My First dataset",
-                backgroundColor: 'rgb(255,165,0)',
-                borderColor: 'rgb(255,140,0)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        },
-
-        // Configuration options go here
-        options: {}
-    });
-
-    var c = document.getElementById('myChart1').getContext('2d');
-    var ch = new Chart(c, {
-        // The type of chart we want to create
-        type: 'line',
-
-        // The data for our dataset
-        data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [{
-                label: "My First dataset",
-                backgroundColor: 'rgb(50,205,50)',
-                borderColor: 'rgb(34,139,34)',
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }]
-        },
-
-        // Configuration options go here
-        options: {}
-    });
-</script>
 {% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+<!-- usando base.html como base -->
+{% block conteudo %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+    <div class=" container-fluid  ">
+        <a class="navbar-brand" href="#pablo">Coberturas </a>
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <span class="d-lg-none">Coberturas</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caprino.contas:Sair' %}">
+                        <span class="no-icon">SAIR</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">Coberturas</h4>
+                        {% comment %}
+                        <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Início</th>
+                                    <th>Fim</th>
+                                    {% comment %} <th>Cabra</th> {% endcomment %}
+                                    <th>Bode</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cobertura in coberturas %}
+                                <tr>
+                                    <td>{{ cobertura.inicio_cobertura }}</td>
+                                    <td>{{ cobertura.fim_cobertura }}</td>
+                                    <td>{{ cobertura.id_bode_id }}</td> <!--colocar pelo brinco -->
+                                    {% comment %} <td>{{ cobertura.id_cabra_id }}</td> {% endcomment %}
+                                    <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Mostra_Parto' cobertura.id %}" title="Novo Parto">Novo Parto</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if coberturas.has_other_pages %}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if coberturas.has_previous %}
+                                    <li class="page-link"><a href="?page={{ coberturas.previous_page_number }}">&laquo;</a></li>
+                                {% else %}
+                                    <li class="page-link disabled"><span>&laquo;</span></li>
+                                {% endif %}
+                                {% for i in coberturas.paginator.page_range %}
+                                    {% if coberturas.number == i %}
+                                        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if coberturas.has_next %}
+                                    <li class="page-link"><a href="?page={{ coberturas.next_page_number }}">&raquo;</a></li>
+                                {% else %}
+                                    <li class="page-link disabled"><span>&raquo;</span></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

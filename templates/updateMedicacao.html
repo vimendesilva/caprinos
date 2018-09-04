@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+<!-- usando base.html como base -->
+{% block conteudo %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " color-on-scroll="500">
+    <div class=" container-fluid  ">
+        <a class="navbar-brand" href="#pablo"> Medicações </a>
+        <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+            <span class="navbar-toggler-bar burger-lines"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <span class="d-lg-none"> Medicações</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'caprino.contas:Sair' %}">
+                        <span class="no-icon">SAIR</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {#  Mensagens de erro  #}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>   
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Atualizar Medicação</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %} 
+                            <div class="row">
+                                <div class="col-md-5 pr-1">
+                                    <div class="form-group">
+                                        <label>Animal</label>
+                                         {{ medicacao_form.id_animal }}
+                                        <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-3 px-1">
+                                    <div class="form-group">
+                                        <label>Medicação</label>
+                                        {{ medicacao_form.medicacao }} 
+                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-4 pl-1">
+                                    <div class="form-group">
+                                        <label>Data de Aplicação</label>
+                                        <!-- {{ medicacao_form.data_medicacao }}  -->
+                                        <!-- <input type="email" class="form-control" placeholder="Email"> -->
+                                        {% if medicacao_form.data_medicacao.value.day < 10 and medicacao_form.data_medicacao.value.month < 10 %}
+                                            <input name="data_medicacao" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.data_medicacao.value.year }}-0{{ medicacao_form.data_medicacao.value.month }}-0{{ medicacao_form.data_medicacao.value.day }}">
+                                        {% elif medicacao_form.data_medicacao.value.day < 10 and medicacao_form.data_medicacao.value.month >= 10 %}
+                                            <input name="data_medicacao" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.data_medicacao.value.year }}-{{ medicacao_form.data_medicacao.value.month }}-0{{ medicacao_form.data_medicacao.value.day }}">
+                                        {% elif medicacao_form.data_medicacao.value.day >= 10 and medicacao_form.data_medicacao.value.month < 10 %}
+                                            <input name="data_medicacao" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.data_medicacao.value.year }}-0{{ medicacao_form.data_medicacao.value.month }}-{{ medicacao_form.data_medicacao.value.day }}">
+                                        {% else %}
+                                            <input name="data_medicacao" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.data_medicacao.value.year }}-{{ medicacao_form.data_medicacao.value.month }}-{{ medicacao_form.data_medicacao.value.day }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Início Período de carência</label><span style="color: red">*</span>
+                                        <!-- {{ medicacao_form.inicio_carencia }}   -->
+                                        <!-- <input type="text" class="form-control" placeholder="Company" value="Mike"> -->
+                                        {% if medicacao_form.inicio_carencia.value.day < 10 and medicacao_form.inicio_carencia.value.month < 10 %}
+                                            <input name="inicio_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.inicio_carencia.value.year }}-0{{ medicacao_form.inicio_carencia.value.month }}-0{{ medicacao_form.inicio_carencia.value.day }}">
+                                        {% elif medicacao_form.inicio_carencia.value.day < 10 and medicacao_form.inicio_carencia.value.month >= 10 %}
+                                            <input name="inicio_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.inicio_carencia.value.year }}-{{ medicacao_form.inicio_carencia.value.month }}-0{{ medicacao_form.inicio_carencia.value.day }}">
+                                        {% elif medicacao_form.inicio_carencia.value.day >= 10 and medicacao_form.inicio_carencia.value.month < 10 %}
+                                            <input name="inicio_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.inicio_carencia.value.year }}-0{{ medicacao_form.inicio_carencia.value.month }}-{{ medicacao_form.inicio_carencia.value.day }}">
+                                        {% else %}
+                                            <input name="inicio_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.inicio_carencia.value.year }}-{{ medicacao_form.inicio_carencia.value.month }}-{{ medicacao_form.inicio_carencia.value.day }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Fim Período de carência</label><span style="color: red">*</span>
+                                        <!-- {{ medicacao_form.fim_carencia }}  -->
+                                        {% if medicacao_form.fim_carencia.value.day < 10 and medicacao_form.fim_carencia.value.month < 10 %}
+                                            <input name="fim_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.fim_carencia.value.year }}-0{{ medicacao_form.fim_carencia.value.month }}-0{{ medicacao_form.fim_carencia.value.day }}">
+                                        {% elif medicacao_form.fim_carencia.value.day < 10 and medicacao_form.fim_carencia.value.month >= 10 %}
+                                            <input name="fim_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.fim_carencia.value.year }}-{{ medicacao_form.fim_carencia.value.month }}-0{{ medicacao_form.fim_carencia.value.day }}">
+                                        {% elif medicacao_form.fim_carencia.value.day >= 10 and medicacao_form.fim_carencia.value.month < 10 %}
+                                            <input name="fim_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.fim_carencia.value.year }}-0{{ medicacao_form.fim_carencia.value.month }}-{{ medicacao_form.fim_carencia.value.day }}">
+                                        {% else %}
+                                            <input name="fim_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.fim_carencia.value.year }}-{{ medicacao_form.fim_carencia.value.month }}-{{ medicacao_form.fim_carencia.value.day }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Observação</label>
+                                        {{ medicacao_form.observacao_medicacao }} 
+                                        <!-- <input type="email" class="form-control" placeholder="Email"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
