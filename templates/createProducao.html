@@ -37,9 +37,10 @@
         <div class="row">
             <div class="col-md-12">
                 {#  Mensagens de erro  #}
+                <div id="alerts" class="alert alert-dismissible fade show" role="alert" hidden></div>
                 {% if messages %}
                     {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <div id="alerts_div" class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                             {{ message }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -66,7 +67,7 @@
                                         <label>Data</label><span style="color: red">*</span>
                                         <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Selecione a data da pesagem do leite"></i>
                                         {{ producao_form.data_producao }}
-                                        <input type="hidden" name="id_cabra" value="{{ cabra.id }}">
+                                        <input type="hidden" name="id_cabra" id="id_cabra" value="{{ cabra.id }}">
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
@@ -113,4 +114,24 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            $('#id_data_producao').change(function (){
+                const data_producao = $(this).val();
+                const id_cabra = $('#id_cabra').val(); 
+
+                $.get(`/animais/verifica_periodo_carencia/${id_cabra}/${data_producao}`, 
+                function (data) {
+                    if (data.ok === false) {
+                        $('#alerts').html(data.msg);
+                        $('#alerts').addClass('alert-danger');
+                        $('#alerts').attr('hidden', false);
+                    }
+                })
+            })
+        });
+    </script>
 {% endblock %}

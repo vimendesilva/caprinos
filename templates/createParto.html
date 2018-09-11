@@ -94,7 +94,12 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cabra</label>
-                                        {{ parto_form.id_cabra }} 
+                                        <select class="form-control" name="id_cabra">
+                                            <option value="0">Selecione uma opção</option>
+                                            {% for c in cabras %}
+                                                <option value="{{ c.id }}">{{ c.brincos_animal }}</option>
+                                            {% endfor %}
+                                        </select>
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                     </div>
                                 </div>

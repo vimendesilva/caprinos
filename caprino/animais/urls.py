@@ -9,6 +9,7 @@ urlpatterns = [
     path('apaga_animal/<int:pk>/', views.DeleteAnimal, name='Apaga_Animal'),
     path('mostra_animal/', views.MostraAnimal, name='Mostra_Animal'),
     path('atualiza_animal/<int:pk>', views.UpdateAnimal, name='Atualiza_Animal'),
+    path('verifica_periodo_carencia/<int:id_cabra>/<str:data_producao>/', views.VerificaPeriodoCarencia, name='Verifica Periodo de Carencia'),
 
     path('nova_cobertura/', views.CreateCobertura, name='Nova_Cobertura'),
     path('mostra_coberturas/', views.MostraCoberturas, name='Mostra_Coberturas'),

@@ -4,7 +4,7 @@ from . import forms
 from .models import Animal, Cobertura, Producao, StatusCobertura, Medicacao, Parto
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 
 import datetime
 import json
@@ -84,9 +84,13 @@ def CreateParto(request, pk):
             return redirect('/animais/coberturas_partos')
 
     else:
+        cabras = Animal.objects.raw('select * from animais_animal'+ 
+                                            ' inner join animais_statuscobertura on animais_animal.id = animais_statuscobertura.id_cabra_id'+
+                                            ' inner join animais_cobertura on animais_statuscobertura.id_cobertura_id = animais_cobertura.id'+
+                                            ' where animais_cobertura.id = '+ str(pk) +' and animais_statuscobertura.status_cobertura = "1"')
         form = forms.CreateParto()
 
-    return render(request, 'createParto.html', {'parto_form': form, 'id_cob': pk})
+    return render(request, 'createParto.html', {'parto_form': form, 'id_cob': pk, 'cabras': cabras})
 
 
 @login_required
@@ -320,8 +324,12 @@ def UpdateParto(request, id_parto, id_cob):
     else:
         form = forms.CreateParto(instance=parto)
         cobertura = Cobertura.objects.get(pk=id_cob)
+        cabras = Animal.objects.raw('select * from animais_animal'+ 
+                                            ' inner join animais_statuscobertura on animais_animal.id = animais_statuscobertura.id_cabra_id'+
+                                            ' inner join animais_cobertura on animais_statuscobertura.id_cobertura_id = animais_cobertura.id'+
+                                            ' where animais_cobertura.id = '+ str(id_cob) +' and animais_statuscobertura.status_cobertura = "1"')
 
-    return render(request, 'updateParto.html', {'parto_form': form, 'id_cob': cobertura})
+    return render(request, 'updateParto.html', {'parto_form': form, 'id_cob': cobertura, 'cabras': cabras})
 
 @login_required
 def CoberturasPartos(request):
@@ -499,3 +507,79 @@ def SetStatusCobertura(request, id_cab, valor, id_cob):
     StatusCobertura.objects.filter(id_cobertura=id_cob).filter(id_cabra=id_cab).update(status_cobertura=valor)
 
     return redirect('/animais/atualiza_cobertura/{}'.format(id_cob))
+
+
+@login_required
+def VerificaPeriodoCarencia(request, id_cabra, data_producao):
+
+    query = 'SELECT id FROM animais_medicacao WHERE id_animal_id = ' + str(id_cabra) + ' AND "' + data_producao + '" BETWEEN inicio_carencia AND fim_carencia;'
+
+    try:
+        resposta = Medicacao.objects.raw(query)[0]
+
+        response = {
+            'ok': False,
+            'msg': 'Animal no período de carência' 
+        }
+    except:
+        response = {
+            'ok': True
+        }
+    
+    return JsonResponse(response)
+
+
+@login_required
+def download_pdf(request, trabalho_id):
+
+    trabalho = get_object_or_404(models.Trabalho, pk=trabalho_id)
+
+    if trabalho.usuario == request.user:
+
+        utils.gerar_pdf(request, trabalho)
+
+        try:
+            pdf = open(trabalho.pdf, "rb")
+            response = HttpResponse(FileWrapper(pdf), content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename=Trabalho.pdf'
+            pdf.close()
+
+            return response
+        except:
+            raise 'Não foi possivel gerar o pdf!'
+    else:
+        raise Http404('Trabalho não encontrado!')
+
+def gerar_pdf(request, trabalho):
+    path = os.path.join(settings.BASE_DIR, 'media/trabalhos', str(request.user.id), str(trabalho.id))
+
+    try:
+        temp = os.path.join(path, 'temp')
+        os.makedirs(temp)
+    except:
+        pass
+
+    try:
+        monta_preambulo(request, trabalho.id)
+
+        monta_dedicatoria(request, trabalho.id)
+        monta_agradecimentos(request, trabalho.id)
+        # monta_epigrafe(request, trabalho.id)
+        monta_resumo(request, trabalho.id)
+        monta_abstract(request, trabalho.id)
+
+        monta_introducao(request, trabalho.id)
+        monta_revisao_literatura(request, trabalho.id)
+        monta_metodologia(request, trabalho.id)
+        monta_resultados_discussao(request, trabalho.id)
+        monta_consideracoes_finais(request, trabalho.id)
+
+        shutil.rmtree(temp)
+
+        os.chdir(path)
+        os.system('latex main.tex')
+        os.system('pdflatex main.tex')
+
+        return redirect('/trabalhos')
+    except:
+        raise 'Não foi possivel gerar o pdf!'

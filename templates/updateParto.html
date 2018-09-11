@@ -103,7 +103,17 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Cabra</label>
-                                        {{ parto_form.id_cabra }} 
+                                        <!-- {{ parto_form.id_cabra.value }}  -->
+                                        <select class="form-control" name="id_cabra">
+                                            <option value="0">Selecione uma opção</option>
+                                            {% for c in cabras %}
+                                                {% if parto_form.id_cabra.value == c.id %}
+                                                    <option value="{{ c.id }}" selected>{{ c.brincos_animal }}</option>
+                                                {% else %}
+                                                    <option value="{{ c.id }}">{{ c.brincos_animal }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                     </div>
                                 </div>
