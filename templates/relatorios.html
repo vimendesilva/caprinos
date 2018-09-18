@@ -65,20 +65,28 @@
                                 <thead>  
                                     <tr>
                                         <th>Cabra</th>
-                                        <th>Data Produção</th>
-                                        {% comment %} <th>Cabra</th> {% endcomment %}
-                                        <th>Manhã Produção</th>
-                                        <th>Tarde Produção</th>
+                                        <th>Data</th>
+                                        <th>Produção Manhã</th>
+                                        <th>Produção tarde</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for p in producao %}
-                                    <tr>
-                                        <td>{{ p.id_cabra_id }}</td>
-                                        <td>{{ p.data_producao }}</td>
-                                        <td>{{ p.manha_producao }}</td> 
-                                        <td>{{ p.tarde_producao }}</td> 
-                                    </tr>
+                                    {% if p.descarte_producao == '1' %}
+                                        <tr style="background-color: #F5D0A9">
+                                            <td>{{ p.id_cabra_id }}</td>
+                                            <td>{{ p.data_producao }}</td>
+                                            <td>{{ p.manha_producao }}</td> 
+                                            <td>{{ p.tarde_producao }}</td> 
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td>{{ p.id_cabra_id }}</td>
+                                            <td>{{ p.data_producao }}</td>
+                                            <td>{{ p.manha_producao }}</td> 
+                                            <td>{{ p.tarde_producao }}</td> 
+                                        </tr>
+                                    {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>

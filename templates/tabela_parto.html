@@ -1,0 +1,68 @@
+{% load static %}
+{% block head %}
+    <style>
+        table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+    </style>
+{% endblock %}
+<center>
+    <img src="http://localhost:8000/static/img/if.png" style="width: 300px">
+    <br>
+    <br>
+    <h3>Relatório Partos</h3>
+    <br>
+    <br>
+</center>
+<p><b>INSTITUIÇÃO:</b> Intituto Federal Sul de Minas - Câmpus Muzambinho</p>
+<p><b>SETOR:</b> Caprinocultura</p>
+<p><b>RELATÓRIO:</b> Partos realizados nos animais do setor</p>
+<p><b>PERÍODO:</b> x a y</p>
+<br>
+<br>
+<table>
+    <tr style="background-color: #A9A9A9">
+        <th>Cabra</th>
+        <th>Tipo de Parto</th>
+        <th>Data do Parto</th>
+        <th>Vivos</th>
+        <th>Observação</th>
+    </tr>
+    {% for parto in partos %}
+        <tr>
+            <td>{{ parto.id_cabra_id }}</td>
+            <td>{{ parto.tipo_parto }}</td>
+
+            {% if parto.data_parto.day < 10 and parto.data_parto.month < 10 %}
+                <td>{{ parto.data_parto.year }}-0{{ parto.data_parto.month }}-0{{ parto.data_parto.day }}</td>
+            {% elif parto.data_parto.day < 10 and parto.data_parto.month >= 10 %}
+                <td>{{ parto.data_parto.year }}-{{ parto.data_parto.month }}-0{{ parto.data_parto.day }}</td>
+            {% elif parto.data_parto.day >= 10 and parto.data_parto.month < 10 %}
+                <td>{{ parto.data_parto.year }}-0{{ parto.data_parto.month }}-{{ parto.data_parto.day }}</td>
+            {% else %}
+                <td>{{ parto.data_parto.year }}-{{ parto.data_parto.month }}-{{ parto.data_parto.day }}</td>
+            {% endif %}
+            
+            <td>{{ parto.vivos_parto }}</td> 
+            {% if parto.observacao_parto %}
+                <td>{{ parto.observacao_parto }}</td> 
+            {% else %}
+                <td></td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+</table>
+

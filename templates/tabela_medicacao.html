@@ -1,0 +1,94 @@
+{% load static %}
+{% block head %}
+    <style>
+        table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+    </style>
+{% endblock %}
+<center>
+    <img src="http://localhost:8000/static/img/if.png" style="width: 300px">
+    <br>
+    <br>
+    <h3>Relatório Medicamentos</h3>
+    <br>
+    <br>
+</center>
+<p><b>INSTITUIÇÃO:</b> Intituto Federal Sul de Minas - Câmpus Muzambinho</p>
+<p><b>SETOR:</b> Caprinocultura</p>
+<p><b>RELATÓRIO:</b> Medicamentos aplicados nos animais do setor</p>
+<p><b>PERÍODO:</b> x a y</p>
+<br>
+<br>
+<table>
+    <tr style="background-color: #A9A9A9">
+        <th>Animal</th>
+        <th>Medicação</th>
+        <th>Data de Aplicação</th>
+        <th>Início Carência</th>
+        <th>Fim Carência</th>
+        <th>Observação</th>
+    </tr>
+    {% for medicacao in medicacoes %}
+        <tr>
+            <td>{{ medicacao.id_animal }}</td>
+            <td>{{ medicacao.medicacao }}</td>
+
+            {% if medicacao.data_medicacao.day < 10 and medicacao.data_medicacao.month < 10 %}
+                    <td>{{ medicacao.data_medicacao.year }}-0{{ medicacao.data_medicacao.month }}-0{{ medicacao.data_medicacao.day }}</td>
+                {% elif medicacao.data_medicacao.day < 10 and medicacao.data_medicacao.month >= 10 %}
+                    <td>{{ medicacao.data_medicacao.year }}-{{ medicacao.data_medicacao.month }}-0{{ medicacao.data_medicacao.day }}</td>
+                {% elif medicacao.data_medicacao.day >= 10 and medicacao.data_medicacao.month < 10 %}
+                    <td>{{ medicacao.data_medicacao.year }}-0{{ medicacao.data_medicacao.month }}-{{ medicacao.data_medicacao.day }}</td>
+                {% else %}
+                    <td>{{ medicacao.data_medicacao.year }}-{{ medicacao.data_medicacao.month }}-{{ medicacao.data_medicacao.day }}</td>
+                {% endif %}
+
+            {% if medicacao.inicio_carencia and medicacao.fim_carencia %}
+                {% if medicacao.inicio_carencia.day < 10 and medicacao.inicio_carencia.month < 10 %}
+                    <td>{{ medicacao.inicio_carencia.year }}-0{{ medicacao.inicio_carencia.month }}-0{{ medicacao.inicio_carencia.day }}</td>
+                {% elif medicacao.inicio_carencia.day < 10 and medicacao.inicio_carencia.month >= 10 %}
+                    <td>{{ medicacao.inicio_carencia.year }}-{{ medicacao.inicio_carencia.month }}-0{{ medicacao.inicio_carencia.day }}</td>
+                {% elif medicacao.inicio_carencia.day >= 10 and medicacao.inicio_carencia.month < 10 %}
+                    <td>{{ medicacao.inicio_carencia.year }}-0{{ medicacao.inicio_carencia.month }}-{{ medicacao.inicio_carencia.day }}</td>
+                {% else %}
+                    <td>{{ medicacao.inicio_carencia.year }}-{{ medicacao.inicio_carencia.month }}-{{ medicacao.inicio_carencia.day }}</td>
+                {% endif %}
+
+                {% if medicacao.fim_carencia.day < 10 and medicacao.fim_carencia.month < 10 %}
+                    <td>{{ medicacao.fim_carencia.year }}-0{{ medicacao.fim_carencia.month }}-0{{ medicacao.fim_carencia.day }}</td>
+                {% elif medicacao.fim_carencia.day < 10 and medicacao.fim_carencia.month >= 10 %}
+                    <td>{{ medicacao.fim_carencia.year }}-{{ medicacao.fim_carencia.month }}-0{{ medicacao.fim_carencia.day }}</td>
+                {% elif medicacao.fim_carencia.day >= 10 and medicacao.fim_carencia.month < 10 %}
+                    <td>{{ medicacao.fim_carencia.year }}-0{{ medicacao.fim_carencia.month }}-{{ medicacao.fim_carencia.day }}</td>
+                {% else %}
+                    <td>{{ medicacao.fim_carencia.year }}-{{ medicacao.fim_carencia.month }}-{{ medicacao.fim_carencia.day }}</td>
+                {% endif %}
+
+            {% else %}
+            <td></td>
+            <td></td>
+            {% endif %} 
+            
+            {% if medicacao.observacao_medicacao %}
+            <td>{{ medicacao.observacao_medicacao }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+</table>
+

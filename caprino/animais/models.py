@@ -60,7 +60,7 @@ class Producao(models.Model):
 
 class Parto(models.Model):
     data_parto = models.DateField(verbose_name='Data')
-    tipo_parto = models.CharField(verbose_name='Tipo de Parto', max_length=50, blank=True, null=True)
+    parto = models.CharField(verbose_name='Tipo de Parto', max_length=50, blank=True, null=True)
     vivos_parto = models.IntegerField(verbose_name='Vivos', blank=True, null=True)
     observacao_parto = models.TextField(verbose_name='Observação', blank=True)
     id_cobertura = models.ForeignKey(Cobertura, verbose_name="Cobertura", on_delete=models.SET_NULL, null=True)

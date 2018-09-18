@@ -1,0 +1,51 @@
+{% load static %}
+{% block head %}
+    <style>
+        table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+    </style>
+{% endblock %}
+<center>
+    <img src="http://localhost:8000/static/img/if.png" style="width: 300px">
+    <br>
+    <br>
+    <h3>Relatório Descarte da Produção Leiteira</h3>
+    <br>
+    <br>
+</center>
+<p><b>INSTITUIÇÃO:</b> Intituto Federal Sul de Minas - Câmpus Muzambinho</p>
+<p><b>SETOR:</b> Caprinocultura</p>
+<p><b>RELATÓRIO:</b> Descarte da Produção Leiteira do setor</p>
+<p><b>PERÍODO:</b> x a y</p>
+<br>
+<br>
+<table>
+    <tr style="background-color: #A9A9A9">
+        <th>Cabra</th>
+        <th>Data</th>
+        <th>Produção Manhã</th>
+        <th>Produção tarde</th>
+    </tr>
+    {% for p in producao %}
+    <tr>
+        <td>{{ p.id_cabra_id }}</td>
+        <td>{{ p.data_producao }}</td>
+        <td>{{ p.manha_producao }}</td> 
+        <td>{{ p.tarde_producao }}</td> 
+    </tr>
+    {% endfor %}
+</table>
+

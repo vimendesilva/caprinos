@@ -41,13 +41,13 @@
                     </div>
                     <div class="card-body">
                         <br>
-
-                        <form method="POST" action="{% url 'caprino.animais:RelatoriosMedicacao' %}">
+                                <form method="POST" id="form_medicacao">
+                        <!-- <form method="POST" action="{% url 'caprino.animais:RelatoriosMedicacao' %}"> -->
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>Animal</label>
-                                    <select class="form-control" name="animal">
+                                    <select class="form-control" name="animal" id="animal">
                                         <option value="0">Selecione uma opção</option>
                                         {% for c in cabras %}
                                             <option value="{{ c.id }}">{{ c.brincos_animal }}</option>
@@ -58,7 +58,7 @@
                                     <div class="form-group">
                                         <label>Início</label><span style="color: red">*</span>
                                         <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de início do Período de Cobertura"></i>
-                                        <input name="inicio" type="date" class="form-control" required>
+                                        <input name="inicio" type="date" class="form-control" id="inicio" required>
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
@@ -66,12 +66,13 @@
                                     <div class="form-group">
                                         <label>Fim</label><span style="color: red">*</span>
                                         <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de fim do Período de Cobertura"></i>
-                                        <input name="fim" type="date" class="form-control" required>
+                                        <input name="fim" type="date" class="form-control" id="fim" required>
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
                             </div>    
-                            <button style="margin-bottom: 20px; float: right;" type="submit" class="btn btn-success btn-fill btn-wd">Gerar relatório</button>
+                            <button style="margin-bottom: 20px; margin-left: 20px; float: right;" id="gerar_relatorio" class="btn btn-success btn-fill btn-wd">Gerar relatório</button>
+                            <button style="margin-bottom: 20px; float: right;" id="gerar_pdf" class="btn btn-primary btn-fill btn-wd">Gerar PDF</button>
                         </form>
                         
                         
@@ -83,3 +84,20 @@
     </div>
 </div>
 {% endblock %} 
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+            $('#gerar_relatorio').click(function() {
+                $('#form_medicacao').attr('action', "{% url 'caprino.animais:RelatoriosMedicacao' %}");
+                $('#form_medicacao').submit();
+            });
+
+            $('#gerar_pdf').click(function() {
+                $('#form_medicacao').attr('action', "{% url 'caprino.animais:RelatoriosMedicacaoPDF' %}");
+                $('#form_medicacao').submit();
+            });
+        });
+    </script>
+
+{% endblock %}

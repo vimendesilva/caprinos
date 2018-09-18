@@ -80,8 +80,10 @@
                                     <td>{{ c.fim_cobertura }}</td>
                                     {% if c.status_cobertura == '0' %}
                                         <td>Negativo</td>
-                                    {% else %}
+                                    {% elif c.status_cobertura == '1' %}
                                         <td>Positivo</td>
+                                    {% else %}
+                                        <td>Sem registro</td>
                                     {% endif %}
                                 </tr>
                                 {% endfor %}

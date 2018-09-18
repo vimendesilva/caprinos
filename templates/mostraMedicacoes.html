@@ -73,8 +73,8 @@
                                 {% for medicacao in medicacoes %}
                                 <tr>
                                     <td>{{ medicacao.id_animal }}</td>
-                                    <td>{{ medicacao.medicacao }}</td>
-                                    <td>{{ medicacao.data_medicacao }}</td> <!--colocar pelo brinco -->
+                                    <td>{{ medicacao.tipo_medicacao }}</td>
+                                    <td>{{ medicacao.data_medicacao }}</td>
 
                                     <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Atualiza_Medicacao' medicacao.id %}" title="Editar">Editar</a></td>
                                     <td><a class="btn btn-danger btn-fill btn-wd" href="{% url 'caprino.animais:Delete_Medicacao' medicacao.id %}" title="Apagar">Apagar</a></td>

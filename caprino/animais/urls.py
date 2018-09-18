@@ -42,5 +42,9 @@ urlpatterns = [
 
     path('status/<int:id_cab>/<int:valor>/<int:id_cob>', views.SetStatusCobertura, name='StatusCobertura'),
 
-
+    path('relatorios_med/pdf', views.gerar_pdf_medicacoes, name='RelatoriosMedicacaoPDF'),
+    path('relatorios_cob/pdf', views.gerar_pdf_coberturas, name='RelatoriosCoberturaPDF'),
+    path('relatorios_par/pdf', views.gerar_pdf_partos, name='RelatoriosPartoPDF'),
+    path('relatorios_prod/pdf', views.gerar_pdf_producoes, name='RelatoriosProducaoPDF'),
+    path('relatorios_desc/pdf', views.gerar_pdf_descartes, name='RelatoriosDescartePDF'),
 ]

@@ -42,7 +42,7 @@
                     <div class="card-body">
                         <br>
 
-                        <form method="POST" action="{% url 'caprino.animais:RelatoriosCobertura' %}">
+                        <form method="POST" id="form_cobertura">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4">
@@ -71,7 +71,8 @@
                                     </div>
                                 </div>
                             </div>    
-                            <button style="margin-bottom: 20px; float: right;" type="submit" class="btn btn-success btn-fill btn-wd">Gerar relatório</button>
+                            <button style="margin-bottom: 20px; margin-left: 20px; float: right;" id="gerar_relatorio" class="btn btn-success btn-fill btn-wd">Gerar relatório</button>
+                            <button style="margin-bottom: 20px; float: right;" id="gerar_pdf" class="btn btn-primary btn-fill btn-wd">Gerar PDF</button>
                         </form>
                         
                         
@@ -83,3 +84,20 @@
     </div>
 </div>
 {% endblock %} 
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+            $('#gerar_relatorio').click(function() {
+                $('#form_cobertura').attr('action', "{% url 'caprino.animais:RelatoriosCobertura' %}");
+                $('#form_cobertura').submit();
+            });
+
+            $('#gerar_pdf').click(function() {
+                $('#form_cobertura').attr('action', "{% url 'caprino.animais:RelatoriosCoberturaPDF' %}");
+                $('#form_cobertura').submit();
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% load static %}
+{% block head %}
+    <style>
+        table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+    </style>
+{% endblock %}
+<center>
+    <img src="http://localhost:8000/static/img/if.png" style="width: 300px">
+    <br>
+    <br>
+    <h3>Relatório Coberturas</h3>
+    <br>
+    <br>
+</center>
+<p><b>INSTITUIÇÃO:</b> Intituto Federal Sul de Minas - Câmpus Muzambinho</p>
+<p><b>SETOR:</b> Caprinocultura</p>
+<p><b>RELATÓRIO:</b> Coberturas dos animais do setor</p>
+<p><b>PERÍODO:</b> x a y</p>
+<br>
+<br>
+<table>
+    <tr style="background-color: #A9A9A9">
+        <th>Cabra</th>
+        <th>Bode</th>
+        <th>Início Cobertura</th>
+        <th>Fim Cobertura</th>
+        <th>Diagnóstico</th>
+    </tr>
+    {% for cobertura in coberturas %}
+        <tr>
+            <td>{{ cobertura.id_cabra_id }}</td>
+            <td>{{ cobertura.id_bode_id }}</td>
+
+            {% if cobertura.inicio_cobertura and cobertura.fim_cobertura %}
+                {% if cobertura.inicio_cobertura.day < 10 and cobertura.inicio_cobertura.month < 10 %}
+                    <td>{{ cobertura.inicio_cobertura.year }}-0{{ cobertura.inicio_cobertura.month }}-0{{ cobertura.inicio_cobertura.day }}</td>
+                {% elif cobertura.inicio_cobertura.day < 10 and cobertura.inicio_cobertura.month >= 10 %}
+                    <td>{{ cobertura.inicio_cobertura.year }}-{{ cobertura.inicio_cobertura.month }}-0{{ cobertura.inicio_cobertura.day }}</td>
+                {% elif cobertura.inicio_cobertura.day >= 10 and cobertura.inicio_cobertura.month < 10 %}
+                    <td>{{ cobertura.inicio_cobertura.year }}-0{{ cobertura.inicio_cobertura.month }}-{{ cobertura.inicio_cobertura.day }}</td>
+                {% else %}
+                    <td>{{ cobertura.inicio_cobertura.year }}-{{ cobertura.inicio_cobertura.month }}-{{ cobertura.inicio_cobertura.day }}</td>
+                {% endif %}
+
+                {% if cobertura.fim_cobertura.day < 10 and cobertura.fim_cobertura.month < 10 %}
+                    <td>{{ cobertura.fim_cobertura.year }}-0{{ cobertura.fim_cobertura.month }}-0{{ cobertura.fim_cobertura.day }}</td>
+                {% elif cobertura.fim_cobertura.day < 10 and cobertura.fim_cobertura.month >= 10 %}
+                    <td>{{ cobertura.fim_cobertura.year }}-{{ cobertura.fim_cobertura.month }}-0{{ cobertura.fim_cobertura.day }}</td>
+                {% elif cobertura.fim_cobertura.day >= 10 and cobertura.fim_cobertura.month < 10 %}
+                    <td>{{ cobertura.fim_cobertura.year }}-0{{ cobertura.fim_cobertura.month }}-{{ cobertura.fim_cobertura.day }}</td>
+                {% else %}
+                    <td>{{ cobertura.fim_cobertura.year }}-{{ cobertura.fim_cobertura.month }}-{{ cobertura.fim_cobertura.day }}</td>
+                {% endif %}
+
+            {% else %}
+            <td></td>
+            <td></td>
+            {% endif %} 
+            
+            {% if cobertura.status_cobertura == '0' %}
+                <td>Negativo</td>
+            {% elif cobertura.status_cobertura == '1' %}
+                <td>Positivo</td>
+            {% else %}
+                <td>Sem registro</td>
+            {% endif %}
+
+
+        </tr>
+        {% endfor %}
+</table>
+
