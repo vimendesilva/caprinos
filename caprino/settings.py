@@ -132,5 +132,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static/')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/contas/entrar'
-LOGOUT_URL = '/'
+# LOGIN_URL = '/contas/entrar'
+# LOGOUT_URL = '/'
+LOGIN_URL = 'caprino.contas:Entrar'
+LOGOUT_URL = 'caprino.contas:Sair'
+
+LOGIN_REDIRECT_URL = 'caprino.core:home'
+
+# Sessão expira quando o navegador é fechado
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

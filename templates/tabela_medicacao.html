@@ -44,7 +44,7 @@
     {% for medicacao in medicacoes %}
         <tr>
             <td>{{ medicacao.id_animal }}</td>
-            <td>{{ medicacao.medicacao }}</td>
+            <td>{{ medicacao.tipo_medicacao }}</td>
 
             {% if medicacao.data_medicacao.day < 10 and medicacao.data_medicacao.month < 10 %}
                     <td>{{ medicacao.data_medicacao.year }}-0{{ medicacao.data_medicacao.month }}-0{{ medicacao.data_medicacao.day }}</td>

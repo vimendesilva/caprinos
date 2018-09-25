@@ -2,33 +2,16 @@ from django import forms
 from . import models
 
 class CreateAnimais(forms.ModelForm):
-    SEXO = (('f', 'Feminino'), ('m', 'Masculino'))
 
-    VIDA = (('s', 'Sim'), ('n', 'Não'))
-
-    RACAS = (
-        ('saanen', 'Saanen'),
-        ('anglo-nubiana', 'Anglo-Nubiana'),
-        ('srd', 'Sem Raça Definida (SRD)')
-    )
-
-    SANGUE = (
-        ('po', 'Puro de Origem'),
-        ('1/2', '1/2 Sangue'),
-        ('3/4', '3/4 Sangue'),
-        ('7/8', '7/8 Sangue'),
-        ('15/16', '15/16 Sangue'),
-        ('31/32', '31/32 Sangue'),
-    )
     rgb_animal = forms.CharField(required=False, label='RGB', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'RGB do Animal'}))
     nome_animal = forms.CharField(required=False, label='Nome', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do Animal'}))
     numero_animal = forms.IntegerField(required=False, label='Numero', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número do Animal'}))
-    sexo_animal = forms.ChoiceField(required=True, label='Sexo', widget=forms.Select(attrs={'class': 'form-control'}), choices=SEXO)
+    sexo_animal = forms.ModelChoiceField(required=True, label='Sexo', queryset=models.Sexo.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     nascimento_animal = forms.DateField(required=True, label='Nascimento', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Nascimento do Animal', 'type': 'date'}))
-    raca_animal = forms.ChoiceField(required=True, label='Raça', widget=forms.Select(attrs={'class': 'form-control'}), choices=RACAS)
-    sangue_animal = forms.ChoiceField(required=True, label='Sangue', widget=forms.Select(attrs={'class': 'form-control'}), choices=SANGUE)
+    raca_animal = forms.ModelChoiceField(required=True, label='Raça', queryset=models.Raca.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
+    sangue_animal = forms.ModelChoiceField(required=True, label='Sangue', queryset=models.Sangue.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     brincos_animal = forms.CharField(required=True, label='Brincos', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Brincos'}))
-    vida_animal = forms.ChoiceField(required=True, label='Vida', widget=forms.Select(attrs={'class': 'form-control'}), choices=VIDA)
+    vida_animal = forms.ModelChoiceField(required=True, label='Vida', queryset=models.Vida.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     mae_animal = forms.ModelChoiceField(required=False, label='Mãe', queryset=models.Animal.objects.all().filter(sexo_animal='f').filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     pai_animal = forms.ModelChoiceField(required=False, label='Pai', queryset=models.Animal.objects.all().filter(sexo_animal='m').filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     observacao_animal = forms.CharField(required=False, label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
@@ -82,16 +65,8 @@ class CreateProducao(forms.ModelForm):
 
 class CreateMedicacao(forms.ModelForm):
 
-    TIPO = (
-        ('1', 'Antibiótico'),
-        ('2', 'Vacina'),
-        ('3', 'Anti-inflamatório'),
-        ('4', 'Vermífugo'),
-        ('5', 'Outros'),
-    )
-
     id_animal = forms.ModelChoiceField(required=True, label='Animal', queryset=models.Animal.objects.all().filter(vida_animal='s'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
-    medicacao = forms.ChoiceField(required=True, label='Medicação', widget=forms.Select(attrs={'class': 'form-control'}), choices=TIPO)
+    tipo_medicacaao = forms.ModelChoiceField(required=True, label='Medicação', queryset=models.TipoMedicacao.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     data_medicacao = forms.DateField(required=True, label='Data de Aplicação', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Aplicação', 'type': 'date'}))
     observacao_medicacao = forms.CharField(required=False, label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
     inicio_carencia = forms.DateField(required=False, label='Início Carência', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Início Carência', 'type': 'date'}))
@@ -103,15 +78,8 @@ class CreateMedicacao(forms.ModelForm):
 
 class CreateParto(forms.ModelForm):
 
-    TIPO = (
-        ('1', 'Simples'),
-        ('2', 'Duplo'),
-        ('3', 'Triplo'),
-        ('4', 'Quadruplo'),
-    )
-
     data_parto = forms.DateField(required=True, label='Data de Parto', widget=forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Data de Parto', 'type': 'date'}))
-    tipo_parto = forms.ChoiceField(required=True, label='Tipo de Parto', widget=forms.Select(attrs={'class': 'form-control'}), choices=TIPO)
+    tipo_parto = forms.ModelChoiceField(required=True, label='Tipo', queryset=models.TipoParto.objects.all(), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))
     vivos_parto = forms.IntegerField(required=False, label='Vivos', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Vivos'}))
     observacao_parto = forms.CharField(required=False, label='Observação', widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Observação'}))
     id_cabra = forms.ModelChoiceField(required=True, label='Animal', queryset=models.Animal.objects.all().filter(vida_animal='s').filter(sexo_animal='f'), empty_label='Selecione uma opção', to_field_name='id', widget=forms.Select(attrs={'class': 'form-control'}))

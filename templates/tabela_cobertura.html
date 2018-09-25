@@ -42,8 +42,8 @@
     </tr>
     {% for cobertura in coberturas %}
         <tr>
-            <td>{{ cobertura.id_cabra_id }}</td>
-            <td>{{ cobertura.id_bode_id }}</td>
+            <td>{{ cobertura.Cabra }}</td>
+            <td>{{ cobertura.Bode }}</td>
 
             {% if cobertura.inicio_cobertura and cobertura.fim_cobertura %}
                 {% if cobertura.inicio_cobertura.day < 10 and cobertura.inicio_cobertura.month < 10 %}

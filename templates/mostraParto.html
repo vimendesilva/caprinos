@@ -73,7 +73,7 @@
                                 <tr>
                                     <td>{{ p.data_parto }}</td>
                                     <td>{{ p.tipo_parto }}</td>
-                                    <td>{{ p.id_cabra_id }}</td>
+                                    <td>{{ p.brincos_animal }}</td>
                                     {% comment %} <td>{{ cabra }}</td> {% endcomment %}
                                     <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Atualiza_Parto' id_parto=p.id id_cob=id_cobertura %}" title="Editar">Editar</a></td>
                                     <td><a class="btn btn-danger btn-fill btn-wd" href="{% url 'caprino.animais:Delete_Parto' p.id %}" title="Apagar">Apagar</a></td>

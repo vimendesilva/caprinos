@@ -84,11 +84,17 @@ class Medicacao(models.Model):
 class TipoMedicacao(models.Model):
     tipo_medicacao = models.CharField(verbose_name='Tipo Medicação', max_length=50, blank=True, null=True)
 
+    def __str__(self):
+        return self.tipo_medicacao
+
     class Meta:
         verbose_name = 'TipoMedicacao'
 
 class Sangue(models.Model):
     sangue = models.CharField(verbose_name='Sangue', max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.sangue
 
     class Meta:
         verbose_name = 'Sangue'
@@ -96,11 +102,17 @@ class Sangue(models.Model):
 class Raca(models.Model):
     raca = models.CharField(verbose_name='Raça', max_length=50, blank=True, null=True)
 
+    def __str__(self):
+        return self.raca
+
     class Meta:
         verbose_name = 'Raca'
 
 class TipoParto(models.Model):
     tipo_parto = models.CharField(verbose_name='Tipo Parto', max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.tipo_parto
 
     class Meta:
         verbose_name = 'TipoParto'
@@ -108,11 +120,17 @@ class TipoParto(models.Model):
 class Sexo(models.Model):
     sexo = models.CharField(verbose_name='Sexo', max_length=50, blank=True, null=True)
 
+    def __str__(self):
+        return self.sexo
+
     class Meta:
         verbose_name = 'Sexo'
 
 class Vida(models.Model):
     vida = models.CharField(verbose_name='Vida', max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return self.vida
 
     class Meta:
         verbose_name = 'Vida'

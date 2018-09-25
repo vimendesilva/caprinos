@@ -5,7 +5,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class=" container-fluid  ">
-        <a class="navbar-brand" href="#pablo"> Medicações </a>
+        <a class="navbar-brand" href="#pablo"> Usuários </a>
         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -16,7 +16,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="dropdown">
-                        <span class="d-lg-none"> Medicações</span>
+                        <span class="d-lg-none"> Usuários</span>
                     </a>
                 </li>
             </ul>
@@ -36,16 +36,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                {#  Mensagens de erro  #}
+                {# Mensagens de erro #}
                 {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>   
-                        </div>
-                    {% endfor %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
                 {% endif %}
             </div>
         </div>
@@ -55,58 +55,73 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Cadastro de Medicações</h4>
+                        <h4 class="card-title">Cadastro de Usuários</h4>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{% url 'caprino.animais:Nova_Medicacao' %}">
-                            {% csrf_token %} 
+                        <form method="POST" action="{% url 'caprino.contas:Novo_Usuario' %}">
+                            {% csrf_token %}
                             <div class="row">
-                                <div class="col-md-5 pr-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Animal</label>
-                                         {{ medicacao_form.id_animal }}
+                                        <label>Administrador</label>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" name="is_superuser" value="1">
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 pr-1">
+                                    <div class="form-group">
+                                        <label>Primeiro Nome</label>
+                                         {{ usuario_form.first_name }}
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
-                                <div class="col-md-3 px-1">
+                                <div class="col-md-4 px-1">
                                     <div class="form-group">
-                                        <label>Medicação</label>
-                                        {{ medicacao_form.tipo_medicacaao }} 
+                                        <label>Último Nome</label>
+                                         {{ usuario_form.last_name }}
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label>Data de Aplicação</label>
-                                        {{ medicacao_form.data_medicacao }} 
+                                        <label for="exampleInputEmail1">Email</label>
+                                         {{ usuario_form.email }}
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 pr-1">
+                                <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Início Período de carência</label><span style="color: red">*</span>
-                                        {{ medicacao_form.inicio_carencia }}  
-                                        <!-- <input type="text" class="form-control" placeholder="Company" value="Mike"> -->
+                                        <label>Nome de Usuário</label>
+                                         {{ usuario_form.username }}
+                                        <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
-                                <div class="col-md-6 pr-1">
+                                <div class="col-md-4 px-1">
                                     <div class="form-group">
-                                        <label>Fim Período de carência</label><span style="color: red">*</span>
-                                        {{ medicacao_form.fim_carencia }} 
+                                        <label>Senha</label>
+                                         {{ usuario_form.password1 }}
+                                         {{ usuario_form.password1.errors }}
+                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label>Observação</label>
-                                        {{ medicacao_form.observacao_medicacao }} 
+                                        <label>Confirmação de Senha</label>
+                                         {{ usuario_form.password2 }}
+                                         {{ usuario_form.password2.errors }}
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                     </div>
                                 </div>
                             </div>
+                            
                             <button type="submit" class="btn btn-info btn-fill pull-right">Salvar</button>
                             <div class="clearfix"></div>
                         </form>

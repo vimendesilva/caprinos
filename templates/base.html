@@ -44,6 +44,14 @@
                             <p>Principal</p>
                         </a>
                     </li>
+                    {% if user.is_superuser %}
+                    <li>
+                        <a class="nav-link" href="{% url 'caprino.contas:Mostra_Usuario' %}">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>Usuarios</p>
+                        </a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a class="nav-link" href="{% url 'caprino.animais:Mostra_Animal' %}">
                             <i class="nc-icon nc-album-2"></i>

@@ -42,7 +42,7 @@
     </tr>
     {% for parto in partos %}
         <tr>
-            <td>{{ parto.id_cabra_id }}</td>
+            <td>{{ parto.brincos_animal }}</td>
             <td>{{ parto.tipo_parto }}</td>
 
             {% if parto.data_parto.day < 10 and parto.data_parto.month < 10 %}

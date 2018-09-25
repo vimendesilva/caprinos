@@ -74,7 +74,7 @@
                                 <tr>
                                     <td>{{ cobertura.inicio_cobertura }}</td>
                                     <td>{{ cobertura.fim_cobertura }}</td>
-                                    <td>{{ cobertura.id_bode_id }}</td> <!--colocar pelo brinco -->
+                                    <td>{{ cobertura.brincos_animal }}</td> <!--colocar pelo brinco -->
                                     {% comment %} <td>{{ cobertura.id_cabra_id }}</td> {% endcomment %}
                                     <td><a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.animais:Atualiza_Cobertura' cobertura.id %}" title="Editar">Editar</a></td>
                                     <td><a class="btn btn-danger btn-fill btn-wd" href="{% url 'caprino.animais:Delete_Cobertura' cobertura.id %}" title="Apagar">Apagar</a></td>
