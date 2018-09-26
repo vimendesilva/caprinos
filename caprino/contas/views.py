@@ -21,7 +21,7 @@ def Entrar(request):
         else:
             return redirect('/contas/entrar')
 
-    return render(request, 'login.html')
+    return render(request, 'usuario/login.html')
 
 def Sair(request):
     logout(request)
@@ -42,7 +42,7 @@ def CreateUsuario(request):
             'usuario_form': form
         }
 
-        return render(request, 'createUsuario.html', data)
+        return render(request, 'usuario/createUsuario.html', data)
     else:
         return redirect('/')
 
@@ -59,7 +59,7 @@ def UpdateUsuario(request, pk):
     else:
         form = forms.UpdateUsuario(instance=usuario)
 
-    return render(request, 'updateUsuario.html', {'usuario_form': form, 'id': pk})
+    return render(request, 'usuario/updateUsuario.html', {'usuario_form': form, 'id': pk})
 
 @login_required
 def MostraUsuario(request):
@@ -77,7 +77,7 @@ def MostraUsuario(request):
         usuarios = paginator.page(paginator.num_pages)
 
 
-    return render(request, 'mostraUsuarios.html', {'usuarios': usuarios})
+    return render(request, 'usuario/mostraUsuarios.html', {'usuarios': usuarios})
 
 @login_required
 def DeleteUsuario(request, pk):

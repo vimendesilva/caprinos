@@ -33,18 +33,7 @@ urlpatterns = [
     path('delete_parto/<int:pk>', views.DeleteParto, name='Delete_Parto'),
     path('atualiza_parto/<int:id_parto>/<int:id_cob>', views.UpdateParto, name='Atualiza_Parto'),
 
-    path('categorias/', views.Categorias, name='Categorias'),
-    path('relatorios_med/', views.RelatoriosMedicacao, name='RelatoriosMedicacao'),
-    path('relatorios_cob/', views.RelatoriosCobertura, name='RelatoriosCobertura'),
-    path('relatorios_part/', views.RelatoriosParto, name='RelatoriosParto'),
-    path('relatorios/', views.RelatoriosProducao, name='RelatoriosProducao'),
-    path('relatorios_desc/', views.RelatoriosDescarte, name='RelatoriosDescarte'),
-
     path('status/<int:id_cab>/<int:valor>/<int:id_cob>', views.SetStatusCobertura, name='StatusCobertura'),
 
-    path('relatorios_med/pdf', views.gerar_pdf_medicacoes, name='RelatoriosMedicacaoPDF'),
-    path('relatorios_cob/pdf', views.gerar_pdf_coberturas, name='RelatoriosCoberturaPDF'),
-    path('relatorios_par/pdf', views.gerar_pdf_partos, name='RelatoriosPartoPDF'),
-    path('relatorios_prod/pdf', views.gerar_pdf_producoes, name='RelatoriosProducaoPDF'),
-    path('relatorios_desc/pdf', views.gerar_pdf_descartes, name='RelatoriosDescartePDF'),
+
 ]

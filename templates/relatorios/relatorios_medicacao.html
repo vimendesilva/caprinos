@@ -41,8 +41,7 @@
                     </div>
                     <div class="card-body">
                         <br>
-                                <form method="POST" id="form_medicacao">
-                        <!-- <form method="POST" action="{% url 'caprino.animais:RelatoriosMedicacao' %}"> -->
+                            <form method="POST" id="form_medicacao">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4">
@@ -89,12 +88,12 @@
     <script>
         $(document).ready(function() {
             $('#gerar_relatorio').click(function() {
-                $('#form_medicacao').attr('action', "{% url 'caprino.animais:RelatoriosMedicacao' %}");
+                $('#form_medicacao').attr('action', "{% url 'caprino.relatorios:RelatoriosMedicacao' %}");
                 $('#form_medicacao').submit();
             });
 
             $('#gerar_pdf').click(function() {
-                $('#form_medicacao').attr('action', "{% url 'caprino.animais:RelatoriosMedicacaoPDF' %}");
+                $('#form_medicacao').attr('action', "{% url 'caprino.relatorios:RelatoriosMedicacaoPDF' %}");
                 $('#form_medicacao').submit();
             });
         });

@@ -28,7 +28,7 @@ def CreateAnimal(request):
     else:
         form = forms.CreateAnimais()
 
-    return render(request, 'createAnimais.html', {'animais_form': form})
+    return render(request, 'animais/createAnimais.html', {'animais_form': form})
 
 
 @login_required
@@ -45,7 +45,7 @@ def CreateCobertura(request):
     else:
         form = forms.CreateCoberturas()
 
-    return render(request, 'createCobertura.html', {'cobertura_form': form})
+    return render(request, 'cobertura/createCobertura.html', {'cobertura_form': form})
 
 
 @login_required
@@ -62,7 +62,7 @@ def CreateProducoes(request, pk):
         form = forms.CreateProducao()
         cabra = Animal.objects.get(pk=pk)
 
-    return render(request, 'createProducao.html', {'producao_form': form, 'cabra': cabra})
+    return render(request, 'producao/createProducao.html', {'producao_form': form, 'cabra': cabra})
 
 @login_required
 def CreateMedicacao(request):
@@ -77,7 +77,7 @@ def CreateMedicacao(request):
     else:
         form = forms.CreateMedicacao()
 
-    return render(request, 'createMedicacao.html', {'medicacao_form': form})
+    return render(request, 'medicacao/createMedicacao.html', {'medicacao_form': form})
 
 @login_required
 def CreateParto(request, pk):
@@ -96,7 +96,7 @@ def CreateParto(request, pk):
                                             ' where animais_cobertura.id = '+ str(pk) +' and animais_statuscobertura.status_cobertura = "1"')
         form = forms.CreateParto()
 
-    return render(request, 'createParto.html', {'parto_form': form, 'id_cob': pk, 'cabras': cabras})
+    return render(request, 'parto/createParto.html', {'parto_form': form, 'id_cob': pk, 'cabras': cabras})
 
 
 @login_required
@@ -114,7 +114,7 @@ def ListaCabras(request):
     except EmptyPage:
         animais = paginator.page(paginator.num_pages)
 
-    return render(request, 'listaCabras.html', {'animais': animais})
+    return render(request, 'producao/listaCabras.html', {'animais': animais})
 
 
 @login_required
@@ -133,7 +133,7 @@ def MostraAnimal(request):
         animais = paginator.page(paginator.num_pages)
 
 
-    return render(request, 'mostraAnimais.html', {'animais': animais})
+    return render(request, 'animais/mostraAnimais.html', {'animais': animais})
 
 
 @login_required
@@ -154,7 +154,7 @@ def MostraCoberturas(request):
     except EmptyPage:
         coberturas = paginator.page(paginator.num_pages)
 
-    return render(request, 'mostraCoberturas.html', {'coberturas': coberturas})
+    return render(request, 'cobertura/mostraCoberturas.html', {'coberturas': coberturas})
 
 
 @login_required
@@ -172,7 +172,7 @@ def MostraProducao(request, pk):
     except EmptyPage:
         producao = paginator.page(paginator.num_pages)
 
-    return render(request, 'mostraProducao.html', {'producao': producao, 'cabra': pk})
+    return render(request, 'producao/mostraProducao.html', {'producao': producao, 'cabra': pk})
 
 @login_required
 def MostraMedicacoes(request):
@@ -191,7 +191,7 @@ def MostraMedicacoes(request):
     except EmptyPage:
         medicacoes = paginator.page(paginator.num_pages)
 
-    return render(request, 'mostraMedicacoes.html', {'medicacoes': medicacoes})
+    return render(request, 'medicacao/mostraMedicacoes.html', {'medicacoes': medicacoes})
 
 @login_required
 def MostraParto(request, pk):
@@ -213,7 +213,7 @@ def MostraParto(request, pk):
     except EmptyPage:
         parto = paginator.page(paginator.num_pages)
 
-    return render(request, 'mostraParto.html', {'parto': parto, 'id_cobertura': pk})
+    return render(request, 'parto/mostraParto.html', {'parto': parto, 'id_cobertura': pk})
 
 
 @login_required
@@ -270,7 +270,7 @@ def UpdateAnimal(request, pk):
     else:
         form = forms.CreateAnimais(instance=cabra)
 
-    return render(request, 'updateAnimais.html', {'animais_form': form})
+    return render(request, 'animais/updateAnimais.html', {'animais_form': form})
 
 
 @login_required
@@ -289,7 +289,7 @@ def UpdateCobertura(request, pk):
     else:
         form = forms.CreateCoberturas(instance=cobertura)
 
-    return render(request, 'updateCobertura.html', {'cobertura_form': form, 'cabras': cabras, 'cob': pk})
+    return render(request, 'cobertura/updateCobertura.html', {'cobertura_form': form, 'cabras': cabras, 'cob': pk})
 
 
 @login_required
@@ -307,7 +307,7 @@ def UpdateProducao(request, id_prod, id_cabra):
         form = forms.CreateProducao(instance=producao)
         cabra = Animal.objects.get(pk=id_cabra)
 
-    return render(request, 'updateProducao.html', {'producao_form': form, 'cabra': cabra})
+    return render(request, 'producao/updateProducao.html', {'producao_form': form, 'cabra': cabra})
 
 @login_required
 def UpdateMedicacao(request, pk):
@@ -324,7 +324,7 @@ def UpdateMedicacao(request, pk):
     else:
         form = forms.CreateMedicacao(instance=medicacao)
 
-    return render(request, 'updateMedicacao.html', {'medicacao_form': form})
+    return render(request, 'medicacao/updateMedicacao.html', {'medicacao_form': form})
 
 @login_required
 def UpdateParto(request, id_parto, id_cob):
@@ -345,7 +345,7 @@ def UpdateParto(request, id_parto, id_cob):
                                             ' inner join animais_cobertura on animais_statuscobertura.id_cobertura_id = animais_cobertura.id'+
                                             ' where animais_cobertura.id = '+ str(id_cob) +' and animais_statuscobertura.status_cobertura = "1"')
 
-    return render(request, 'updateParto.html', {'parto_form': form, 'id_cob': cobertura, 'cabras': cabras})
+    return render(request, 'parto/updateParto.html', {'parto_form': form, 'id_cob': cobertura, 'cabras': cabras})
 
 @login_required
 def CoberturasPartos(request):
@@ -364,209 +364,8 @@ def CoberturasPartos(request):
     except EmptyPage:
         coberturas = paginator.page(paginator.num_pages)
 
-    return render(request, 'coberturas_partos.html', {'coberturas': coberturas})
+    return render(request, 'parto/coberturas_partos.html', {'coberturas': coberturas})
 
-
-@login_required
-def RelatoriosProducao(request):
-
-    if(request.method == 'POST'):
-        cabra = request.POST.get('cabra')
-        inicio = request.POST.get('inicio')
-        fim = request.POST.get('fim')
-
-        if(cabra != '0'):
-            producao = Producao.objects.raw("select * from animais_producao"+
-                                " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                                " where animais_producao.id_cabra_id = "+animal+
-                                " and animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                                " order by animais_producao.data_producao desc;")
-        else:
-            producao = Producao.objects.raw("select * from animais_producao"+
-                                " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                                " where animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                                " order by animais_producao.data_producao desc;")
-        
-
-        dia = [obj.data_producao.day for obj in producao]
-        prod = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
-
-        soma = sum(prod)
-                
-        grafico = {
-            'data_prod': dia,
-            'manha_prod': prod,
-        }
-
-        dados = {
-            'grafico': json.dumps(grafico),
-            'soma': soma,
-            'producao': producao
-        }
-
-        return render(request, 'relatorios.html', dados)
-
-    else:
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
-
-        return render(request, 'relatorios_producao.html', {'cabras': cabras})
-
-
-@login_required
-def RelatoriosMedicacao(request):
-
-    if(request.method == 'POST'):
-        animal = request.POST.get('animal')
-        inicio = request.POST.get('inicio')
-        fim = request.POST.get('fim')
-
-        if(animal != '0'):
-            medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
-                                        " where animais_medicacao.id_animal_id="+animal+
-                                        " and animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
-                                        " order by animais_medicacao.id desc;")
-            
-        else:
-            medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
-                                        " where animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
-                                        " order by animais_medicacao.id desc;")
-
-        return render(request, 'medicacao.html', {'medicacoes': medicacoes})
-
-    else:
-
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
-
-        return render(request, 'relatorios_medicacao.html', {'cabras': cabras})
-    
-@login_required
-def RelatoriosCobertura(request):
-
-    if(request.method == 'POST'):
-        animal = request.POST.get('animal')
-        inicio = request.POST.get('inicio')
-        fim = request.POST.get('fim')
-
-        if(animal != '0'):
-            coberturas = Cobertura.objects.raw(
-                '''
-                SELECT ac.id, 
-                (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = sc.id_cabra_id) AS Cabra,
-                (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = ac.id_bode_id) AS Bode,
-                ac.inicio_cobertura, ac.fim_cobertura, sc.status_cobertura
-                FROM animais_cobertura ac
-                INNER JOIN animais_statuscobertura sc ON ac.id = sc.id_cobertura_id
-                WHERE sc.id_cabra_id = ''' + animal + '''
-                AND ac.inicio_cobertura BETWEEN "''' + inicio + '''" AND "''' + fim + '''"
-                '''
-            )
-        
-        else:
-            coberturas = Cobertura.objects.raw(
-                '''
-                SELECT ac.id,
-                (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = sc.id_cabra_id) AS Cabra,
-                (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = ac.id_bode_id) AS Bode,
-                ac.inicio_cobertura, ac.fim_cobertura, sc.status_cobertura
-                FROM animais_cobertura ac
-                INNER JOIN animais_statuscobertura sc ON ac.id = sc.id_cobertura_id
-                WHERE ac.inicio_cobertura BETWEEN "''' + inicio + '''" AND "''' + fim + '''"
-                '''
-            )
-
-        return render(request, 'cobertura.html', {'coberturas': coberturas})
-
-    else:
-
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
-
-        return render(request, 'relatorios_cobertura.html', {'cabras': cabras})
-
-@login_required
-def RelatoriosParto(request):
-
-    if(request.method == 'POST'):
-        animal = request.POST.get('cabra')
-        inicio = request.POST.get('inicio')
-        fim = request.POST.get('fim')
-
-        if(animal != '0'):
-            partos = Parto.objects.raw("select * from animais_parto"+
-                                " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
-                                " where animais_parto.id_cabra_id = "+animal+
-                                " and animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
-                                " order by animais_parto.id desc;")
-        else:
-            partos = Parto.objects.raw("select * from animais_parto"+
-                                    " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                                    " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
-                                    " where animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
-                                    " order by animais_parto.id desc;")
-
-        print(partos)
-        return render(request, 'parto.html', {'partos': partos})
-
-    else:
-
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
-
-        return render(request, 'relatorios_parto.html', {'cabras': cabras})
-
-
-@login_required
-def RelatoriosDescarte(request):
-
-    if(request.method == 'POST'):
-        cabra = request.POST.get('cabra')
-        inicio = request.POST.get('inicio')
-        fim = request.POST.get('fim')
-
-        if(cabra != '0'):
-            producao = Producao.objects.raw("select * from animais_producao"+
-                                " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                                " where animais_producao.id_cabra_id = "+animal+
-                                " and animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                                " and animais_producao.descarte_producao = 1"
-                                " order by animais_producao.data_producao desc;")
-        else:
-            producao = Producao.objects.raw("select * from animais_producao"+
-                                " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                                " where animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                                " and animais_producao.descarte_producao = 1"
-                                " order by animais_producao.data_producao desc;")
-        
-
-        dia = [obj.data_producao.day for obj in producao]
-        prod = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
-
-        soma = sum(prod)
-                
-        grafico = {
-            'data_prod': dia,
-            'manha_prod': prod,
-        }
-
-        dados = {
-            'grafico': json.dumps(grafico),
-            'soma': soma,
-            'producao': producao
-        }
-
-        return render(request, 'descarte.html', dados)
-
-    else:
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
-
-        return render(request, 'relatorios_descarte.html', {'cabras': cabras})
-
-
-@login_required
-def Categorias(request):
-
-    return render(request, 'categorias.html')
 
 @login_required
 def SetStatusCobertura(request, id_cab, valor, id_cob):
@@ -594,182 +393,3 @@ def VerificaPeriodoCarencia(request, id_cabra, data_producao):
         }
     
     return JsonResponse(response)
-
-
-def gerar_pdf_medicacoes(request):
-    
-    animal = request.POST.get('animal')
-    inicio = request.POST.get('inicio')
-    fim = request.POST.get('fim')
-
-    if(animal != '0'):
-        medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                    " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
-                                    " where animais_medicacao.id_animal_id="+animal+
-                                    " and animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
-                                    " order by animais_medicacao.id desc;")
-        
-    else:
-        medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                    " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
-                                    " where animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
-                                    " order by animais_medicacao.id desc;")
-        
-    html_string = render_to_string('tabela_medicacao.html', {'medicacoes': medicacoes})
-
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/medicacoes.pdf');
-
-    fs = FileSystemStorage('/tmp')
-    with fs.open('medicacoes.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="medicacoes.pdf"'
-        return response
-
-    return response
-
-
-def gerar_pdf_coberturas(request):
-    
-    animal = request.POST.get('animal')
-    inicio = request.POST.get('inicio')
-    fim = request.POST.get('fim')
-
-    if(animal != '0'):
-        coberturas = Cobertura.objects.raw(
-            '''
-            SELECT ac.id,
-            (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = sc.id_cabra_id) AS Cabra,
-            (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = ac.id_bode_id) AS Bode,
-            ac.inicio_cobertura, ac.fim_cobertura, sc.status_cobertura
-            FROM animais_cobertura ac
-            INNER JOIN animais_statuscobertura sc ON ac.id = sc.id_cobertura_id
-            WHERE sc.id_cabra_id = ''' + animal + '''
-            AND ac.inicio_cobertura BETWEEN "''' + inicio + '''" AND "''' + fim + '''"
-            '''
-        )
-        
-    else:
-        coberturas = Cobertura.objects.raw(
-            '''
-            SELECT ac.id,
-            (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = sc.id_cabra_id) AS Cabra,
-            (SELECT aa.brincos_animal FROM animais_animal aa WHERE aa.id = ac.id_bode_id) AS Bode,
-            ac.inicio_cobertura, ac.fim_cobertura, sc.status_cobertura
-            FROM animais_cobertura ac
-            INNER JOIN animais_statuscobertura sc ON ac.id = sc.id_cobertura_id
-            WHERE ac.inicio_cobertura BETWEEN "''' + inicio + '''" AND "''' + fim + '''"
-            '''
-        )
-        
-    html_string = render_to_string('tabela_cobertura.html', {'coberturas': coberturas})
-
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/coberturas.pdf');
-
-    fs = FileSystemStorage('/tmp')
-    with fs.open('coberturas.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="coberturas.pdf"'
-        return response
-
-    return response
-
-def gerar_pdf_partos(request):
-    
-    animal = request.POST.get('cabra')
-    inicio = request.POST.get('inicio')
-    fim = request.POST.get('fim')
-
-    if(animal != '0'):
-        partos = Parto.objects.raw("select * from animais_parto"+
-                            " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                            " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
-                            " where animais_parto.id_cabra_id = "+animal+
-                            " and animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
-                            " order by animais_parto.id desc;")
-    else:
-        partos = Parto.objects.raw("select * from animais_parto"+
-                " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
-                " where animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
-                " order by animais_parto.id desc;")
-
-    html_string = render_to_string('tabela_parto.html', {'partos': partos})
-
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/partos.pdf');
-
-    fs = FileSystemStorage('/tmp')
-    with fs.open('partos.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="partos.pdf"'
-        return response
-
-    return response
-
-def gerar_pdf_producoes(request):
-    
-    cabra = request.POST.get('cabra')
-    inicio = request.POST.get('inicio')
-    fim = request.POST.get('fim')
-
-    if(cabra != '0'):
-        producao = Producao.objects.raw("select * from animais_producao"+
-                            " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                            " where animais_producao.id_cabra_id = "+animal+
-                            " and animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                            " order by animais_producao.data_producao desc;")
-    else:
-        producao = Producao.objects.raw("select * from animais_producao"+
-                            " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                            " where animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                            " order by animais_producao.data_producao desc;")
-        
-
-    html_string = render_to_string('tabela_producao.html', {'producao': producao})
-
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/producao.pdf');
-
-    fs = FileSystemStorage('/tmp')
-    with fs.open('producao.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="producao.pdf"'
-        return response
-
-    return response
-
-def gerar_pdf_descartes(request):
-    
-    cabra = request.POST.get('cabra')
-    inicio = request.POST.get('inicio')
-    fim = request.POST.get('fim')
-
-    if(cabra != '0'):
-        producao = Producao.objects.raw("select * from animais_producao"+
-                            " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                            " where animais_producao.id_cabra_id = "+animal+
-                            " and animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                            " and animais_producao.descarte_producao = 1"
-                            " order by animais_producao.data_producao desc;")
-    else:
-        producao = Producao.objects.raw("select * from animais_producao"+
-                            " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                            " where animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
-                            " and animais_producao.descarte_producao = 1"
-                            " order by animais_producao.data_producao desc;")
-        
-
-    html_string = render_to_string('tabela_descarte.html', {'producao': producao})
-
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/descarte.pdf');
-
-    fs = FileSystemStorage('/tmp')
-    with fs.open('descarte.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="descarte.pdf"'
-        return response
-
-    return response

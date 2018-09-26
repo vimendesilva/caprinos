@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'caprino.core.apps.CoreConfig',
     'caprino.animais.apps.AnimaisConfig',
     'caprino.contas.apps.ContasConfig',
+    'caprino.relatorios.apps.RelatoriosConfig',
 ]
 
 MIDDLEWARE = [

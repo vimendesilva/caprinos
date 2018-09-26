@@ -21,6 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('', include('caprino.core.urls')),
     path('animais/', include('caprino.animais.urls')),
+    path('relatorios/', include('caprino.relatorios.urls')),
     path('contas/', include('caprino.contas.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

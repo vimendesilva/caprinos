@@ -37,12 +37,13 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Relatórios Partos</h4>
+                        <h4 class="card-title">Relatórios Produção</h4>
                     </div>
                     <div class="card-body">
                         <br>
 
-                        <form method="POST" id="form_parto">
+                        
+                        <form method="POST" id="form_producao">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-4">
@@ -56,25 +57,24 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Início</label><span style="color: red">*</span>
-                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de início do Período de Cobertura"></i>
-                                        <input name="inicio" type="date" class="form-control" required> 
+                                        <label>Início</label>
+                                        <!-- <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de início do Período de Cobertura"></i> -->
+                                        <input name="inicio" type="date" class="form-control">
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Fim</label><span style="color: red">*</span>
-                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de fim do Período de Cobertura"></i>
-                                        <input name="fim" type="date" class="form-control" required>
+                                        <label>Fim</label>
+                                        <!-- <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de fim do Período de Cobertura"></i> -->
+                                        <input name="fim" type="date" class="form-control">
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                             <button style="margin-bottom: 20px; margin-left: 20px; float: right;" id="gerar_relatorio" class="btn btn-success btn-fill btn-wd">Gerar relatório</button>
                             <button style="margin-bottom: 20px; float: right;" id="gerar_pdf" class="btn btn-primary btn-fill btn-wd">Gerar PDF</button>
                         </form>
-                        
                         
                     </div>
                 </div>
@@ -89,13 +89,13 @@
     <script>
         $(document).ready(function() {
             $('#gerar_relatorio').click(function() {
-                $('#form_parto').attr('action', "{% url 'caprino.animais:RelatoriosParto' %}");
-                $('#form_parto').submit();
+                $('#form_producao').attr('action', "{% url 'caprino.relatorios:RelatoriosProducao' %}");
+                $('#form_producao').submit();
             });
 
             $('#gerar_pdf').click(function() {
-                $('#form_parto').attr('action', "{% url 'caprino.animais:RelatoriosPartoPDF' %}");
-                $('#form_parto').submit();
+                $('#form_producao').attr('action', "{% url 'caprino.relatorios:RelatoriosProducaoPDF' %}");
+                $('#form_producao').submit();
             });
         });
     </script>
