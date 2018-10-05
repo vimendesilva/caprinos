@@ -59,7 +59,7 @@
                                     <div class="form-group">
                                         <label>Início</label>
                                         <!-- <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de início do Período de Cobertura"></i> -->
-                                        <input name="inicio" type="date" class="form-control">
+                                        <input name="inicio" id="inicio" type="date" class="form-control" required="required">
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                     <div class="form-group">
                                         <label>Fim</label>
                                         <!-- <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de fim do Período de Cobertura"></i> -->
-                                        <input name="fim" type="date" class="form-control">
+                                        <input name="fim" id="fim" type="date" class="form-control" required="required">
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
@@ -90,12 +90,17 @@
         $(document).ready(function() {
             $('#gerar_relatorio').click(function() {
                 $('#form_producao').attr('action', "{% url 'caprino.relatorios:RelatoriosProducao' %}");
-                $('#form_producao').submit();
+                if($('#inicio').val() != "" && $('#fim').val() != ""){
+                    $('#form_producao').submit();
+                }
+                
             });
 
             $('#gerar_pdf').click(function() {
                 $('#form_producao').attr('action', "{% url 'caprino.relatorios:RelatoriosProducaoPDF' %}");
-                $('#form_producao').submit();
+                if($('#inicio').val() != "" && $('#fim').val() != ""){
+                    $('#form_producao').submit();
+                }
             });
         });
     </script>

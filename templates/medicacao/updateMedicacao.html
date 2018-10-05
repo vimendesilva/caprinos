@@ -63,21 +63,21 @@
                             <div class="row">
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
-                                        <label>Animal</label>
+                                        <label>Animal</label><span style="color: red">*</span>
                                          {{ medicacao_form.id_animal }}
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
                                 <div class="col-md-3 px-1">
                                     <div class="form-group">
-                                        <label>Medicação</label>
+                                        <label>Medicação</label><span style="color: red">*</span>
                                         {{ medicacao_form.medicacao }} 
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label>Data de Aplicação</label>
+                                        <label>Data de Aplicação</label><span style="color: red">*</span>
                                         <!-- {{ medicacao_form.data_medicacao }}  -->
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                         {% if medicacao_form.data_medicacao.value.day < 10 and medicacao_form.data_medicacao.value.month < 10 %}
@@ -95,7 +95,7 @@
                             <div class="row">
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Início Período de carência</label><span style="color: red">*</span>
+                                        <label>Início Período de carência</label>
                                         <!-- {{ medicacao_form.inicio_carencia }}   -->
                                         <!-- <input type="text" class="form-control" placeholder="Company" value="Mike"> -->
                                         {% if medicacao_form.inicio_carencia.value.day < 10 and medicacao_form.inicio_carencia.value.month < 10 %}
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-md-6 pr-1">
                                     <div class="form-group">
-                                        <label>Fim Período de carência</label><span style="color: red">*</span>
+                                        <label>Fim Período de carência</label>
                                         <!-- {{ medicacao_form.fim_carencia }}  -->
                                         {% if medicacao_form.fim_carencia.value.day < 10 and medicacao_form.fim_carencia.value.month < 10 %}
                                             <input name="fim_carencia" type="date" class="form-control" placeholder="Company" value="{{ medicacao_form.fim_carencia.value.year }}-0{{ medicacao_form.fim_carencia.value.month }}-0{{ medicacao_form.fim_carencia.value.day }}">

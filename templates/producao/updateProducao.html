@@ -65,7 +65,9 @@
                                     {{ producao_form.errors }}
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Data</label>
+                                        <label>Data</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Selecione a data da pesagem do leite"></i>
+                                        {{ producao_form.data_producao }}
                                         <!-- {{ producao_form.data_producao }} -->
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                         {% if producao_form.data_producao.value.day < 10 and producao_form.data_producao.value.month < 10 %}
@@ -98,7 +100,8 @@
                             <div class="row">
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Peso Manhã</label>
+                                        <label>Peso Manhã</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Digite a pesagem do leite separada por '.' Exemplo: 1.2"></i>
                                         {{ producao_form.manha_producao }}
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
@@ -106,7 +109,8 @@
                         
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Peso tarde</label>
+                                        <label>Peso tarde</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Digite a pesagem do leite separada por '.' Exemplo: 1.2"></i>
                                         {{ producao_form.tarde_producao }}
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>

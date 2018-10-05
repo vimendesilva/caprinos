@@ -87,7 +87,7 @@ def CreateParto(request, pk):
         if(form.is_valid()):
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Dados cadastrados com sucesso!')
-            return redirect('/animais/coberturas_partos')
+            return redirect('/animais/mostra_partos/'+str(pk))
 
     else:
         cabras = Animal.objects.raw('select * from animais_animal'+ 
@@ -102,7 +102,7 @@ def CreateParto(request, pk):
 @login_required
 def ListaCabras(request):
 
-    animais = Animal.objects.all().filter(sexo_animal='f').filter(vida_animal='s')
+    animais = Animal.objects.all().filter(sexo_animal=2).filter(vida_animal=2)
     paginator = Paginator(animais, 5)
 
     page = request.GET.get('page')
@@ -178,7 +178,7 @@ def MostraProducao(request, pk):
 def MostraMedicacoes(request):
 
     medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
+                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao_id"+
                                         " order by animais_medicacao.id desc;")
     paginator = Paginator(medicacoes, 5)
     
@@ -198,7 +198,7 @@ def MostraParto(request, pk):
 
     parto = Parto.objects.raw("select * from animais_parto"+
                                 " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
+                                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto_id"+
                                 " where animais_parto.id_cobertura_id="+str(pk)+
                                 " order by animais_parto.id desc;")
 
@@ -335,7 +335,7 @@ def UpdateParto(request, id_parto, id_cob):
         if(form.is_valid()):
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Dados alterados com sucesso!')
-            return redirect('/animais/coberturas_partos')
+            return redirect('/animais/mostra_partos/'+str(id_cob))
 
     else:
         form = forms.CreateParto(instance=parto)
@@ -345,7 +345,7 @@ def UpdateParto(request, id_parto, id_cob):
                                             ' inner join animais_cobertura on animais_statuscobertura.id_cobertura_id = animais_cobertura.id'+
                                             ' where animais_cobertura.id = '+ str(id_cob) +' and animais_statuscobertura.status_cobertura = "1"')
 
-    return render(request, 'parto/updateParto.html', {'parto_form': form, 'id_cob': cobertura, 'cabras': cabras})
+    return render(request, 'parto/updateParto.html', {'parto_form': form, 'id_cob': id_cob, 'cabras': cabras})
 
 @login_required
 def CoberturasPartos(request):

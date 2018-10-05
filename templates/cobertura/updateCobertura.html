@@ -67,7 +67,8 @@
                             <div class="row">
                                 <div class="col-md-4 pr-1">
                                     <div class="form-group">
-                                        <label>Início</label>
+                                        <label>Início</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de início do Período de Cobertura"></i>
                                         <!-- {{ cobertura_form.inicio_cobertura }} -->
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                         {% if cobertura_form.inicio_cobertura.value.day < 10 and cobertura_form.inicio_cobertura.value.month < 10 %}
@@ -83,7 +84,8 @@
                                 </div>
                                 <div class="col-md-4 px-1">
                                     <div class="form-group">
-                                        <label>Fim</label>
+                                        <label>Fim</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de fim do Período de Cobertura"></i>
                                         <!-- {{ cobertura_form.fim_cobertura }} -->
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                         {% if cobertura_form.fim_cobertura.value.day < 10 and cobertura_form.fim_cobertura.value.month < 10 %}
@@ -99,7 +101,8 @@
                                 </div>
                                 <div class="col-md-4 px-1">
                                     <div class="form-group">
-                                        <label>Bode</label>
+                                        <label>Bode</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Selecione o Bode identificado pelo Brinco"></i>
                                         {{ cobertura_form.id_bode }}
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
@@ -108,7 +111,8 @@
                             <div class="row">
                                 <div class="col-md-12 pr-1">
                                     <div class="form-group">
-                                        <label>Cabras</label>
+                                        <label>Cabras</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Selecione uma ou mais Cabras identificadas pelo Brinco"></i>
                                         {{ cobertura_form.id_cabra }}
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>

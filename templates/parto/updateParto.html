@@ -63,7 +63,7 @@
                             <div class="row">
                                 <div class="col-md-5 pr-1">
                                     <div class="form-group">
-                                        <label>Data</label>
+                                        <label>Data</label><span style="color: red">*</span>
                                          <!-- {{ parto_form.data_parto }} -->
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                         {% if parto_form.data_parto.value.day < 10 and parto_form.data_parto.value.month < 10 %}
@@ -79,14 +79,14 @@
                                 </div>
                                 <div class="col-md-3 px-1">
                                     <div class="form-group">
-                                        <label>Tipo de Parto</label>
-                                        {{ parto_form.tipo_parto }} 
+                                        <label>Tipo de Parto</label><span style="color: red">*</span>
+                                        {{ parto_form.parto }} 
                                         <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
                                     </div>
                                 </div>
                                 <div class="col-md-4 pl-1">
                                     <div class="form-group">
-                                        <label>Vivos</label>
+                                        <label>Vivos</label><span style="color: red">*</span>
                                         {{ parto_form.vivos_parto }} 
                                         <!-- <input type="email" class="form-control" placeholder="Email"> -->
                                     </div>
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Cabra</label>
+                                        <label>Cabra</label><span style="color: red">*</span>
                                         <!-- {{ parto_form.id_cabra.value }}  -->
                                         <select class="form-control" name="id_cabra">
                                             <option value="0">Selecione uma opção</option>

@@ -34,6 +34,15 @@ def RelatoriosProducao(request):
                                 " where animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
                                 " order by animais_producao.data_producao desc;")
         
+        paginator = Paginator(producao, 2)
+        page = request.GET.get('page')
+
+        try:
+            producao = paginator.page(page)
+        except PageNotAnInteger:
+            producao = paginator.page(1)
+        except EmptyPage:
+            producao = paginator.page(paginator.num_pages)
 
         dia = [obj.data_producao.day for obj in producao]
         prod = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
@@ -51,10 +60,11 @@ def RelatoriosProducao(request):
             'producao': producao
         }
 
+       
         return render(request, 'relatorios/relatorios.html', dados)
 
     else:
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+        cabras = Animal.objects.filter(sexo_animal=2).filter(vida_animal=2)
 
         return render(request, 'relatorios/relatorios_producao.html', {'cabras': cabras})
 
@@ -69,14 +79,14 @@ def RelatoriosMedicacao(request):
 
         if(animal != '0'):
             medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
+                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao_id"+
                                         " where animais_medicacao.id_animal_id="+animal+
                                         " and animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
                                         " order by animais_medicacao.id desc;")
             
         else:
             medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
+                                        " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao_id"+
                                         " where animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
                                         " order by animais_medicacao.id desc;")
 
@@ -84,7 +94,7 @@ def RelatoriosMedicacao(request):
 
     else:
 
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+        cabras = Animal.objects.filter(vida_animal=2)
 
         return render(request, 'relatorios/relatorios_medicacao.html', {'cabras': cabras})
     
@@ -127,7 +137,7 @@ def RelatoriosCobertura(request):
 
     else:
 
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+        cabras = Animal.objects.filter(sexo_animal=2).filter(vida_animal=2)
 
         return render(request, 'relatorios/relatorios_cobertura.html', {'cabras': cabras})
 
@@ -158,7 +168,7 @@ def RelatoriosParto(request):
 
     else:
 
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+        cabras = Animal.objects.filter(sexo_animal=2).filter(vida_animal=2)
 
         return render(request, 'relatorios/relatorios_parto.html', {'cabras': cabras})
 
@@ -205,7 +215,7 @@ def RelatoriosDescarte(request):
         return render(request, 'relatorios/descarte.html', dados)
 
     else:
-        cabras = Animal.objects.filter(sexo_animal='f').filter(vida_animal='s')
+        cabras = Animal.objects.filter(sexo_animal=2).filter(vida_animal=2)
 
         return render(request, 'relatorios/relatorios_descarte.html', {'cabras': cabras})
 

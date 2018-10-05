@@ -13,7 +13,7 @@ class CreateUsuario(UserCreationForm):
     password1 = forms.CharField(label='Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     password2 = forms.CharField(label='Confirmação de Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
-    is_superuser = forms.BooleanField(label='Administrador', widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
+    is_superuser = forms.BooleanField(label='Administrador', required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
 
     def save(self, commit=True):
         data = self.cleaned_data
