@@ -47,34 +47,34 @@
             <td>{{ medicacao.tipo_medicacao }}</td>
 
             {% if medicacao.data_medicacao.day < 10 and medicacao.data_medicacao.month < 10 %}
-                    <td>{{ medicacao.data_medicacao.year }}-0{{ medicacao.data_medicacao.month }}-0{{ medicacao.data_medicacao.day }}</td>
+                    <td>0{{ medicacao.data_medicacao.day }}/0{{ medicacao.data_medicacao.month }}/{{ medicacao.data_medicacao.year }}</td>
                 {% elif medicacao.data_medicacao.day < 10 and medicacao.data_medicacao.month >= 10 %}
-                    <td>{{ medicacao.data_medicacao.year }}-{{ medicacao.data_medicacao.month }}-0{{ medicacao.data_medicacao.day }}</td>
+                    <td>0{{ medicacao.data_medicacao.day }}/{{ medicacao.data_medicacao.month }}/{{ medicacao.data_medicacao.year }}</td>
                 {% elif medicacao.data_medicacao.day >= 10 and medicacao.data_medicacao.month < 10 %}
-                    <td>{{ medicacao.data_medicacao.year }}-0{{ medicacao.data_medicacao.month }}-{{ medicacao.data_medicacao.day }}</td>
+                    <td>{{ medicacao.data_medicacao.day }}/0{{ medicacao.data_medicacao.month }}/{{ medicacao.data_medicacao.year }}</td>
                 {% else %}
-                    <td>{{ medicacao.data_medicacao.year }}-{{ medicacao.data_medicacao.month }}-{{ medicacao.data_medicacao.day }}</td>
+                    <td>{{ medicacao.data_medicacao.day }}/{{ medicacao.data_medicacao.month }}/{{ medicacao.data_medicacao.year }}</td>
                 {% endif %}
 
             {% if medicacao.inicio_carencia and medicacao.fim_carencia %}
                 {% if medicacao.inicio_carencia.day < 10 and medicacao.inicio_carencia.month < 10 %}
-                    <td>{{ medicacao.inicio_carencia.year }}-0{{ medicacao.inicio_carencia.month }}-0{{ medicacao.inicio_carencia.day }}</td>
+                    <td>0{{ medicacao.inicio_carencia.day }}/0{{ medicacao.inicio_carencia.month }}/{{ medicacao.inicio_carencia.year }}</td>
                 {% elif medicacao.inicio_carencia.day < 10 and medicacao.inicio_carencia.month >= 10 %}
-                    <td>{{ medicacao.inicio_carencia.year }}-{{ medicacao.inicio_carencia.month }}-0{{ medicacao.inicio_carencia.day }}</td>
+                    <td>0{{ medicacao.inicio_carencia.day }}/{{ medicacao.inicio_carencia.month }}/{{ medicacao.inicio_carencia.year }}</td>
                 {% elif medicacao.inicio_carencia.day >= 10 and medicacao.inicio_carencia.month < 10 %}
-                    <td>{{ medicacao.inicio_carencia.year }}-0{{ medicacao.inicio_carencia.month }}-{{ medicacao.inicio_carencia.day }}</td>
+                    <td>{{ medicacao.inicio_carencia.day }}/0{{ medicacao.inicio_carencia.month }}/{{ medicacao.inicio_carencia.year }}</td>
                 {% else %}
-                    <td>{{ medicacao.inicio_carencia.year }}-{{ medicacao.inicio_carencia.month }}-{{ medicacao.inicio_carencia.day }}</td>
+                    <td>{{ medicacao.inicio_carencia.day }}/{{ medicacao.inicio_carencia.month }}/{{ medicacao.inicio_carencia.year }}</td>
                 {% endif %}
 
                 {% if medicacao.fim_carencia.day < 10 and medicacao.fim_carencia.month < 10 %}
-                    <td>{{ medicacao.fim_carencia.year }}-0{{ medicacao.fim_carencia.month }}-0{{ medicacao.fim_carencia.day }}</td>
+                    <td>0{{ medicacao.fim_carencia.day }}/0{{ medicacao.fim_carencia.month }}/{{ medicacao.fim_carencia.year }}</td>
                 {% elif medicacao.fim_carencia.day < 10 and medicacao.fim_carencia.month >= 10 %}
-                    <td>{{ medicacao.fim_carencia.year }}-{{ medicacao.fim_carencia.month }}-0{{ medicacao.fim_carencia.day }}</td>
+                    <td>0{{ medicacao.fim_carencia.day }}/{{ medicacao.fim_carencia.month }}/{{ medicacao.fim_carencia.year }}</td>
                 {% elif medicacao.fim_carencia.day >= 10 and medicacao.fim_carencia.month < 10 %}
-                    <td>{{ medicacao.fim_carencia.year }}-0{{ medicacao.fim_carencia.month }}-{{ medicacao.fim_carencia.day }}</td>
+                    <td>{{ medicacao.fim_carencia.day }}/0{{ medicacao.fim_carencia.month }}/{{ medicacao.fim_carencia.year }}</td>
                 {% else %}
-                    <td>{{ medicacao.fim_carencia.year }}-{{ medicacao.fim_carencia.month }}-{{ medicacao.fim_carencia.day }}</td>
+                    <td>{{ medicacao.fim_carencia.day }}/{{ medicacao.fim_carencia.month }}/{{ medicacao.fim_carencia.year }}</td>
                 {% endif %}
 
             {% else %}

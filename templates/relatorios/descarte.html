@@ -33,24 +33,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <!-- <div class="row">
-            <div class="col-md-9">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h4 class="card-title">Relatório Descarte Produção Leiteira</h4>
-                    </div>
-                    <div class="card-body ">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                    <div class="card-footer ">
-                        <hr>
-                        <div style="float: right;">
-                            <i class="fa fa-clock-o"></i> Produção Total: {{ soma }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+        
         <div class="row">
                 <div class="col-md-12">
                     <div class="card strpied-tabled-with-hover">
@@ -60,7 +43,7 @@
                             <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
                         </div>
                         <div class="card-body table-full-width table-responsive">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped" id="tabela">
                                 <thead>  
                                     <tr>
                                         <th>Cabra</th>
@@ -86,55 +69,28 @@
             </div>
     </div>
 </div>
-{% endblock %} {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+{% endblock %} 
+{% block scripts %}
+
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var grafico = JSON.parse('{{ grafico|safe }}');
-
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'line',
-        // The data for our dataset
-        data: {
-            labels: grafico.data_prod,
-            datasets: [{
-                label: "Curva Produção",
-                backgroundColor: 'rgb(255,165,0)',
-                borderColor: 'rgb(255,140,0)',
-                data: grafico.manha_prod,
-            }]
-        },
-        // Configuration options go here
-        options: {
-				responsive: true,
-				
-				tooltips: {
-					mode: 'index',
-					intersect: false,
-				},
-				hover: {
-					mode: 'nearest',
-					intersect: true
-				},
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Dias do mês'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Produção (em kg)'
-						}
-					}]
-				}
-			}
+    $(document).ready(function () {
+        $('#tabela').DataTable({
+            "searching": false,
+            "info": false,
+            "lengthChange": false,
+            "pageLength": 2,
+            "lengthMenu": false,
+            "ordering": false,
+            "language":{
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       ">>",
+                    "previous":   "<<"
+                },       
+            }
+        });
+        
     });
-
-    
-</script> {% endblock %}
+</script>
+{% endblock %}

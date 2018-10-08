@@ -46,13 +46,13 @@
             <td>{{ parto.tipo_parto }}</td>
 
             {% if parto.data_parto.day < 10 and parto.data_parto.month < 10 %}
-                <td>{{ parto.data_parto.year }}-0{{ parto.data_parto.month }}-0{{ parto.data_parto.day }}</td>
+                <td>0{{ parto.data_parto.day }}/0{{ parto.data_parto.month }}/{{ parto.data_parto.year }}</td>
             {% elif parto.data_parto.day < 10 and parto.data_parto.month >= 10 %}
-                <td>{{ parto.data_parto.year }}-{{ parto.data_parto.month }}-0{{ parto.data_parto.day }}</td>
+                <td>0{{ parto.data_parto.day }}/{{ parto.data_parto.month }}/{{ parto.data_parto.year }}</td>
             {% elif parto.data_parto.day >= 10 and parto.data_parto.month < 10 %}
-                <td>{{ parto.data_parto.year }}-0{{ parto.data_parto.month }}-{{ parto.data_parto.day }}</td>
+                <td>{{ parto.data_parto.day }}/0{{ parto.data_parto.month }}/{{ parto.data_parto.year }}</td>
             {% else %}
-                <td>{{ parto.data_parto.year }}-{{ parto.data_parto.month }}-{{ parto.data_parto.day }}</td>
+                <td>{{ parto.data_parto.day }}/{{ parto.data_parto.month }}/{{ parto.data_parto.year }}</td>
             {% endif %}
             
             <td>{{ parto.vivos_parto }}</td> 

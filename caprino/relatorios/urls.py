@@ -15,6 +15,6 @@ urlpatterns = [
     path('relatorios_med/', views.RelatoriosMedicacao, name='RelatoriosMedicacao'),
     path('relatorios_cob/', views.RelatoriosCobertura, name='RelatoriosCobertura'),
     path('relatorios_part/', views.RelatoriosParto, name='RelatoriosParto'),
-    path('relatorios/', views.RelatoriosProducao, name='RelatoriosProducao'),
+    path('relatorios_prod/', views.RelatoriosProducao, name='RelatoriosProducao'),
     path('relatorios_desc/', views.RelatoriosDescarte, name='RelatoriosDescarte'),
 ]

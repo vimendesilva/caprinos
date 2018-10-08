@@ -25,7 +25,7 @@ def RelatoriosProducao(request):
         if(cabra != '0'):
             producao = Producao.objects.raw("select * from animais_producao"+
                                 " inner join animais_animal on animais_producao.id_cabra_id = animais_animal.id"+
-                                " where animais_producao.id_cabra_id = "+animal+
+                                " where animais_producao.id_cabra_id = "+cabra+
                                 " and animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
                                 " order by animais_producao.data_producao desc;")
         else:
@@ -34,15 +34,6 @@ def RelatoriosProducao(request):
                                 " where animais_producao.data_producao between '"+inicio+"' and '"+fim+"'"+
                                 " order by animais_producao.data_producao desc;")
         
-        paginator = Paginator(producao, 2)
-        page = request.GET.get('page')
-
-        try:
-            producao = paginator.page(page)
-        except PageNotAnInteger:
-            producao = paginator.page(1)
-        except EmptyPage:
-            producao = paginator.page(paginator.num_pages)
 
         dia = [obj.data_producao.day for obj in producao]
         prod = [float(obj.manha_producao + obj.tarde_producao) for obj in producao]
@@ -152,14 +143,14 @@ def RelatoriosParto(request):
         if(animal != '0'):
             partos = Parto.objects.raw("select * from animais_parto"+
                                 " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
+                                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto_id"+
                                 " where animais_parto.id_cabra_id = "+animal+
                                 " and animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
                                 " order by animais_parto.id desc;")
         else:
             partos = Parto.objects.raw("select * from animais_parto"+
                                     " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                                    " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
+                                    " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto_id"+
                                     " where animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
                                     " order by animais_parto.id desc;")
 
@@ -234,14 +225,14 @@ def gerar_pdf_medicacoes(request):
 
     if(animal != '0'):
         medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                    " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
+                                    " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao_id"+
                                     " where animais_medicacao.id_animal_id="+animal+
                                     " and animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
                                     " order by animais_medicacao.id desc;")
         
     else:
         medicacoes = Medicacao.objects.raw("select * from animais_medicacao"+
-                                    " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao"+
+                                    " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao_id"+
                                     " where animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
                                     " order by animais_medicacao.id desc;")
         
@@ -314,14 +305,14 @@ def gerar_pdf_partos(request):
     if(animal != '0'):
         partos = Parto.objects.raw("select * from animais_parto"+
                             " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                            " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
+                            " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto_id"+
                             " where animais_parto.id_cabra_id = "+animal+
                             " and animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
                             " order by animais_parto.id desc;")
     else:
         partos = Parto.objects.raw("select * from animais_parto"+
                 " inner join animais_animal on animais_parto.id_cabra_id = animais_animal.id"+
-                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto"+
+                " inner join animais_tipoparto on animais_tipoparto.id = animais_parto.parto_id"+
                 " where animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
                 " order by animais_parto.id desc;")
 

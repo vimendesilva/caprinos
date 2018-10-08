@@ -39,12 +39,12 @@ class UpdateUsuario(forms.ModelForm):
     first_name = forms.CharField(label='Nome:', widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(label='Sobrenome:', widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(label='E-mail:', widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    # username = forms.CharField(label='Nome de usuário:', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    # password1 = forms.CharField(label='Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    # password2 = forms.CharField(label='Confirmação de Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(label='Nome de usuário:', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(label='Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label='Confirmação de Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     is_superuser = forms.BooleanField(label='Administrador', required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'is_superuser')
+        fields = ('first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'is_superuser')

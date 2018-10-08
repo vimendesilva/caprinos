@@ -47,23 +47,23 @@
 
             {% if cobertura.inicio_cobertura and cobertura.fim_cobertura %}
                 {% if cobertura.inicio_cobertura.day < 10 and cobertura.inicio_cobertura.month < 10 %}
-                    <td>{{ cobertura.inicio_cobertura.year }}-0{{ cobertura.inicio_cobertura.month }}-0{{ cobertura.inicio_cobertura.day }}</td>
+                    <td>0{{ cobertura.inicio_cobertura.day }}/0{{ cobertura.inicio_cobertura.month }}/{{ cobertura.inicio_cobertura.year }}</td>
                 {% elif cobertura.inicio_cobertura.day < 10 and cobertura.inicio_cobertura.month >= 10 %}
-                    <td>{{ cobertura.inicio_cobertura.year }}-{{ cobertura.inicio_cobertura.month }}-0{{ cobertura.inicio_cobertura.day }}</td>
+                    <td>0{{ cobertura.inicio_cobertura.day }}/{{ cobertura.inicio_cobertura.month }}/{{ cobertura.inicio_cobertura.year }}</td>
                 {% elif cobertura.inicio_cobertura.day >= 10 and cobertura.inicio_cobertura.month < 10 %}
-                    <td>{{ cobertura.inicio_cobertura.year }}-0{{ cobertura.inicio_cobertura.month }}-{{ cobertura.inicio_cobertura.day }}</td>
+                    <td>{{ cobertura.inicio_cobertura.day }}/0{{ cobertura.inicio_cobertura.month }}/{{ cobertura.inicio_cobertura.year }}</td>
                 {% else %}
-                    <td>{{ cobertura.inicio_cobertura.year }}-{{ cobertura.inicio_cobertura.month }}-{{ cobertura.inicio_cobertura.day }}</td>
+                    <td>{{ cobertura.inicio_cobertura.day }}/{{ cobertura.inicio_cobertura.month }}/{{ cobertura.inicio_cobertura.year }}</td>
                 {% endif %}
 
                 {% if cobertura.fim_cobertura.day < 10 and cobertura.fim_cobertura.month < 10 %}
-                    <td>{{ cobertura.fim_cobertura.year }}-0{{ cobertura.fim_cobertura.month }}-0{{ cobertura.fim_cobertura.day }}</td>
+                    <td>0{{ cobertura.fim_cobertura.day }}/0{{ cobertura.fim_cobertura.month }}/{{ cobertura.fim_cobertura.year }}</td>
                 {% elif cobertura.fim_cobertura.day < 10 and cobertura.fim_cobertura.month >= 10 %}
-                    <td>{{ cobertura.fim_cobertura.year }}-{{ cobertura.fim_cobertura.month }}-0{{ cobertura.fim_cobertura.day }}</td>
+                    <td>0{{ cobertura.fim_cobertura.day }}/{{ cobertura.fim_cobertura.month }}/{{ cobertura.fim_cobertura.year }}</td>
                 {% elif cobertura.fim_cobertura.day >= 10 and cobertura.fim_cobertura.month < 10 %}
-                    <td>{{ cobertura.fim_cobertura.year }}-0{{ cobertura.fim_cobertura.month }}-{{ cobertura.fim_cobertura.day }}</td>
+                    <td>{{ cobertura.fim_cobertura.day }}/0{{ cobertura.fim_cobertura.month }}/{{ cobertura.fim_cobertura.year }}</td>
                 {% else %}
-                    <td>{{ cobertura.fim_cobertura.year }}-{{ cobertura.fim_cobertura.month }}-{{ cobertura.fim_cobertura.day }}</td>
+                    <td>0{{ cobertura.fim_cobertura.day }}/0{{ cobertura.fim_cobertura.month }}/{{ cobertura.fim_cobertura.year }}</td>
                 {% endif %}
 
             {% else %}

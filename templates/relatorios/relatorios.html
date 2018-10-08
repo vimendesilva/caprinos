@@ -34,14 +34,14 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-9">
-                <div class="card ">
+            <div class="col-md-12">
+                <div class="card " >
                     <div class="card-header ">
                         <h4 class="card-title">Relatório Produção Leiteira</h4>
                         <!-- <p class="card-category">Dias e pesos do leite</p> -->
                     </div>
                     <div class="card-body ">
-                        <canvas id="myChart"></canvas>
+                        <canvas id="myChart" style="max-height: 350px"></canvas>
                     </div>
                     <div class="card-footer ">
                         <hr>
@@ -53,77 +53,71 @@
             </div>
         </div>
         <div class="row">
-                <div class="col-md-12">
-                    <div class="card strpied-tabled-with-hover">
-                        <div class="card-header ">
-                            <h4 class="card-title">Produções Cadastradas</h4>
-                            {% comment %}
-                            <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
-                        </div>
-                        <div class="card-body table-full-width table-responsive">
-                            <table class="table table-hover table-striped">
-                                <thead>  
-                                    <tr>
-                                        <th>Cabra</th>
-                                        <th>Data</th>
-                                        <th>Produção Manhã</th>
-                                        <th>Produção tarde</th>
+            <div class="col-md-12">  
+                <div class="card strpied-tabled-with-hover">
+                    <div class="card-header ">
+                        <h4 class="card-title">Animais Cadastrados</h4>
+                        {% comment %} <p class="card-category">Here is a subtitle for this table</p> {% endcomment %}
+                    </div>
+                    <div class="card-body table-full-width table-responsive">
+                        <table class="table table-striped table-bordered" id="tabela">
+                            <thead>  
+                                <tr>
+                                    <th>Cabra</th>
+                                    <th>Data</th>
+                                    <th>Produção Manhã</th>
+                                    <th>Produção tarde</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in producao %}
+                                {% if p.descarte_producao == '1' %}
+                                    <tr style="background-color: #F5D0A9">
+                                        <td>{{ p.brincos_animal }}</td>
+                                        <td>{{ p.data_producao }}</td>
+                                        <td>{{ p.manha_producao }}</td> 
+                                        <td>{{ p.tarde_producao }}</td> 
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {% for p in producao %}
-                                    {% if p.descarte_producao == '1' %}
-                                        <tr style="background-color: #F5D0A9">
-                                            <td>{{ p.brincos_animal }}</td>
-                                            <td>{{ p.data_producao }}</td>
-                                            <td>{{ p.manha_producao }}</td> 
-                                            <td>{{ p.tarde_producao }}</td> 
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td>{{ p.brincos_animal }}</td>
-                                            <td>{{ p.data_producao }}</td>
-                                            <td>{{ p.manha_producao }}</td> 
-                                            <td>{{ p.tarde_producao }}</td> 
-                                        </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-
-                            {% if producao.has_other_pages %}
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    {% if producao.has_previous %}
-                                        <li class="page-link"><a href="?page={{ producao.previous_page_number }}">&laquo;</a></li>
-                                    {% else %}
-                                        <li class="page-link disabled"><span>&laquo;</span></li>
-                                    {% endif %}
-                                    {% for i in producao.paginator.page_range %}
-                                        {% if producao.number == i %}
-                                            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
-                                        {% else %}
-                                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    {% if producao.has_next %}
-                                        <li class="page-link"><a href="?page={{ producao.next_page_number }}">&raquo;</a></li>
-                                    {% else %}
-                                        <li class="page-link disabled"><span>&raquo;</span></li>
-                                    {% endif %}
-                                </ul>
-                            </nav>
-                            {% endif %}
-
-                        </div>
+                                {% else %}
+                                    <tr>
+                                        <td>{{ p.brincos_animal }}</td>
+                                        <td>{{ p.data_producao }}</td>
+                                        <td>{{ p.manha_producao }}</td> 
+                                        <td>{{ p.tarde_producao }}</td> 
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 {% endblock %} {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script>
+    $(document).ready(function () {
+        $('#tabela').DataTable({
+            "searching": false,
+            "info": false,
+            "lengthChange": false,
+            "pageLength": 9,
+            "lengthMenu": false,
+            "ordering": false,
+            "language":{
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       ">>",
+                    "previous":   "<<"
+                },       
+            }
+        });
+        
+    });
+
     var ctx = document.getElementById('myChart').getContext('2d');
     var grafico = JSON.parse('{{ grafico|safe }}');
 
@@ -134,7 +128,7 @@
         data: {
             labels: grafico.data_prod,
             datasets: [{
-                label: "Curva Produção",
+                label: "Produção",
                 backgroundColor: 'rgb(255,165,0)',
                 borderColor: 'rgb(255,140,0)',
                 data: grafico.manha_prod,
@@ -143,9 +137,20 @@
         // Configuration options go here
         options: {
 				responsive: true,
-				
 				tooltips: {
 					mode: 'index',
+                    callbacks: {
+						// Use the footer callback to display the sum of the items showing in the tooltip
+						footer: function(tooltipItems, data) {
+							var sum = '';
+
+							tooltipItems.forEach(function(tooltipItem) {
+								sum += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+							});
+							return 'Sum: ' + sum;
+						},
+					},
+					footerFontStyle: 'normal',
 					intersect: false,
 				},
 				hover: {
@@ -154,7 +159,7 @@
 				},
 				scales: {
 					xAxes: [{
-						display: true,
+						display: false,
 						scaleLabel: {
 							display: true,
 							labelString: 'Dias do mês'
