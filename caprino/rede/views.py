@@ -83,7 +83,14 @@ def MontaDados(request):
 
     resultado = MLP(request, x_atributos, y_prod)
 
-    return render(request, 'rede/dados.html')
+    dados = {
+        'resultado': resultado,
+        'min': resultado.min(),
+        'max': resultado.max(),
+        'mean': resultado.mean()
+    }
+
+    return render(request, 'rede/dados.html', dados)
 
 @login_required
 def MLP(request, x_atributos, y_prod):
@@ -115,32 +122,33 @@ def MLP(request, x_atributos, y_prod):
     print('Prediction max: {:.2f}'.format(predictions.max()))
     print('Prediction min: {:.2f}'.format(predictions.min()))
 
+    # print('\n*** After scaling the output via final activation:\n')
 
-    print('\n*** After scaling the output via final activation:\n')
+    # # Need to recreate the NN
+    # nn_logistic = MLPRegressor(
+    #     solver='lbfgs',
+    #     hidden_layer_sizes=50,
+    #     max_iter=10000,
+    #     shuffle=False,
+    #     random_state=9876,
+    #     activation='relu')
 
-    # Need to recreate the NN
-    nn_logistic = MLPRegressor(
-        solver='lbfgs',
-        hidden_layer_sizes=50,
-        max_iter=10000,
-        shuffle=False,
-        random_state=9876,
-        activation='relu')
-
-    # Fit the new network
-    nn_logistic.fit(x_atributos, y_prod)
+    # # Fit the new network
+    # nn_logistic.fit(x_atributos, y_prod)
 
 
-    # --------------- #
-    #  Crucial step!  #
-    # --------------- #
+    # # --------------- #
+    # #  Crucial step!  #
+    # # --------------- #
 
-    # before making predictions = alter the attribute: "output_activation_"
-    nn_logistic.out_activation_ = 'logistic'
-    print('New output activation: {}'.format(nn_logistic.out_activation_))
+    # # before making predictions = alter the attribute: "output_activation_"
+    # nn_logistic.out_activation_ = 'logistic'
+    # print('New output activation: {}'.format(nn_logistic.out_activation_))
 
-    new_predictions = nn_logistic.predict(lista_teste)
+    # new_predictions = nn_logistic.predict(lista_teste)
 
-    print('Prediction mean: {:.2f}'.format(new_predictions.mean()))
-    print('Prediction max: {:.2f}'.format(new_predictions.max()))
-    print('Prediction min: {:.2f}'.format(new_predictions.min()))
+    # print('Prediction mean: {:.2f}'.format(new_predictions.mean()))
+    # print('Prediction max: {:.2f}'.format(new_predictions.max()))
+    # print('Prediction min: {:.2f}'.format(new_predictions.min()))
+
+    return(predictions)

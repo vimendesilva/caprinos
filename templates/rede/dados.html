@@ -40,8 +40,12 @@
                         <h4 class="card-title">Rede</h4>
                     </div>
                     <div class="card-body">
-                        
-                        
+                        <p>Valor Mínimo: {{ min }}</p>
+                        <p>Valor Máximo: {{ max }}</p>
+                        <p>Valor Médio: {{ mean }}</p>
+                        {% for r in resultado %}
+                        {{ r }}
+                        {% endfor %}
                     </div>
                 </div>
             </div>

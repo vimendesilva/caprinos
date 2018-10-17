@@ -40,8 +40,8 @@ class UpdateUsuario(forms.ModelForm):
     last_name = forms.CharField(label='Sobrenome:', widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(label='E-mail:', widget=forms.EmailInput(attrs={'class': 'form-control'}))
     username = forms.CharField(label='Nome de usuário:', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password1 = forms.CharField(label='Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label='Confirmação de Senha:', strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(label='Senha:', strip=False, required=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label='Confirmação de Senha:', required=False, strip=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     is_superuser = forms.BooleanField(label='Administrador', required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
 
