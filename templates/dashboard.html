@@ -1,4 +1,5 @@
 {% extends 'base.html' %} <!-- usando base.html como base -->
+{% load static %}
 {% block conteudo %}
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
@@ -32,8 +33,22 @@
 
 <div class="content">
         <div class="container-fluid">
+            <center>
+                <img src="{% static 'img/if.png' %}" max-width="300px" max-height="100px"/>
+            </center>
+            <br>
+            <br>
             <div class="row">
-                
+                <div class="col-md-6">
+                    <p>Trabalho de Conclusão de Curso - 2018</p>
+                    <p>Desenvolvido para o setor de caprinocultura do IFSULDEMINAS - Câmpus Muzambinho</p>
+                    <p>Desenvolvido por: Vitória Mendes da Silva</p>
+                    <p>Orientação: Aline Marques Del Valle</p>
+                    <p>Coorientação: Lucas Alberto Teixeira de Rezende</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="{% static 'img/Foto 1.jpg' %}" width="500px" height="300px"/>
+                </div>
             </div>
         </div>
     </div>

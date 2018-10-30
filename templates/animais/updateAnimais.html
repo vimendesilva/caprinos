@@ -61,7 +61,7 @@
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if animais_form.foto_animal.value %} <!--adicionar opção de inserir foto-->
-                            <img src="{{ MEDIA_URL }}{{ animais_form.foto_animal.value }}">
+                            <img height="160px" width="160px" src="{{ MEDIA_URL }}{{ animais_form.foto_animal.value }}">
                             {% else %}
                             <div class="row">
                                 <div class="col-md-12">

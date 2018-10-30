@@ -43,9 +43,37 @@
                         <p>Valor Mínimo: {{ min }}</p>
                         <p>Valor Máximo: {{ max }}</p>
                         <p>Valor Médio: {{ mean }}</p>
-                        {% for r in resultado %}
-                        {{ r }}
-                        {% endfor %}
+                        <p>Produção Total: {{ soma_y }}</p>
+                        <p>Resultado Total: {{ soma_r }}</p>
+                        <p>Desempenho: {{ desempenho }}</p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Resultado</p>
+                                {% for r in resultado %}
+                                {{ r }}<br>
+                                {% endfor %}
+                            </div>
+                            <div class="col-md-4">
+                                <p>Y</p>
+                                {% for r in y %}
+                                {{ r }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>X</p>
+                                {% for r in x %}
+                                {{ r }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- <br><p>X</p>
+                        {% for r in x %}
+                        {{ r }}<br>
+                        {% endfor %} -->
+                        
                     </div>
                 </div>
             </div>
