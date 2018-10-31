@@ -89,7 +89,7 @@ def MontaDados(request):
     data_atual = date.today()
 
     cursor = connection.cursor()
-    # cursor.execute('SELECT raca_animal_id, sangue_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao) FROM dados limit 1000')
+    # cursor.execute('SELECT raca_animal_id, sangue_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao) FROM dados limit 1000')
     cursor.execute('SELECT raca_animal_id, sangue_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao) FROM dados')
     outros = matrixfetchall(cursor)
     print('Outros sem norma')
