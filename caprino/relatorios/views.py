@@ -48,7 +48,9 @@ def RelatoriosProducao(request):
         dados = {
             'grafico': json.dumps(grafico),
             'soma': soma,
-            'producao': producao
+            'producao': producao,
+            'inicio': inicio,
+            'fim': fim
         }
 
        
@@ -235,8 +237,13 @@ def gerar_pdf_medicacoes(request):
                                     " inner join animais_tipomedicacao on animais_tipomedicacao.id = animais_medicacao.medicacao_id"+
                                     " where animais_medicacao.data_medicacao between '"+inicio+"' and '"+fim+"'"
                                     " order by animais_medicacao.id desc;")
-        
-    html_string = render_to_string('relatorios/tabela_medicacao.html', {'medicacoes': medicacoes})
+    
+    dados = {
+        'medicacoes': medicacoes,
+        'inicio': inicio,
+        'fim': fim
+    }
+    html_string = render_to_string('relatorios/tabela_medicacao.html', dados)
 
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/medicacoes.pdf');
@@ -255,6 +262,7 @@ def gerar_pdf_coberturas(request):
     animal = request.POST.get('animal')
     inicio = request.POST.get('inicio')
     fim = request.POST.get('fim')
+    print(inicio)
 
     if(animal != '0'):
         coberturas = Cobertura.objects.raw(
@@ -283,7 +291,12 @@ def gerar_pdf_coberturas(request):
             '''
         )
         
-    html_string = render_to_string('relatorios/tabela_cobertura.html', {'coberturas': coberturas})
+    dados = {
+        'coberturas': coberturas,
+        'inicio': inicio,
+        'fim': fim
+    }
+    html_string = render_to_string('relatorios/tabela_cobertura.html', dados)
 
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/coberturas.pdf');
@@ -316,7 +329,12 @@ def gerar_pdf_partos(request):
                 " where animais_parto.data_parto between '"+inicio+"' and '"+fim+"'"+
                 " order by animais_parto.id desc;")
 
-    html_string = render_to_string('relatorios/tabela_parto.html', {'partos': partos})
+    dados = {
+        'partos': partos,
+        'inicio': inicio,
+        'fim': fim
+    }
+    html_string = render_to_string('relatorios/tabela_parto.html', dados)
 
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/partos.pdf');
@@ -348,7 +366,12 @@ def gerar_pdf_producoes(request):
                             " order by animais_producao.data_producao desc;")
         
 
-    html_string = render_to_string('relatorios/tabela_producao.html', {'producao': producao})
+    dados = {
+        'producao': producao,
+        'inicio': inicio,
+        'fim': fim
+    }
+    html_string = render_to_string('relatorios/tabela_producao.html', dados)
 
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/producao.pdf');
@@ -381,8 +404,12 @@ def gerar_pdf_descartes(request):
                             " and animais_producao.descarte_producao = 1"
                             " order by animais_producao.data_producao desc;")
         
-
-    html_string = render_to_string('relatorios/tabela_descarte.html', {'producao': producao})
+    dados = {
+        'producao': producao,
+        'inicio': inicio,
+        'fim': fim
+    }
+    html_string = render_to_string('relatorios/tabela_descarte.html', dados)
 
     html = HTML(string=html_string)
     html.write_pdf(target='/tmp/descarte.pdf');

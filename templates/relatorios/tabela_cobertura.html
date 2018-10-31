@@ -26,10 +26,30 @@
     <br>
     <br>
 </center>
-<p><b>INSTITUIÇÃO:</b> Intituto Federal Sul de Minas - Câmpus Muzambinho</p>
+<p><b>INSTITUIÇÃO:</b> Instituto Federal Sul de Minas - Câmpus Muzambinho</p>
 <p><b>SETOR:</b> Caprinocultura</p>
 <p><b>RELATÓRIO:</b> Coberturas dos animais do setor</p>
-<p><b>PERÍODO:</b> x a y</p>
+<p><b>PERÍODO:</b> {{ inicio }} a {{ fim }}</p>
+<!-- {% if inicio.value.day < 10 and inicio.value.month < 10  %}
+    <td><b>INÍCIO PERÍODO:</b> 0{{ inicio.day }}/0{{ inicio.month }}/{{ inicio.year }}</td>
+{% elif (inicio.day < 10 and inicio.month >= 10)  %}
+    <td><b>INÍCIO PERÍODO:</b> 0{{ inicio.day }}/{{ inicio.month }}/{{ inicio.year }}</td>
+{% elif (inicio.day >= 10 and inicio.month < 10)  %}
+    <td><b>INÍCIO PERÍODO:</b> {{ inicio.day }}/0{{ inicio.month }}/{{ inicio.year }}</td>
+{% else %}
+    <td><b>INÍCIO PERÍODO:</b> {{ inicio.day }}/{{ inicio.month }}/{{ inicio.year }}</td>
+{% endif %}
+
+{% if (fim.day < 10 and fim.month) %}
+    <td><b>FIM PERÍODO:</b> 0{{ fim.day }}/0{{ fim.month }}/{{ fim.year }}</td>
+{% elif (fim.day < 10 and fim.month >= 10) %}
+    <td><b>FIM PERÍODO:</b> 0{{ fim.day }}/{{ fim.month }}/{{ fim.year }}</td>
+{% elif (fim.day >= 10 and fim.month < 10) %}
+    <td><b>FIM PERÍODO:</b> {{ fim.day }}/0{{ fim.month }}/{{ fim.year }}</td>
+{% else %}
+    <td><b>FIM PERÍODO:</b> {{ fim.day }}/{{ fim.month }}/{{ fim.year }}</td>
+{% endif %} -->
+
 <br>
 <br>
 <table>
