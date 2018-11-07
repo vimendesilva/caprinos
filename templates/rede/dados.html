@@ -4,7 +4,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class=" container-fluid  ">
-        <a class="navbar-brand" href="#pablo"> Rede </a>
+        <a class="navbar-brand" href="#pablo"> Predição </a>
         <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" aria-controls="navigation-index"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -15,7 +15,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="dropdown">
-                        <span class="d-lg-none">Rede</span>
+                        <span class="d-lg-none">Predição</span>
                     </a>
                 </li>
             </ul>
@@ -35,6 +35,25 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
+                <div class="card " >
+                    <div class="card-header ">
+                        <h4 class="card-title">Predição Produção Leiteira</h4>
+                        <!-- <p class="card-category">Dias e pesos do leite</p> -->
+                    </div>
+                    <div class="card-body ">
+                        <canvas id="myChart" ></canvas>
+                    </div>
+                    <div class="card-footer ">
+                        <hr>
+                        <div style="float: right;">
+                            <i class="fa fa-clock-o"></i> Produção Total: {{ soma }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Rede</h4>
@@ -45,7 +64,13 @@
                         <p>Valor Médio: {{ mean }}</p>
                         <p>Produção Total: {{ soma_y }}</p>
                         <p>Resultado Total: {{ soma_r }}</p>
-                        <p>Desempenho: {{ desempenho }}</p>
+                        <p>explained_variance_score (melhor pontuação é 1): {{ evs }}</p>
+                        <p>mean_squared_error (melhor pontuação é 0): {{ mse }}</p>
+                        <p>mean_absolute_error (melhor pontuação é 0): {{ mean_ae }}</p>
+                        <p>mean_squared_log_error (melhor pontuação é 0): {{ msle }}</p>
+                        <p>median_absolute_error (melhor pontuação é 0): {{ median_ae }}</p>
+                        <p>r2_score (melhor pontuação é 1): {{ r2 }}</p>
+                        
                         <div class="row">
                             <div class="col-md-4">
                                 <p>Resultado</p>
@@ -60,14 +85,14 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-12">
                                 <p>X</p>
                                 {% for r in x %}
                                 {{ r }}<br>
                                 {% endfor %}
                             </div>
-                        </div>
+                        </div> -->
                         
                         <!-- <br><p>X</p>
                         {% for r in x %}
@@ -82,3 +107,82 @@
     </div>
 </div>
 {% endblock %} 
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#tabela').DataTable({
+            "searching": false,
+            "info": false,
+            "lengthChange": false,
+            "pageLength": 9,
+            "lengthMenu": false,
+            "ordering": false,
+            "language":{
+                "paginate": {
+                    "first":      "Primeiro",
+                    "last":       "Último",
+                    "next":       ">>",
+                    "previous":   "<<"
+                },       
+            }
+        });
+        
+    });
+
+    // var ctx = document.getElementById('myChart').getContext('2d');
+    var grafico = JSON.parse('{{ grafico|safe }}');
+    var config = {
+			type: 'line',
+			data: {
+				labels: grafico.teste,
+				datasets: [{
+					label: 'Produção',
+					fill: false,
+					backgroundColor: 'blue',
+					borderColor: 'blue',
+					data: grafico.teste,
+				}, {
+					label: 'Resultado',
+					fill: false,
+					backgroundColor: 'green',
+					borderColor: 'green',
+					borderDash: [5, 5],
+					data: grafico.resultado,
+				}, ]
+			},
+        options: {
+				responsive: true,
+				
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Month'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+        }
+			};
+    
+            window.onload = function() {
+			var ctx = document.getElementById('myChart').getContext('2d');
+			window.myLine = new Chart(ctx, config);
+		};
+</script> {% endblock %}

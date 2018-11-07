@@ -33,7 +33,7 @@
 
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -46,12 +46,72 @@
                         <a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosProducao' %}" title="Produções">Produções</a>
                         <a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosDescarte' %}" title="Descartes">Descartes</a>
 
-                        <a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.rede:MontaDados' %}" title="Rede">Rede</a>
+                        <a class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.rede:EscolheRede' %}" title="Rede">Rede</a>
                     </div>
                 </div>
             </div>
             
-        </div>
+        </div> -->
+        <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <p class="card-text">Relatório das Medicações aplicadas em um ou todos os animais em um período de tempo</p>
+                  <a class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosMedicacao' %}" title="Medicações">Medicações</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <p class="card-text">Relatório das Coberturas de uma ou todas as cabras em um período de tempo</p>
+                  <a class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosCobertura' %}" title="Coberturas">Coberturas</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <p class="card-text">Relatório dos Partos de uma ou todas as cabras em um período de tempo</p>
+                  <a class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosParto' %}" title="Partos">Partos</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <p class="card-text">Relatório da Produção Leiteira de uma ou todas as cabras em um período de tempo</p>
+                  <a class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosProducao' %}" title="Produções">Produções</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <p class="card-text">Relatório de Descarte da Produção Leiteira de uma ou mais cabras em um período de tempo</p>
+                  <a class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.relatorios:RelatoriosDescarte' %}" title="Descartes">Descartes</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <p class="card-text">Predição Leiteira para um período de tempo</p>
+                  <a class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.rede:EscolheRede' %}" title="Predição">Predição</a>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
 </div>
 {% endblock %} 
