@@ -65,13 +65,13 @@
                         <p>Produção Total: {{ soma_y }}</p>
                         <p>Resultado Total: {{ soma_r }}</p>
                         <p>explained_variance_score (melhor pontuação é 1): {{ evs }}</p>
-                        <p>mean_squared_error (melhor pontuação é 0): {{ mse }}</p>
+                        <!-- <p>mean_squared_error (melhor pontuação é 0): {{ mse }}</p> -->
                         <p>mean_absolute_error (melhor pontuação é 0): {{ mean_ae }}</p>
-                        <p>mean_squared_log_error (melhor pontuação é 0): {{ msle }}</p>
-                        <p>median_absolute_error (melhor pontuação é 0): {{ median_ae }}</p>
-                        <p>r2_score (melhor pontuação é 1): {{ r2 }}</p>
+                        <!-- <p>mean_squared_log_error (melhor pontuação é 0): {{ msle }}</p> -->
+                        <!-- <p>median_absolute_error (melhor pontuação é 0): {{ median_ae }}</p> -->
+                        <!-- <p>r2_score (melhor pontuação é 1): {{ r2 }}</p> -->
                         
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-4">
                                 <p>Resultado</p>
                                 {% for r in resultado %}
@@ -84,7 +84,7 @@
                                 {{ r }}<br>
                                 {% endfor %}
                             </div>
-                        </div>
+                        </div> -->
                         <!-- <div class="row">
                             <div class="col-md-12">
                                 <p>X</p>
@@ -167,14 +167,14 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Month'
+							// labelString: 'Month'
 						}
 					}],
 					yAxes: [{
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Value'
+							// labelString: 'Value'
 						}
 					}]
 				}

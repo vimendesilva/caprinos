@@ -96,7 +96,7 @@ def MontaDados(request):
 
         cursor = connection.cursor()
         # cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao) FROM dados')
-        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao) FROM dados')
+        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), media FROM dados')
         outros = matrixfetchall(cursor)
 
         out = pd.DataFrame(outros)
@@ -124,7 +124,7 @@ def MontaDados(request):
 
         cursor = connection.cursor()
         # cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao) FROM dados')
-        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao) FROM dados WHERE data_producao = "' + str(data) + '"')
+        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), media FROM dados WHERE data_producao = "' + str(data) + '"')
         teste = matrixfetchall(cursor)
 
         teste = pd.DataFrame(teste)
@@ -183,7 +183,7 @@ def MontaDados(request):
         data_atual = date.today()
 
         cursor = connection.cursor()
-        cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao), total FROM dados')
+        cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao), total FROM dados order by data_producao')
         # cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), media-1 FROM dados order by data_producao')
         outros = matrixfetchall(cursor)
         print('Outros sem norma')
@@ -256,45 +256,8 @@ def MLP(request, x_atributos, y_prod):
         activation='tanh',
         solver='sgd',
         max_iter=10000,
-        n_iter_no_change=1000
+        n_iter_no_change=500
         
-        
-        # solver='sgd',
-        # hidden_layer_sizes=1000,
-        # max_iter=10000,
-        # shuffle=True,
-        # activation='tanh',
-        # n_iter_no_change=1000,
-        # learning_rate='adaptive',
-        # alpha=0.001
-
-    #     hidden_layer_sizes=(1000,),  activation='relu', solver='adam', alpha=0.001, batch_size='auto',
-    # learning_rate='constant', learning_rate_init=0.01, power_t=0.5, max_iter=10000, shuffle=True,
-    # random_state=9, tol=0.0001, verbose=False, warm_start=False, momentum=0.9, nesterovs_momentum=True,
-    # early_stopping=False, validation_fraction=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08
-        
-        # hidden_layer_sizes=1000, 
-        # activation='relu', 
-        # solver='adam', 
-        # alpha=0.0000001, 
-        # batch_size='auto', 
-        # learning_rate='constant', 
-        # learning_rate_init=0.00000001, 
-        # power_t=0.5, 
-        # max_iter=10000, 
-        # shuffle=True, 
-        # random_state=None, 
-        # tol=0.000000001, 
-        # verbose=False, 
-        # warm_start=False, 
-        # momentum=0.9, 
-        # nesterovs_momentum=True, 
-        # early_stopping=False, 
-        # validation_fraction=0.00001, 
-        # beta_1=0.9, 
-        # beta_2=0.999, 
-        # epsilon=1e-08, 
-        # n_iter_no_change=1000
         )
 
     # Fit the network
@@ -316,38 +279,7 @@ def MLP(request, x_atributos, y_prod):
     print(nn.n_outputs_)
     print(nn.out_activation_)
 
-    # print('Prediction mean: {:.2f}'.format(predictions.mean()))
-    # print('Prediction max: {:.2f}'.format(predictions.max()))
-    # print('Prediction min: {:.2f}'.format(predictions.min()))
 
-    # print('\n*** After scaling the output via final activation:\n')
-
-    # # Need to recreate the NN
-    # nn_logistic = MLPRegressor(
-    #     solver='lbfgs',
-    #     hidden_layer_sizes=50,
-    #     max_iter=10000,
-    #     shuffle=False,
-    #     random_state=9876,
-    #     activation='relu')
-
-    # # Fit the new network
-    # nn_logistic.fit(x_atributos, y_prod)
-
-
-    # # --------------- #
-    # #  Crucial step!  #
-    # # --------------- #
-
-    # # before making predictions = alter the attribute: "output_activation_"
-    # nn_logistic.out_activation_ = 'logistic'
-    # print('New output activation: {}'.format(nn_logistic.out_activation_))
-
-    # new_predictions = nn_logistic.predict(lista_teste)
-
-    # print('Prediction mean: {:.2f}'.format(new_predictions.mean()))
-    # print('Prediction max: {:.2f}'.format(new_predictions.max()))
-    # print('Prediction min: {:.2f}'.format(new_predictions.min()))
 
     return(predictions)
 
