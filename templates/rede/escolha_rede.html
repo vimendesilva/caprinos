@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 <!-- usando base.html como base -->
+
+{% block head %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+
 {% block conteudo %}
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
@@ -42,27 +48,35 @@
                     <div class="card-body">
                         <br>
 
-                        <form method="POST" id="form_predicao">
+                        <form method="POST" action="{% url 'caprino.rede:MontaDados' %}" id="predicao">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Início</label><span style="color: red">*</span>
+                                        <label>Data</label><span style="color: red">*</span>
                                         <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de início"></i>
-                                        <input name="inicio" id="inicio" type="date" class="form-control" required="required">
+                                        <input name="data" id="data" type="date" class="form-control" required="required">
                                         <!-- <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc."> -->
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>    
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Fim</label><span style="color: red">*</span>
-                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Data de fim"></i>
-                                        <input name="fim" id="fim" type="date" class="form-control" required="required">
-                                        <!-- <input type="text" class="form-control" placeholder="Username" value="michael23"> -->
+                                        <label>Cabras</label><span style="color: red">*</span>
+                                        <i data-toggle="tooltip" title="" class="fa fa-info-circle" aria-hidden="true" data-original-title="Cabras em produção na data informada"></i>
+                                        <select class="rede form-control" multiple="multiple" name="cabras[]" id="cabras">
+                                            {% for a in animais %}
+                                                <option value="{{ a.id }}">
+                                                    {{ a.brincos_animal }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
-                            </div>    
-                            <button style="margin-bottom: 20px; margin-left: 20px; float: right;" id="gerar_predicao" class="btn btn-success btn-fill btn-wd">Gerar Predição</button>
+                            </div>
+                            <button style="margin-bottom: 20px; margin-left: 20px; float: right;" type="submit" class="btn btn-success btn-fill btn-wd">Gerar Predição</button>
+                            <!-- <a style="margin-bottom: 20px; margin-left: 20px; float: right;" class="btn btn-success btn-fill btn-wd" href="{% url 'caprino.rede:MontaDados' %}"title="Gerar Predição">Gerar Predição</a> -->
                             <a style="margin-bottom: 20px; margin-left: 20px; float: right;" class="btn btn-primary btn-fill btn-wd" href="{% url 'caprino.rede:MontaDados' %}" title="Rede">Teste</a>
                            
                         </form>
@@ -78,15 +92,22 @@
 {% endblock %} 
 
 {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#gerar_predicao').click(function() {
-                $('#form_predicao').attr('action', "{% url 'caprino.rede:MontaDados' %}");
-                if($('#inicio').val() != "" && $('#fim').val() != ""){    
-                    $('#form_predicao').submit();
-                }
+
+            $('.rede').select2();
+
+            $('#predicao').submit(function(e) {
+                e.preventDefault();
+                
+                $.post("{% url 'caprino.rede:MontaDados' %}", {
+                    data: $('#data').val(),
+                    cabras: JSON.stringify($('#cabras').val()),
+                    csrfmiddlewaretoken: $('#predicao').children()[0].value
+                });
+
             });
         });
     </script>
-
 {% endblock %}

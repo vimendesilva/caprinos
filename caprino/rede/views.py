@@ -60,23 +60,25 @@ def matrixfetchall(cursor):
                 else:
                     lista[i][j] = lista[i][j] - current_date
             else:
-                lista[i][j] = round(float(lista[i][j]), 5)
+                lista[i][j] = round(float(lista[i][j]), 1)
             # break # saímos do strftime("%m", data_producao)loop interno
         # break # e do externo
     return lista 
 
 @login_required
 def EscolheRede(request):
-
-    return render(request, 'rede/escolha_rede.html')
+    animais = Animal.objects.all().filter(sexo_animal=2).filter(vida_animal=2)
+    return render(request, 'rede/escolha_rede.html', {'animais': animais})
 
 @login_required
 def MontaDados(request):
 
     if(request.method == 'POST'):
-        print('oi')
-        inicio = request.POST.get('inicio')
-        fim = request.POST.get('fim')
+        # print(request.POST)
+        data = request.POST.get('data')
+        cabras = json.loads(request.POST.get('cabras'))
+        print(data)
+        print(len(cabras))
 
         # INICIO TREINO #
 
@@ -103,12 +105,12 @@ def MontaDados(request):
         x_atributos = pd.DataFrame(x_scaled)
         x_atributos = x_atributos.values.tolist()
 
-        # FIM TREINO #
+        # # FIM TREINO #
 
-        # INICIO TESTE #
+        # # INICIO TESTE #
 
         cursor = connection.cursor()
-        cursor.execute('SELECT total FROM dados WHERE data_producao BETWEEN "' + inicio + '" AND "' + fim + '"')
+        cursor.execute('SELECT total FROM dados WHERE data_producao = "' + str(data) + '"')
         prod = listfetchall(cursor)
         print('Prod sem norma')
         pprint(total_prod)
@@ -122,7 +124,7 @@ def MontaDados(request):
 
         cursor = connection.cursor()
         # cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao) FROM dados')
-        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao) FROM dados WHERE data_producao BETWEEN "' + inicio + '" AND "' + fim + '"')
+        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao) FROM dados WHERE data_producao = "' + str(data) + '"')
         teste = matrixfetchall(cursor)
 
         teste = pd.DataFrame(teste)
@@ -131,11 +133,11 @@ def MontaDados(request):
         teste_outros = pd.DataFrame(x_scaled)
         teste_outros = teste_outros.values.tolist()
 
-        # INICIO TESTE #
+        # # FIM TESTE #
 
         resultado = MLP_Predicao(request, teste_outros, y_prod, x_atributos)
 
-        desempenho = explained_variance_score(y_prod[5001:5100], resultado)
+        desempenho = explained_variance_score(y_prod, resultado)
         me = mean_squared_error(teste_prod, resultado)
 
         grafico = {
@@ -148,7 +150,7 @@ def MontaDados(request):
         'resultado': resultado,
         # 'x': x_atributos[5001:5100],
         'y': teste_prod,
-        'soma_y': y_scaled[5001:5100].sum(),
+        'soma_y': y_scaled.sum(),
         'soma_r': sum(resultado),
         'desempenho': desempenho,
         'me': me,
@@ -163,7 +165,7 @@ def MontaDados(request):
     #                             ' inner join animais_animal on animais_animal.id = animais_producao.id_cabra_id')
     else:
         cursor = connection.cursor()
-        cursor.execute('SELECT total FROM dados')
+        cursor.execute('SELECT total FROM dados order by data_producao')
         total_prod = listfetchall(cursor)
         print('Prod sem norma')
         pprint(total_prod)
@@ -182,7 +184,7 @@ def MontaDados(request):
 
         cursor = connection.cursor()
         # cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao) FROM dados')
-        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), total-1 FROM dados')
+        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), media-1 FROM dados order by data_producao')
         outros = matrixfetchall(cursor)
         print('Outros sem norma')
         pprint(outros)
@@ -238,7 +240,7 @@ def MontaDados(request):
             'mean': resultado.mean()
         }
     # print(dados)
-    return render(request, 'rede/dados.html', dados)
+    return redirect(request, 'rede/dados.html', dados)
 
 @login_required
 def MLP(request, x_atributos, y_prod):
@@ -249,12 +251,12 @@ def MLP(request, x_atributos, y_prod):
 
     # Create the default NN as you did
     nn = MLPRegressor(
-        hidden_layer_sizes=(50, 50),
+        hidden_layer_sizes=(100, 100, 100, 100),
         alpha=0,
         activation='tanh',
         solver='sgd',
         max_iter=10000,
-        n_iter_no_change=100
+        n_iter_no_change=1000
         
         
         # solver='sgd',
@@ -358,59 +360,18 @@ def MLP_Predicao(request, teste, y_prod, x_atributos):
 
     # Create the default NN as you did
     nn = MLPRegressor(
+        hidden_layer_sizes=(100, 100, 100, 100),
+        alpha=0,
         activation='tanh',
-        solver='adam',
-        alpha=1e-05, 
-        n_iter_no_change=10000, 
-        max_iter=50000,
-        learning_rate_init=0.0001
-        
-        # solver='sgd',
-        # hidden_layer_sizes=1000,
-        # max_iter=10000,
-        # shuffle=True,
-        # activation='tanh',
-        # n_iter_no_change=1000,
-        # learning_rate='adaptive',
-        # alpha=0.001
-
-    #     hidden_layer_sizes=(1000,),  activation='relu', solver='adam', alpha=0.001, batch_size='auto',
-    # learning_rate='constant', learning_rate_init=0.01, power_t=0.5, max_iter=10000, shuffle=True,
-    # random_state=9, tol=0.0001, verbose=False, warm_start=False, momentum=0.9, nesterovs_momentum=True,
-    # early_stopping=False, validation_fraction=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-08
-        
-        # hidden_layer_sizes=1000, 
-        # activation='relu', 
-        # solver='adam', 
-        # alpha=0.0000001, 
-        # batch_size='auto', 
-        # learning_rate='constant', 
-        # learning_rate_init=0.00000001, 
-        # power_t=0.5, 
-        # max_iter=10000, 
-        # shuffle=True, 
-        # random_state=None, 
-        # tol=0.000000001, 
-        # verbose=False, 
-        # warm_start=False, 
-        # momentum=0.9, 
-        # nesterovs_momentum=True, 
-        # early_stopping=False, 
-        # validation_fraction=0.00001, 
-        # beta_1=0.9, 
-        # beta_2=0.999, 
-        # epsilon=1e-08, 
-        # n_iter_no_change=1000
-        )
+        solver='sgd',
+        max_iter=10000,
+        n_iter_no_change=1000 
+    )
 
     # Fit the network
     nn.fit(x_atributos, y_prod)
     # nn.out_activation_ = 'relu'
 
-    # print('*** Before scaling the output via final activation:\n')
-
-    # Now see that the output activation is (by default) simply linear i.e. 'identity'
-    # print('Output activation by default: {}'.format(nn.out_activation_))
     predictions = nn.predict(teste)
 
     print(nn.loss_)
@@ -421,37 +382,5 @@ def MLP_Predicao(request, teste, y_prod, x_atributos):
     print(nn.n_outputs_)
     print(nn.out_activation_)
 
-    # print('Prediction mean: {:.2f}'.format(predictions.mean()))
-    # print('Prediction max: {:.2f}'.format(predictions.max()))
-    # print('Prediction min: {:.2f}'.format(predictions.min()))
-
-    # print('\n*** After scaling the output via final activation:\n')
-
-    # # Need to recreate the NN
-    # nn_logistic = MLPRegressor(
-    #     solver='lbfgs',
-    #     hidden_layer_sizes=50,
-    #     max_iter=10000,
-    #     shuffle=False,
-    #     random_state=9876,
-    #     activation='relu')
-
-    # # Fit the new network
-    # nn_logistic.fit(x_atributos, y_prod)
-
-
-    # # --------------- #
-    # #  Crucial step!  #
-    # # --------------- #
-
-    # # before making predictions = alter the attribute: "output_activation_"
-    # nn_logistic.out_activation_ = 'logistic'
-    # print('New output activation: {}'.format(nn_logistic.out_activation_))
-
-    # new_predictions = nn_logistic.predict(lista_teste)
-
-    # print('Prediction mean: {:.2f}'.format(new_predictions.mean()))
-    # print('Prediction max: {:.2f}'.format(new_predictions.max()))
-    # print('Prediction min: {:.2f}'.format(new_predictions.min()))
 
     return(predictions)

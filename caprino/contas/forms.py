@@ -45,6 +45,20 @@ class UpdateUsuario(forms.ModelForm):
 
     is_superuser = forms.BooleanField(label='Administrador', required=False, widget=forms.CheckboxInput(attrs={'class': 'form-control'}))
 
+    def save(self, commit=True):
+        user = super(forms.ModelForm, self).save(commit=False)
+
+        data = self.cleaned_data
+        user.set_password(data['password1'])
+
+        if commit:
+            user.save()
+
+        return user
+
+    # def save(self):
+
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 'password2', 'is_superuser')
