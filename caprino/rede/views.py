@@ -183,8 +183,8 @@ def MontaDados(request):
         data_atual = date.today()
 
         cursor = connection.cursor()
-        # cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao) FROM dados')
-        cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), media-1 FROM dados order by data_producao')
+        cursor.execute('SELECT raca_animal_id, MONTH(data_producao), DATEDIFF(data_producao, nascimento_animal), DATEDIFF(NOW(), data_producao), MONTH(data_producao), total FROM dados')
+        # cursor.execute('SELECT raca_animal_id, strftime("%m", data_producao), julianday(data_producao) - julianday(nascimento_animal), julianday(data_producao), strftime("%m", data_producao), media-1 FROM dados order by data_producao')
         outros = matrixfetchall(cursor)
         print('Outros sem norma')
         pprint(outros)
@@ -240,7 +240,7 @@ def MontaDados(request):
             'mean': resultado.mean()
         }
     # print(dados)
-    return redirect(request, 'rede/dados.html', dados)
+    return render(request, 'rede/dados.html', dados)
 
 @login_required
 def MLP(request, x_atributos, y_prod):
